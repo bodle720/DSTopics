@@ -2,7 +2,9 @@
 """
 scratch_for_robust_pca
 """
-
+import seaborn as sns
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -148,9 +150,6 @@ def corrupt_image(image,
     return image_copy
 
 
-# plt.imshow(X_tr[0], cmap = 'gray'); plt.show()
-# plt.imshow(X_te[0], cmap = 'gray'); plt.show()
-
 X_tr_aug = np.array([corrupt_image(img) for img in X_tr])
 X_te_aug = np.array([corrupt_image(img) for img in X_te])
 
@@ -186,13 +185,13 @@ X_te_org = X_te_col[:,ordered_columns_te]
 
 y_tr_org = y_tr[ordered_columns_tr]
 y_te_org = y_te[ordered_columns_te]
-#%%
+#
 X_mean = X_tr_org.mean(axis=1, keepdims=True)
 X_centered = X_tr_org - X_mean
 L_centered, S = RPCA(X_centered)
 L = L_centered + X_mean
 
-#%% now lets look at cleaned digits
+# now lets look at cleaned digits
 
 # Pick three indices at random from the training set.
 inds = np.random.randint(0, X_tr_org.shape[1] - 1, 5)
@@ -203,13 +202,10 @@ for ix, ind in enumerate(inds):
     axarr[ix,1].imshow(L[:,ind].reshape((28,28)), cmap = 'gray')
 plt.show()
 
-#%%
 test_data_centered = X_te_org - X_mean
 components = np.linalg.pinv(L_centered) @ test_data_centered
 centered_test_results = L_centered @ components
 test_results = centered_test_results + X_mean
-
-#%%
 
 inds = np.random.randint(0, X_te_org.shape[1] - 1, 5)
 
@@ -220,62 +216,217 @@ for ix, ind in enumerate(inds):
 plt.show()
 
 #%%
+# # Let's also average the digits in L.
+L_averaged = np.zeros((L.shape[0], 10)) # 10 classes
 
+# Calculate the average for each group
+for group in range(10):
+    group_columns = L[:, y_tr_org == group]
+    L_averaged[:, group] = group_columns.mean(axis = 1)
 
-components2 = L.T @ X_te_org
-
-# Find the index of a sample representing some digit.
-digit_desired = 9
-index_of_interest = np.random.choice(np.where(y_te_org == digit_desired)[0])
-comps = components2[:, index_of_interest]
-
-all_colors = []
-labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-colors = ['red', 'blue', 'green', 'purple', 'orange', 'magenta', 'royalblue', 'gray', 'wheat', 'greenyellow']
-label_counts = dict() 
-vals = []
-for ix, ind in enumerate(y_tr_org):
-    vals.append(comps[ix])
-    all_colors.append(colors[int(ind)])
-    if str(ind) in label_counts:     
-        label_counts[str(ind)] += comps[ix]
-    else:
-        label_counts[str(ind)] = comps[ix]
-
-#median
-# median_dict = {}
-# for k, v in label_counts.items():
-#     median_dict[k] = np.mean(v)
-    
-# print('Most similar digit = ', max(label_counts, key = label_counts.get))
-
-    
-    
-# print('Most similar digit = ', max(label_counts, key = label_counts.get))
-
-# test_comp_df = pd.DataFrame({'similarity': list(label_counts.values()),
-#                              'digit': list(label_counts.keys()),
-#                              'color': colors})
-# ax = test_comp_df.plot.bar()
-# plt.show()
-
-vals = np.array(list(label_counts.values()))
-plt.figure(figsize=(30, 25))  # Optional: set the figure size
-plt.bar(labels, vals, color = colors, label = labels)
-plt.xlabel('Bar Number')
-plt.ylabel('Total Similarity')
-plt.title('Normalized Sum of components for each training digit')
-plt.legend()
-plt.tight_layout()
+# Let's view the averaged digits from L.
+f, axarr = plt.subplots(5,2)
+for ix in range(10):
+    axarr[(ix//2)%5,ix%2].imshow(L_averaged[:,ix].reshape((28,28)), cmap = 'gray')
 plt.show()
 
-# plt.figure(figsize=(30, 25))  # Optional: set the figure size
-# plt.bar(np.arange(300), vals, color = all_colors)
-# plt.xlabel('Bar Number')
-# plt.ylabel('Total Similarity')
-# plt.title('Normalized Sum of components for each training digit')
+#%%
+# The columns of U will contain the eigendigits.
+U, Sigma, Vt = np.linalg.svd(L, full_matrices=False)
+
+plt.figure()
+plt.plot(Sigma)
+plt.yscale('log')
+plt.xlabel('Index')
+plt.ylabel('Sinular Values')
+plt.title('Singular Values on a Log Scale')
+plt.grid(True)
+plt.show()
+
+number_sing_vals = 50
+eigendigits = U[:,:number_sing_vals]
+
+#%% plot the firt 10 eigendigits
+f, axarr = plt.subplots(5,2)
+for ix in range(10):
+    axarr[(ix//2)%5,ix%2].imshow(eigendigits[:,ix].reshape((28,28)), cmap = 'gray')
+plt.show()
+
+#%%
+
+# Let's pick a random test image and analyze the loadings.
+ind = np.random.randint(0, test_results.shape[1] - 1)
+
+# Find the true label of the image and the image itself.
+true_label = y_te_org[ind]
+img = test_results[:, ind]
+
+# Project the image onto the eigenbasis.
+test_signature = eigendigits.T @ img.reshape(-1, 1)
+
+plt.figure(figsize=(30, 15))  # Optional: set the figure size
+plt.bar(np.arange(number_sing_vals), test_signature[:,0])
+plt.xlabel('Singular vector', fontsize = 30)
+plt.ylabel('Loadings', fontsize = 30)
+
+plt.title(f'Signature for a random test sample, truth = {true_label}', fontsize = 40)
+plt.xticks(fontsize=30)
+plt.yticks(fontsize=30)
+plt.show()
+
+#%%
+
+# Let's pick a random test image and analyze the loadings.
+# ind = np.random.randint(0, test_results.shape[1] - 1)
+
+# Find the true label of the image and the image itself.
+true_label = 2
+inds = np.where(y_te_org == true_label)[0]
+
+for ind in inds:
+    img = test_results[:, ind]
+    
+    # Project the image onto the eigenbasis.
+    test_signature = eigendigits.T @ img.reshape(-1, 1)
+    
+    plt.figure(figsize=(30, 15))  # Optional: set the figure size
+    plt.bar(np.arange(number_sing_vals), test_signature[:,0])
+    plt.xlabel('Singular vector', fontsize = 30)
+    plt.ylabel('Loadings', fontsize = 30)
+    
+    plt.title(f'Signature for a random test sample, truth = {true_label}', fontsize = 40)
+    plt.xticks(fontsize=30)
+    plt.yticks(fontsize=30)
+    plt.show()
+
+#%%
+
+X_train = eigendigits.T @ L
+X_train = X_train.T # To make samples as rows and features as columns.
+y_train = y_tr_org
+
+X_test = eigendigits.T @ test_results
+X_test = X_test.T # To make samples as rows and features as columns.
+y_true = y_te_org
+
+clf = DecisionTreeClassifier(max_depth = None,
+                             min_samples_split = 2,
+                             min_samples_leaf = 1)
+clf = clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+
+print('Accuracy = ', accuracy_score(y_true, y_pred))
+cm = confusion_matrix(y_true, y_pred)
+
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.xlabel('Predicted Labels')
+plt.ylabel('True Labels')
+plt.title('Confusion Matrix')
+plt.show()
+
+#%%
+'''
+vals = proj[:,0]
+colors = ['red', 'blue', 'green', 'purple', 'orange', 'magenta', 'royalblue', 'gray', 'wheat', 'greenyellow']
+all_colors = []
+# labels = []
+for ix, ind in enumerate(y_tr_org):
+    all_colors.append(colors[int(ind)])
+    # labels
+        
+
+plt.figure(figsize=(30, 25))  # Optional: set the figure size
+plt.bar(np.arange(len(y_tr_org)), vals, color = all_colors)#, label = y_tr_org)
+plt.xlabel('Training weights')
+plt.ylabel('Loadings')
+plt.title(f'Components for each training digit, truth = {true_label}')
 # plt.legend()
 # plt.tight_layout()
-# plt.show()
+plt.show()
+#%%
+# Find the index of a sample representing some digit.
+digit_desired = 8
 
+for index_of_interest in np.where(y_te_org == digit_desired)[0]:
+# index_of_interest = np.random.choice(np.where(y_te_org == digit_desired)[0])
+    comps = components[:, index_of_interest]
+    
+    all_colors = []
+    labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    colors = ['red', 'blue', 'green', 'purple', 'orange', 'magenta', 'royalblue', 'gray', 'wheat', 'greenyellow']
+    label_counts = dict() 
+    label_counts_ls = dict() 
 
+    vals = []
+    for ix, ind in enumerate(y_tr_org):
+        vals.append(comps[ix])
+        all_colors.append(colors[int(ind)])
+        
+        if str(ind) in label_counts:     
+            label_counts[str(ind)] += comps[ix]
+        else:
+            label_counts[str(ind)] = comps[ix]
+            
+        if str(ind) in label_counts_ls:     
+            label_counts_ls[str(ind)].append(comps[ix])
+        else:
+            label_counts_ls[str(ind)] = [comps[ix]]
+
+        # median
+        label_counts_median = {}
+        for k, v in label_counts_ls.items():
+            label_counts_median[k] = np.median(v)
+            
+        # max
+        label_counts_max = {}
+        for k, v in label_counts_ls.items():
+            label_counts_max[k] = np.max(v)
+    
+    print('Most similar digit by sum = ', max(label_counts, key = label_counts.get))
+    print('Most similar digit by median = ', max(label_counts_median, key = label_counts_median.get))
+    print('Most similar digit by max = ', max(label_counts_max, key = label_counts_max.get))
+
+    
+    
+    # print('Most similar digit = ', max(label_counts, key = label_counts.get))
+    
+    # test_comp_df = pd.DataFrame({'similarity': list(label_counts.values()),
+    #                              'digit': list(label_counts.keys()),
+    #                              'color': colors})
+    # ax = test_comp_df.plot.bar()
+    # plt.show()
+
+    vals = np.array(list(label_counts.values()))
+    plt.figure(figsize=(30, 25))  # Optional: set the figure size
+    plt.bar(labels, vals, color = colors, label = labels)
+    plt.xlabel('Bar Number')
+    plt.ylabel('Total Similarity')
+    plt.title('Normalized Sum of components for each training digit')
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+    vals = np.array(list(label_counts_median.values()))
+    plt.figure(figsize=(30, 25))  # Optional: set the figure size
+    plt.bar(labels, vals, color = colors, label = labels)
+    plt.xlabel('Bar Number')
+    plt.ylabel('Median')
+    plt.title('Median of components for each training digit')
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+    
+    vals = np.array(list(label_counts_max.values()))
+    plt.figure(figsize=(30, 25))  # Optional: set the figure size
+    plt.bar(labels, vals, color = colors, label = labels)
+    plt.xlabel('Bar Number')
+    plt.ylabel('Max')
+    plt.title('Max of components for each training digit')
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+    
+    
+    print('-'*50)
+'''
