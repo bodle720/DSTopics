@@ -19,7 +19,7 @@ if __name__ == '__main__':
     ###########################################################################
     
     # Where to save the data for future use.
-    save_to = r"C:/Users/brian/Desktop/output_DMD"
+    save_to = r"/output_DMD"
     
     # Define parameters for the data to use.
     ticker = "AAPL"
