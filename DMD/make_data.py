@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar  7 15:58:05 2025
+A script that makes the necessary data for training and evaluation utilizing the helper library
+in helpers.py. Call this script to generate output for the notebook.
 
-@author: brian
+You will need to modify the path below to where you want the data saved. Example output is on GitHub
+in the /data_run_output folder.
 """
+
+# Imports
 import os
 import json
 import numpy as np

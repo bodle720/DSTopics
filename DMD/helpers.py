@@ -1,25 +1,38 @@
 # -*- coding: utf-8 -*-
 """
-A script of auxiliary functions.
+A script of auxiliary functions acting as a library.
 """
+
+# Imports
 import multiprocessing
+
+from typing import Optional
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import pandas_ta as ta
 import matplotlib.pyplot as plt
-from tqdm import tqdm
 
-def calculate_heikin_ashi(df):
+def calculate_heikin_ashi(df: pd.DataFrame) -> pd.DataFrame:
     '''
-    df: Pandas DataFrame with columns: open, high, low, close
+    This function will calculate the Heikin-Ashi candle values and return them
+    in the form of a pandas.DataFrame, with columns open_h, high_h, low_h, and
+    close_h.
     
-    returns open_h, high_h, low_h, close_h Heikin-Ashi values.
+    Arguments
+    ----------
+    :param df: pandas.DataFrame with columns: open, high, low, close (case insensitive).
+    :type df: pandas.DataFrame
+    
+    Returns
+    ----------
+    :return: pandas.DataFrame with Hekin-Ashi candle values.
+    :rtype: pandas.DataFrame
     '''
     df.columns = df.columns.str.lower()
 
     df_original_ix = df.index
     df = df.reset_index(drop=True)
-
     ha_df = pd.DataFrame(index=df.index)  # Create a new DataFrame for Heikin-Ashi
     
     # Calculate Heikin-Ashi close (average of open, high, low, close)
@@ -35,24 +48,36 @@ def calculate_heikin_ashi(df):
     
     # Calculate Heikin-Ashi low (min of low, open, close)
     ha_df['low_h'] = df[['low', 'open', 'close']].min(axis=1)
-    
     ha_df.index = df_original_ix
     
     return ha_df
 
-def apply_DMD(X,
-              X_prime,
-              approach = 'iterative',
-              forward_steps = 3,
-              perc_cumul_var = 0.85):
+def apply_DMD(X: np.ndarray,
+              X_prime: np.ndarray,
+              approach: str = 'iterative',
+              forward_steps: int = 3,
+              perc_cumul_var: float = 0.85) -> np.ndarray:
     
     '''
     Runs the DMD algorithm and chooses r (rank) based on the quantity of cumulative
     explained variance in the eigenvalues. X and X_prime contain snapshots of data in time,
-    organized as columns (each column represents one snapshot). This function will always use
-    the most recent snapshot in time for future predictions.
+    organized as columns (each column represents one snapshot).
     
     If forward_steps = 1, both approaches are identical (iterative and power).
+    
+    Arguments
+    ----------
+    :param X: An array with columns at timestamps 1 to n, inclusive.
+    :param X_prime: An array with columns at timestamps 2 to n + 1, inclusive.
+    :param approach: If iterative, then each new update is informed by the state (possibly predicted state) before it.
+                     Otherwise, approach must be power, and the forecasts will only evolve from the last observed true state.
+    :param forward_steps: How many steps forward to predict using the DMD algorithm.
+    :param perc_cumul_var: The minimum amount of explained variance captured to determine r in the DMD algorithm.
+    
+    Returns
+    ----------
+    :return: An array of the future states.
+    :rtype: np.ndarray
     '''
     approach = approach.lower()
     
@@ -116,11 +141,11 @@ def apply_DMD(X,
     
     return predictions
 
-def get_features_one_day(args):
+def get_features_one_day(args) -> tuple:
     '''
     Extracts the features for a single day for use in a model (one sample). Uses an args input because 
     later we will use multiprocessing, and imap requires single arguments to worker functions. We could use
-    starmap, but thatwill be less efficient memory wise. Both return results in the same order as the input.
+    starmap, but that will be less efficient memory-wise. Both return results in the same order as the input.
 
     args = (df, date, look_back, forecast_steps, dmd_approach, dmd_perc_cumul_var, timeframes, macd_fast, macd_slow, macd_signal)
     
@@ -129,7 +154,7 @@ def get_features_one_day(args):
             
     forecast_steps: This is provided for use in other utility functions. For the purpose 
                     of feature generation for model training, only the first forecast is used
-                    and is present in the first returned value 'feature_dict'. If forecast_steps
+                    and is present in the first returned value, 'feature_dict'. If forecast_steps
                     is greater than 1, the returned 'feature_dict' will not change, but the second
                     returned value 'forecasts' will contain 'forecast_steps' of forecasts. The 
                     first will be the same as the returned features. If using this function
@@ -144,6 +169,37 @@ def get_features_one_day(args):
         macd_fast = 12,
         macd_slow = 26,
         macd_signal = 9
+       
+    Arguments
+    ----------
+    :param df: DataFrame containing the date of interest and at least enough bars in the past to calculate the required indicators.
+    :type df: pandas.DataFrame
+    :param date: String date in format 'YYYY-MM-DD', e.g. "2025-03-02"
+    :type date: str
+    :param look_back: Indicates how many bars (same for each timeframe) to use from the past up to current day for DMD prediction.
+    :type look_back: int
+    :param forecast_steps: The number of steps forward to forecast. See above explanation.
+    :type forecast_steps: int
+    :param dmd_approach: Set to either iterative or power; it indicates how to produce forecasts.
+    :type dmd_approach: str
+    :param dmd_perc_cumul_var: Used in the DMD algrithm, see apply_DMD documentation.
+    :type dmd_perc_cumul_var: float
+    :param timeframes: A list of integers in units of days (1 or higher) indicating the timeframes to include in the model.
+    :type timeframes: list
+    :param macd_fast: The period for the fast moving average in the MACD calculation. Must be less than macd_slow.
+    :type macd_fast: int
+    :param macd_slow: The period for the slow moving average in the MACD calculation. Must be greater than macd_fast.
+    :type macd_slow: int
+    :param macd_signal: The period for the signal moving average in the MACD calculation.
+    :type macd_signal: int
+    
+    Returns
+    ----------
+    :return: A tuple containing:
+            - feature_dict: a dictionary mapping featurename to value for use in ML models.
+            - dmd_predictions: an np.ndarray containing the DMD forecasts.
+            - dmd_feat_names: A list of feature names, with 'dmd_' preceeding features from the DMD forecasts.
+    :rtype: tuple
     '''
 
     df, date, look_back, forecast_steps, dmd_approach, dmd_perc_cumul_var, timeframes, macd_fast, macd_slow, macd_signal = args
@@ -245,7 +301,7 @@ def get_features_one_day(args):
         feature_dict[f'c_rsi_ha_{tf}d'] = current_rsi/100 # RSI is 0 - 100
         feature_dict[f'c_supertrend_{tf}d'] = current_supertrend_direction # -1 means down, +1 means up
 
-        # Now we must gather the daapoints required for DMD for this particular timeframe
+        # Now we must gather the data points required for DMD for this particular timeframe
         # using the look back variable 'look_back'. We use 4 features for DMD:
             # 1. price_ret
             # 2. ha_ret
@@ -285,7 +341,26 @@ def get_features_one_day(args):
         
     return feature_dict, dmd_predictions, dmd_feat_names
 
-def plot_time_series(ax, title, values, forecasts):
+def plot_time_series(ax, title: str, values: list, forecasts: list) -> None:
+    '''
+    A helper function to plot timeseries.
+    
+    Arguments
+    ----------
+    :param ax: matplotlib.axes._axes.Axes object on which to plot.
+    :type ax: matplotlib.axes._axes.Axes
+    :param title: A title for the plot.
+    :type title: str
+    :param values:The true values to plot.
+    :type values: list
+    :param forecasts: The forecasted values to plot next to the true values.
+    :type forecasts: list
+    
+    Returns
+    ----------
+    :rtype: None
+    '''
+    
     time = list(range(1, len(values) + 1))
     ax.plot(time, values, label="Actual Values", marker="o")
     forecast_time = time[-1*(len(forecasts)):]  # Time points for the forecasts
@@ -300,23 +375,56 @@ def plot_time_series(ax, title, values, forecasts):
     ax.legend()
     ax.grid()
     
-def plot_DMD_forecasts(df,
-                        date,
-                        look_back,
-                        forecast_steps,
-                        view_tf,
-                        dmd_approach = 'iterative',
-                        dmd_perc_cumul_var = 0.85,
-                        timeframes = [1, 2, 3, 5],
-                        macd_fast = 12,
-                        macd_slow = 26,
-                        macd_signal = 9,
-                        save_to = None,
-                        figsize = (9,6)):
+def plot_DMD_forecasts(df: pd.DataFrame,
+                        date: str,
+                        look_back: int,
+                        forecast_steps: int,
+                        view_tf: int,
+                        dmd_approach: str = 'iterative',
+                        dmd_perc_cumul_var: float = 0.85,
+                        timeframes: list = [1, 2, 3, 5],
+                        macd_fast: int = 12,
+                        macd_slow: int = 26,
+                        macd_signal: int = 9,
+                        save_to: Optional[str] = None,
+                        figsize: tuple = (9,6)) -> pd.DataFrame:
     '''
     Plots MACD histogram truth and predictions for RSI and Heikin-Ashi closing prices.
     
-    view_tf: integer, must belong to the list 'timeframes'. Dictates which timeframe is plotted.
+    
+    Arguments
+    ----------
+    :param df: DataFrame containing the date of interest and at least enough bars in the past to calculate the required indicators.
+    :type df: pandas.DataFrame
+    :param date: String date in format 'YYYY-MM-DD', e.g. "2025-03-02"
+    :type date: str
+    :param look_back: Indicates how many bars (same for each timeframe) to use from the past up to current day for DMD prediction.
+    :type look_back: int
+    :param forecast_steps: The number of steps forward to forecast. See above explanation.
+    :type forecast_steps: int
+    :param view_tf: An integer. It must belong to the list 'timeframes'. Dictates which timeframe is plotted.
+    :type view_tf: int
+    :param dmd_approach: Set to either iterative or power; it indicates how to produce forecasts.
+    :type dmd_approach: str
+    :param dmd_perc_cumul_var: Used in the DMD algrithm, see apply_DMD documentation.
+    :type dmd_perc_cumul_var: float
+    :param timeframes: A list of integers in units of days (1 or higher) indicating the timeframes to include in the model.
+    :type timeframes: list
+    :param macd_fast: The period for the fast moving average in the MACD calculation. Must be less than macd_slow.
+    :type macd_fast: int
+    :param macd_slow: The period for the slow moving average in the MACD calculation. Must be greater than macd_fast.
+    :type macd_slow: int
+    :param macd_signal: The period for the signal moving average in the MACD calculation.
+    :type macd_signal: int
+    :param save_to: A full path to save the plot to rather than show it. Optional with adefault of None.
+    :type save_to: str
+    :param figsize: A tuple to indicate the size of the plotted figure. Order: (width, height)
+    :type figsize: tuple
+    
+    Returns
+    ----------
+    :return: pandas.DataFrame with forecasts.
+    :rtype: pandas.DataFrame
     '''
     
     # Quick checks.
@@ -456,15 +564,43 @@ def generate_data_and_labels(df,
                              macd_slow,
                              macd_signal,
                              label_freq,
-                             frac_cpu_to_use):
+                             frac_cpu_to_use) -> tuple:
     '''
-    Generate unscaled data for model input.
+    Generate unscaled data for model input. Utilizes multiprocessing, so must becalled within a if __name__ == '__main__' block.
     
-    label_freq: How many days into the furture are used to determine if the price decreased,
-                increased, or remains still. E.g. 5 means compare the open and close of the 
-                bar formed by the next 5 days after the target date.
-    label_thresh: The minimum lable retrn to be considered profitable in either a short or
-                    long direction.
+    Arguments
+    ----------
+    :param df: A DataFrame containing open, high, low, close data from which to generate features and labels. Each day
+                possible is used and generates a set of features and corresponding labels.
+    :type df: pd.DataFrame
+    :param look_back: Indicates how many bars (same for each timeframe) to use from the past up to current day for DMD prediction.
+    :type look_back: int
+    :param dmd_perc_cumul_var: Used in the DMD algrithm, see apply_DMD documentation.
+    :type dmd_perc_cumul_var: float
+    :param timeframes: A list of integers in units of days (1 or higher) indicating the timeframes to include in the model.
+    :type timeframes: list
+    :param macd_fast: The period for the fast moving average in the MACD calculation. Must be less than macd_slow.
+    :type macd_fast: int
+    :param macd_slow: The period for the slow moving average in the MACD calculation. Must be greater than macd_fast.
+    :type macd_slow: int
+    :param macd_signal: The period for the signal moving average in the MACD calculation.
+    :type macd_signal: int
+    :param label_freq: How many days into the furture are used to determine if the price decreased,
+                        increased, or remains still. E.g. 5 means compare the open and close of the 
+                        bar formed by the next 5 days after the target date.
+    :type label_freq: int
+    :param frac_cpu_to_use: A float greater than 0 and less than or equal to 1. Indicates how much CPU utilization
+                            for parallel processing during data generation.
+    :type frac_cpu_to_use: float
+    
+    Returns
+    ----------
+    :return: A tuple containing:
+            - feat_arr: A numpy array of features.
+            - labels_arr: A numpy array of labels.
+            - dates: A list of string dates if required.
+            - feat_df: A dataframe version of the features if required.
+    :rtype: tuple
     '''
     
     forecast_steps = 1
@@ -542,6 +678,5 @@ def generate_data_and_labels(df,
     feat_df = pd.DataFrame(feat_dicts)
     feat_arr = feat_df.to_numpy()
     labels_arr = np.array(labels)
-    
     
     return feat_arr, labels_arr, dates, feat_df
