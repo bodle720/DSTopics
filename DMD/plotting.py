@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 A file to make the GIF as described in the notebook.
-
-To plot many at once, te code loops thorugh days and saves the plos to a folder.
+To plot many at once, the code loops thorugh days and saves the plots anf GIF to a folder
+saved in a new folder called <save_to> in the current working directory.
 """
 
 # Imports
@@ -18,15 +18,16 @@ if __name__ == '__main__':
     ###########################################################################
     # Parameters.
     ###########################################################################
-    save_to = r"/plots"
+    save_to = r"plots"
     
     if not os.path.exists(save_to):
         os.mkdir(save_to)
         
+    save_to = os.path.abspath(save_to)
+    
     ticker = "AAPL"
     start_date = "2005-01-01"
     end_date = "2025-03-02"
-    
     st_date = '2012-07-13'
     
     look_back = 10
@@ -40,7 +41,12 @@ if __name__ == '__main__':
     macd_signal = 9
     
     steps_forward = 30
-    
+    ###########################################################################
+
+    ###########################################################################
+    # Do the work.
+    ###########################################################################
+
     # Create the data.
     df = yf.download(ticker,
                     start = start_date,
@@ -54,6 +60,7 @@ if __name__ == '__main__':
     dates = [str(i).split(' ')[0] for i in df.index][target_index:(target_index + steps_forward)]
     images = []
     
+    # Modify the loop to plot only 1 or 2 plots if you want.
     for ix, date in enumerate(dates):
         if ix % 10 == 0:
             print(f'On date {ix+1}')
@@ -77,5 +84,6 @@ if __name__ == '__main__':
         except:
             pass
     
+    # Comment these lines out to not make the GIF.
     gif_save_path = os.path.join(save_to, f"{steps_forward}_steps_starting_at_{st_date}.gif")
     imageio.mimsave(gif_save_path, images, fps = 1)
