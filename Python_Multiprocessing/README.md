@@ -17,16 +17,19 @@ In the script *multiprocessing_example.py*, I will build a worker function that 
 The *multiprocessing* module offers many different functionalities, and if you're curious, I highly recommend you read through it for more details. A short description of the workflow is as follows:
 
 - You define a worker function that takes the necessary arguments and performs the work. This should be defined in such a way that it represents the smallest independent unit of work you need to complete. So, don't combine multiple repeat tasks into the same call to your worker function.
-- Next, you define a list of inputs (we will call this variable *inputs_ls*) to the worker that you would like pocessed. The list in my example will be of length 500 and contain tuples indicating the input arguments to the worker. It is constructed as follows:
+- Next, you define a list of inputs (we will call this variable *inputs_ls*) to the worker that you would like processed. The list in my example will be of length 500 and contain tuples indicating the input arguments to the worker. It is constructed as follows:
 
 ```
 inputs_ls = []
 for i in range(50):
     for j in range(10):
         inputs_ls.append((i, j))
-
 ```
-- Pass this into your chosen multiprocessing function and await completion. The results returned will be the output of yourworker function. My output will be a dictionary mapping argument names ('i' and 'j') to their respective value. E.g. {'i': 0, 'j': 0} is the result of the first task in *inputs_ls*.
+- Pass this into your chosen multiprocessing function and await completion. The results returned will be the output of your worker function. My output will be a dictionary mapping argument names ('i' and 'j') to their respective values. E.g.
+```
+{'i': 0, 'j': 0}
+```
+is the result of the first task in *inputs_ls*.
 - Be sure not to allocate too many CPU resources to the tasks; if the workload is intense, it may crash your system. So, use with caution and think through what makes sense for your situation.
 
 There are two key parameters you must decide on: the number of processes (we will call this *num_processes*) to use and the chunk size (we will call this *chunksize*).
@@ -71,6 +74,6 @@ block. This structure is required for the proper handling of parallel tasks.
 
 I encourage experimentation with the *chunksize* parameter as it greatly affects visual tqdm update frequency. Using a chunksize of 10 provides very few updates before a sudden completion of all the tasks. Using a chunksize of 2 however provides more steady updates without loss in time.
 
-At the end of the code the total execution time is provided in seconds. Over multiple runs, runtime was fairly consistently around 100 seconds, or 1 minute 40 seconds. 1 minute 40 seconds is significantly better than the approximately 42 minutes sequential execution would take, making multiprocessing certainly worthwhile. However, it is far from the earlier ideaized estimate of 10 seconds. There are many reasons for this and it is to be expected. Some reasons include OS scheduling being inefficient, overhead time of spawning processes takes time, and the time it takes to serialize each object can add up as well (pickle is used under the hood and can be slow).
+At the end of the code the total execution time is provided in seconds. Over multiple runs, runtime was fairly consistently around 100 seconds, or 1 minute 40 seconds. 1 minute 40 seconds is significantly better than the approximately 42 minutes sequential execution would take, making multiprocessing certainly worthwhile. However, it is far from the earlier ideaized estimate of 10 seconds. There are many reasons for this and it is to be expected. Some reasons include OS scheduling being inefficient, overhead time of spawning processes takes time, and the time it takes to serialize each object can add up as well (pickle is used under the hood, which can be slow).
 
 I hope this code helps you save some time in your future workflows. Thank you for reading!
