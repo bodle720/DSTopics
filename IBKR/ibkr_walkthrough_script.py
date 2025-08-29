@@ -4,6 +4,7 @@ Python walkthrough of IBKR tools and functionality.
 """
 
 import time
+import pytz
 from datetime import datetime, timedelta
 
 import mplfinance as mpf
@@ -61,8 +62,11 @@ else:
 
 #%% Stream 5 second real time bid and ask data for the indicated ticker.
 
+# Get the timezone for Eastern time.
+est = pytz.timezone('America/New_York')
+
 # How long do you want to stream?
-observe_for_sec = 60
+observe_for_sec = 30
 
 symbol = 'TSLA'
 bid_req_id = 1
@@ -75,16 +79,18 @@ app = ibkr_helpers.get_streamer_bid_ask_app(symbol,
 if app:
     st_time = time.time()
     while time.time() - st_time < observe_for_sec:
+        print("Current time in EST:", datetime.now(est).strftime('%Y-%m-%d %H:%M:%S'))
         last_bid = round(app.bid_df['close_bid'].iloc[-1], 2)
         last_ask = round(app.ask_df['close_ask'].iloc[-1], 2)
-        spread = last_ask - last_bid
+        spread = round(last_ask - last_bid, 2)
         spread_perc = round(100*spread/last_bid, 2)
         print(f"Last bid was ${last_bid:,}")
         print(f"Last ask was ${last_ask:,}")
         print(f"Dollar Spread is ${spread:,}")
         print(f"Ask is {spread_perc}% above the bid.")
+        print('-'*50)
         time.sleep(5) # 5 second bars, so wait for a new bar to be received.
-        
+      
     app.disconnect_app_and_stream()
 
 #%% Let's make some Heikin-Ashi candles from regular candles using the results from the daily bars above
