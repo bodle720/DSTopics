@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This is the main script you can run from the command line to demonstrate the multiprocesssing
+This is the main script you can run from the command line to demonstrate the multiprocessing
 example described in the README file.
 """
 
