@@ -34,10 +34,10 @@ Together, these notebooks demonstrate dimensionality reduction, matrix decomposi
 
 ### Signal Separation and Dynamical Systems
 
-The `ICA/` and `DMD/` folders explore methods for extracting structure from observed data:
+The `ICA/` and `DMD/` folders explore data-driven methods for extracting structure from observed data:
 
 * **ICA** focuses on blind-source separation and reconstruction of independent signal components from mixed image observations.
-* **DMD** explores a data-driven method for approximating dynamical evolution from time-series snapshots.
+* **DMD** applied to synthetic pendulum video motion, approximates dynamical evolution from time-series snapshots.
 
 These notebooks are exploratory and instructional. They are intended to show mathematical implementation, visualization, and analysis rather than production modeling systems.
 
