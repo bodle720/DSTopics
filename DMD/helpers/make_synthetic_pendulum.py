@@ -9,12 +9,16 @@ Outputs:
 - ground-truth CSV with angle and bob-center coordinates
 - metadata JSON
 - optional preview GIF
+- optional README/display GIF
 
-Default output:
+Default experiment output:
     DMD/outputs/synthetic_pendulum/
 
-To run:
-python make_synthetic_pendulum.py --overwrite
+Default README/display GIF:
+    DMD/docs/images/synthetic_pendulum_preview.gif
+
+To run from the DMD/ folder:
+python helpers/make_synthetic_pendulum.py --overwrite
 """
 
 import argparse
@@ -257,18 +261,37 @@ def write_ground_truth_csv(rows, output_path):
         writer.writerows(rows)
 
 
-def save_preview_gif(frame_paths, output_path, fps, max_frames=160):
+def resize_for_gif(image, max_width=None):
+    if max_width is None or image.width <= max_width:
+        return image
+
+    scale = max_width / image.width
+    new_size = (max_width, int(round(image.height * scale)))
+    return image.resize(new_size, resample=get_resample_filter())
+
+
+def save_preview_gif(frame_paths, output_path, fps, max_frames=160, max_width=None):
     if not frame_paths:
         return
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
 
     if len(frame_paths) > max_frames:
         step = math.ceil(len(frame_paths) / max_frames)
         preview_paths = frame_paths[::step]
     else:
+        step = 1
         preview_paths = frame_paths
 
-    images = [Image.open(path).convert("RGB") for path in preview_paths]
-    duration_ms = max(1, int(round(1000 / fps)))
+    images = []
+    for path in preview_paths:
+        with Image.open(path) as image:
+            image = image.convert("RGB")
+            image = resize_for_gif(image, max_width=max_width)
+            images.append(image.copy())
+
+    duration_ms = max(1, int(round(1000 * step / fps)))
 
     images[0].save(
         output_path,
@@ -276,13 +299,15 @@ def save_preview_gif(frame_paths, output_path, fps, max_frames=160):
         append_images=images[1:],
         duration=duration_ms,
         loop=0,
+        optimize=True,
+        disposal=2,
     )
 
     for image in images:
         image.close()
 
 
-def write_metadata(config, output_dir, preview_gif_path, ground_truth_path):
+def write_metadata(config, output_dir, preview_gif_path, readme_gif_path, ground_truth_path):
     fit_frame_count = int(round(config.num_frames * 0.7))
 
     metadata = {
@@ -294,6 +319,7 @@ def write_metadata(config, output_dir, preview_gif_path, ground_truth_path):
             "bob_masks_dir": "bob_masks",
             "ground_truth_csv": ground_truth_path.name,
             "preview_gif": preview_gif_path.name if preview_gif_path is not None else None,
+            "readme_preview_gif": str(readme_gif_path) if readme_gif_path is not None else None,
         },
         "suggested_split": {
             "fit_frames": [0, max(0, fit_frame_count - 1)],
@@ -306,6 +332,7 @@ def write_metadata(config, output_dir, preview_gif_path, ground_truth_path):
             "theta=0 corresponds to the pendulum pointing straight down.",
             "foreground masks include both the pendulum arm and bob.",
             "bob masks include only the circular pendulum bob.",
+            "The README/display GIF is a smaller presentation artifact intended for repository documentation.",
         ],
     }
 
@@ -313,7 +340,16 @@ def write_metadata(config, output_dir, preview_gif_path, ground_truth_path):
         json.dump(metadata, json_file, indent=2)
 
 
-def generate_sequence(config, output_dir, overwrite=False, save_gif=True):
+def generate_sequence(
+    config,
+    output_dir,
+    overwrite=False,
+    save_gif=True,
+    readme_gif_path=None,
+    save_readme_gif=True,
+    readme_gif_max_frames=96,
+    readme_gif_max_width=420,
+):
     paths = prepare_output_dir(output_dir, overwrite=overwrite)
     rng = np.random.default_rng(config.random_seed)
 
@@ -353,21 +389,46 @@ def generate_sequence(config, output_dir, overwrite=False, save_gif=True):
     preview_gif_path = None
     if save_gif:
         preview_gif_path = paths["output_dir"] / "pendulum_preview.gif"
-        save_preview_gif(frame_paths, preview_gif_path, config.fps)
+        save_preview_gif(
+            frame_paths=frame_paths,
+            output_path=preview_gif_path,
+            fps=config.fps,
+            max_frames=config.num_frames,
+            max_width=None,
+        )
 
-    write_metadata(config, paths["output_dir"], preview_gif_path, ground_truth_path)
+    final_readme_gif_path = None
+    if save_readme_gif and readme_gif_path is not None:
+        final_readme_gif_path = Path(readme_gif_path)
+        save_preview_gif(
+            frame_paths=frame_paths,
+            output_path=final_readme_gif_path,
+            fps=config.fps,
+            max_frames=readme_gif_max_frames,
+            max_width=readme_gif_max_width,
+        )
+
+    write_metadata(
+        config=config,
+        output_dir=paths["output_dir"],
+        preview_gif_path=preview_gif_path,
+        readme_gif_path=final_readme_gif_path,
+        ground_truth_path=ground_truth_path,
+    )
 
     return {
         "output_dir": paths["output_dir"],
         "num_frames": config.num_frames,
         "ground_truth_csv": ground_truth_path,
         "preview_gif": preview_gif_path,
+        "readme_gif": final_readme_gif_path,
     }
 
 
 def build_arg_parser():
-    script_dir = Path(__file__).resolve().parent
-    default_output_dir = script_dir / "outputs" / "synthetic_pendulum"
+    project_dir = Path(__file__).resolve().parent.parent
+    default_output_dir = project_dir / "outputs" / "synthetic_pendulum"
+    default_readme_gif_path = default_output_dir / "readme_friendly" / "synthetic_pendulum_preview.gif"
 
     parser = argparse.ArgumentParser(
         description="Generate a synthetic pendulum sequence for DMD experiments.",
@@ -377,6 +438,11 @@ def build_arg_parser():
     parser.add_argument("--output-dir", type=Path, default=default_output_dir)
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--skip-gif", action="store_true")
+
+    parser.add_argument("--readme-gif-path", type=Path, default=default_readme_gif_path)
+    parser.add_argument("--skip-readme-gif", action="store_true")
+    parser.add_argument("--readme-gif-max-frames", type=int, default=96)
+    parser.add_argument("--readme-gif-max-width", type=int, default=420)
 
     parser.add_argument("--num-frames", type=int, default=PendulumConfig.num_frames)
     parser.add_argument("--fps", type=float, default=PendulumConfig.fps)
@@ -447,6 +513,10 @@ def main():
         output_dir=args.output_dir,
         overwrite=args.overwrite,
         save_gif=not args.skip_gif,
+        readme_gif_path=args.readme_gif_path,
+        save_readme_gif=not args.skip_readme_gif,
+        readme_gif_max_frames=args.readme_gif_max_frames,
+        readme_gif_max_width=args.readme_gif_max_width,
     )
 
     print("Synthetic pendulum generation complete.")
@@ -456,6 +526,9 @@ def main():
 
     if summary["preview_gif"] is not None:
         print(f"Preview GIF:           {summary['preview_gif']}")
+
+    if summary["readme_gif"] is not None:
+        print(f"README/display GIF:    {summary['readme_gif']}")
 
 
 if __name__ == "__main__":
