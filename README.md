@@ -8,16 +8,16 @@ This repository is less deployment-focused than my main machine learning portfol
 
 ## Featured Topics
 
-| Topic | Main Artifact | Focus |
-|---|---|---|
-| Linear PCA | [`pca_linear_oscillation_system.ipynb`](PCA_linear/pca_linear_oscillation_system.ipynb) | Linear PCA on a synthetic oscillating dynamical system, including covariance/eigenvector intuition, explained variance, loadings, and recovery of low-dimensional structure from noisy high-dimensional observations. |
-| Kernel PCA | [`pca_kernel.ipynb`](PCA_kernel/pca_kernel.ipynb) | Nonlinear dimensionality reduction using kernel PCA, including RBF-kernel intuition, kernel centering, eigen-decomposition, and comparison against ordinary PCA. |
+| Topic | Main Artifact                                                                                       | Focus |
+|---|-----------------------------------------------------------------------------------------------------|---|
+| Linear PCA | [`pca_linear_oscillation_system.ipynb`](PCA_linear/pca_linear_oscillation_system.ipynb)             | Linear PCA on a synthetic oscillating dynamical system, including covariance/eigenvector intuition, explained variance, loadings, and recovery of low-dimensional structure from noisy high-dimensional observations. |
+| Kernel PCA | [`pca_kernel.ipynb`](PCA_kernel/pca_kernel.ipynb)                                                   | Nonlinear dimensionality reduction using kernel PCA, including RBF-kernel intuition, kernel centering, eigen-decomposition, and comparison against ordinary PCA. |
 | Robust PCA | [`PCA_robust_handwritten_digits_noise.ipynb`](PCA_robust/PCA_robust_handwritten_digits_noise.ipynb) | Robust PCA on corrupted handwritten digit images, separating low-rank structure from sparse noise and using cleaned representations for downstream classification. |
-| Sparse PCA | [`PCA_sparse_handwritten_digits.ipynb`](PCA_sparse/PCA_sparse_handwritten_digits.ipynb) | Sparse PCA on handwritten digit images, emphasizing sparse loadings, interpretability, feature visualization, and image reconstruction. |
-| ICA | [`ica_on_imagery.ipynb`](ICA/ica_on_imagery.ipynb) | Independent Component Analysis / blind-source separation on imagery, using artificial image mixing and matrix methods to recover approximate source images. |
-| DMD | [`DMD_algo_trading.ipynb`](DMD/DMD_algo_trading.ipynb) | Dynamic Mode Decomposition applied to financial time-series data as an exploratory sequential-modeling example. |
-| Interactive Brokers API | [`IBKR/`](IBKR/) | Real-world API integration example using the Interactive Brokers API, focused on connection handling, asynchronous callbacks, market-data retrieval, and `pandas` data organization. |
-| Python Multiprocessing | [`Python_Multiprocessing/`](Python_Multiprocessing/) | Practical Python multiprocessing example using `multiprocessing.Pool`, `imap`, `tqdm`, chunk sizing, and ordered result collection. |
+| Sparse PCA | [`PCA_sparse_handwritten_digits.ipynb`](PCA_sparse/PCA_sparse_handwritten_digits.ipynb)             | Sparse PCA on handwritten digit images, emphasizing sparse loadings, interpretability, feature visualization, and image reconstruction. |
+| ICA | [`ica_on_imagery.ipynb`](ICA/ica_on_imagery.ipynb)                                                  | Independent Component Analysis / blind-source separation on imagery, using artificial image mixing and matrix methods to recover approximate source images. |
+| DMD | [`DMD_algo_trading.ipynb`](DMD/legacy/DMD_algo_trading.ipynb)                                       | Dynamic Mode Decomposition applied to financial time-series data as an exploratory sequential-modeling example. |
+| Interactive Brokers API | [`IBKR/`](IBKR/)                                                                                    | Real-world API integration example using the Interactive Brokers API, focused on connection handling, asynchronous callbacks, market-data retrieval, and `pandas` data organization. |
+| Python Multiprocessing | [`Python_Multiprocessing/`](Python_Multiprocessing/)                                                | Practical Python multiprocessing example using `multiprocessing.Pool`, `imap`, `tqdm`, chunk sizing, and ordered result collection. |
 
 ## Topic Groups
 
