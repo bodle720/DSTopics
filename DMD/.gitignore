@@ -47,3 +47,6 @@ metadata.json
 Thumbs.db
 .vscode/
 .idea/
+
+# Old files
+legacy/
