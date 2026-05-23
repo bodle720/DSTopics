@@ -23,10 +23,12 @@ This repository is less deployment-focused than my main machine learning portfol
 
 ### PCA and Matrix Methods
 
-* **Linear PCA** for low-dimensional structure recovery.
-* **Kernel PCA** for nonlinear dimensionality reduction.
-* **Robust PCA** for separating clean structure from sparse corruption.
-* **Sparse PCA** for more interpretable principal components.
+The PCA notebooks form a small series on dimensionality reduction and matrix decomposition:
+
+- **Linear PCA**: covariance/eigenvector intuition, explained variance, and recovery of low-dimensional structure.
+- **Kernel PCA**: nonlinear dimensionality reduction with RBF kernels and centered kernel matrices.
+- **Robust PCA**: low-rank plus sparse decomposition for denoising corrupted handwritten digit images.
+- **Sparse PCA**: sparse loadings for more interpretable principal components on digit images.
 
 Together, these notebooks demonstrate dimensionality reduction, matrix decomposition, eigenvalue methods, visual intuition, and the relationship between mathematical structure and practical data analysis.
 
@@ -34,19 +36,19 @@ Together, these notebooks demonstrate dimensionality reduction, matrix decomposi
 
 The `ICA/` and `DMD/` folders explore methods for extracting structure from observed data:
 
-* **ICA** focuses on blind-source separation and reconstruction of independent signal components.
+* **ICA** focuses on blind-source separation and reconstruction of independent signal components from mixed image observations.
 * **DMD** explores a data-driven method for approximating dynamical evolution from time-series snapshots.
 
-These projects are exploratory and instructional. They are intended to show mathematical implementation and analysis rather than production modeling systems.
+These notebooks are exploratory and instructional. They are intended to show mathematical implementation, visualization, and analysis rather than production modeling systems.
 
 ### Practical Python and API Work
 
-The `IBKR/` and `Python_Multiprocessing/` folders are more practical coding examples:
+These folders are smaller practical examples rather than modeling notebooks:
 
 * **IBKR** demonstrates working with a real external API, asynchronous responses, market-data retrieval, and helper utilities for time-series data.
-* **Python Multiprocessing** demonstrates a reusable pattern for parallelizing work from the command line with progress tracking.
+* **Python Multiprocessing** demonstrates a reusable pattern for parallelizing command-line work with progress tracking.
 
-These examples are included because practical data work often requires more than modeling: it also requires API integration, scripting, data handling, and performance-aware Python code.
+They are included because practical data work often requires more than modeling: it also requires API integration, scripting, data handling, and performance-aware Python code.
 
 ## Notes
 

@@ -1,54 +1,133 @@
 # Python Multiprocessing
----
 
-Multiprocessing is a technique for parallel computing that uses multiple CPU cores to perform required tasks simultaneously. It's useful when you have a worker function that you need applied multiple times with possibly varying arguments, but to perform it sequentially would be prohibitively time-consuming.
+Multiprocessing is a technique for parallel computing that uses multiple CPU cores to perform independent tasks simultaneously. It is useful when a worker function needs to be applied many times, often with varying arguments, and running those tasks sequentially would be prohibitively slow.
 
-Python offers a module called *multiprocessing* that allows you to utilize the CPU cores on your machine (more specifically, the 'logical processors' that reside on the CPU cores) to queue up a set of tasks and tackle them simultaneously. For example, my machine has 24 CPU cores and 32 logical processors. There are more processors than cores because some of the cores support simultaneous multithreading, allowing them to handle two threads via two logical processors (sometimes referred to as 'virtual cores').
+Python provides a built-in module called `multiprocessing` that can use the logical processors available on a machine. Logical processors are the execution units exposed to the operating system. A CPU may have more logical processors than physical cores when it supports simultaneous multithreading.
 
-The number of available logical processors on your machine can be determined by running the following command in Python:
+The number of available logical processors can be checked with:
 
-```
+```python
 import multiprocessing
+
 processor_count = multiprocessing.cpu_count()
+print(processor_count)
 ```
 
-In the script *multiprocessing_example.py*, I will build a worker function that simulates a task that takes 5 seconds to complete. My goal is to run this task 500 times. Clearly, doing this consecutively would result in a runtime of 2,500 seconds, or about 41.7 minutes. Using multiprocessing, we should be able to cut that down considerablely.
+In `multiprocessing_example.py`, a worker function simulates a task that takes 5 seconds to complete. The script runs this simulated task 500 times. Sequential execution would take:
 
-The *multiprocessing* module offers many different functionalities, and if you're curious, I highly recommend you read through it for more details. A short description of the workflow is as follows:
-
-- You define a worker function that takes the necessary arguments and performs the work. This should be defined in such a way that it represents the smallest independent unit of work you need to complete. So, don't combine multiple repeat tasks into the same call to your worker function.
-- Next, you define a list of inputs (we will call this variable *inputs_ls*) to the worker that you would like processed. The list in my example will be of length 500 and contain tuples indicating the input arguments to the worker. It is constructed as follows:
-
+```text
+500 tasks × 5 seconds/task = 2,500 seconds
 ```
+
+That is about 41.7 minutes. Multiprocessing can reduce the wall-clock runtime by distributing independent tasks across multiple worker processes.
+
+## Basic Workflow
+
+The general workflow is:
+
+1. Define a worker function that performs one independent unit of work.
+2. Build a list of input arguments for the worker.
+3. Create a process pool.
+4. Map the worker function across the input list.
+5. Collect the returned results.
+
+The worker function should represent the smallest independent unit of work. Avoid combining multiple repeat tasks into a single worker call unless there is a specific reason to do so.
+
+In this example, the input list contains 500 `(i, j)` argument pairs:
+
+```python
 inputs_ls = []
+
 for i in range(50):
     for j in range(10):
         inputs_ls.append((i, j))
 ```
-- Pass this into your chosen multiprocessing function and await completion. The results returned will be the output of your worker function. My output will be a dictionary mapping argument names ('i' and 'j') to their respective values. E.g.
-```
+
+Each input tuple is passed to the worker function. The returned result is a dictionary containing the input values:
+
+```python
 {'i': 0, 'j': 0}
 ```
-is the result of the first task in *inputs_ls*.
-- Be sure not to allocate too many CPU resources to the tasks; if the workload is intense, it may crash your system. So, use with caution and think through what makes sense for your situation.
 
-There are two key parameters you must decide on: the number of processes (we will call this *num_processes*) to use and the chunk size (we will call this *chunksize*).
+## Number of Processes
 
-*num_processes*: This is how many processors you want to utilize. In my case, it's best not to use the full 32 and leave some to the side for general system operations. In my example, I will use 25 as the value for this parameter.
+One important parameter is the number of worker processes:
 
-*chunksize*: This is how many individual calls to the worker constitutes one 'chunk', which are all sent to each worker process at one time. The default recommendation for this is to set:
-
+```python
+num_processes = 25
 ```
+
+This controls how many separate Python worker processes are created. It is usually not necessary, or desirable, to use every logical processor on the machine. Leaving some capacity available for the operating system and other applications can make the system more stable and responsive.
+
+The appropriate value depends on the workload, machine, memory use, and whether the tasks are CPU-bound, I/O-bound, or mostly waiting.
+
+## Chunk Size
+
+Another important parameter is `chunksize`.
+
+When using `Pool.imap`, the input iterable is split into chunks. Each chunk contains some number of individual worker calls. A chunk is assigned to a worker process, and that process works through the calls in that chunk.
+
+A common default-style heuristic is:
+
+```python
 chunksize = max(1, len(inputs_ls) // (num_processes * 4))
 ```
 
-In our case, this works out to a value of 5. However, you can vary this parameter based on your needs and it can affect performance dramatically. If each worker call takes roughly the same length of time and are CPU-bound (as will be the case in our example), then you can set this higher. Doing so will reduce overhead time for batch assignments and keep your processors busy working. If your tasks vary widely in duration or you want faster access to results, you can set *chunksize* to a lower value. Note this will provide more frequent outputs and updates to the progress of the queue but also increase overhead. In our case, we will set this value to 10.
+For 500 inputs and 25 worker processes, this gives:
 
-Behind the scenes, Python’s multiprocessing queues up our chunks of tasks and dynamically assigns them to available worker processes. Each chunk contains 10 tasks, and with 500 total tasks, we end up with 50 chunks. The pool of 25 worker processes begins by picking up the first 25 chunks. As each process finishes its chunk (which takes 5 seconds, assuming perfect uniformity), it immediately picks up another from the queue. In this ideal scenario, the first wave of 25 chunks completes in 5 seconds, and the second wave begins immediately, finishing another 25 chunks in the next 5 seconds. Thus, all 50 chunks are processed in approximately 10 seconds, assuming no overhead and perfect load balancing.
-
-In my code, the order of results are guaranteed to be preserved per the order of *inputs_ls*, and we print the final results to verify. The output of the print statement (the first 15 returned results) will be:
-
+```text
+500 // (25 × 4) = 5
 ```
+
+The example script uses:
+
+```python
+chunksize = 10
+```
+
+With 500 tasks and a chunk size of 10, the work is divided into 50 chunks:
+
+```text
+500 tasks / 10 tasks per chunk = 50 chunks
+```
+
+Since each task sleeps for 5 seconds, each chunk takes about 50 seconds of worker time:
+
+```text
+10 tasks/chunk × 5 seconds/task = 50 seconds/chunk
+```
+
+With 25 worker processes, the first 25 chunks run in parallel, then the remaining 25 chunks run in a second wave. Ignoring overhead, the expected runtime is therefore approximately:
+
+```text
+2 waves × 50 seconds/wave = 100 seconds
+```
+
+This matches the observed runtime much better than assuming each chunk takes only 5 seconds.
+
+## Choosing a Chunk Size
+
+The best `chunksize` depends on the task.
+
+A larger `chunksize` can reduce scheduling overhead because fewer chunks need to be assigned to worker processes. This can work well when individual tasks take similar amounts of time.
+
+A smaller `chunksize` can improve load balancing when task runtimes vary. It also makes progress bars update more frequently, because results are returned in smaller groups. The tradeoff is increased scheduling overhead.
+
+In this example, lowering `chunksize` can make the `tqdm` progress bar update more smoothly. Increasing `chunksize` can make updates less frequent, sometimes appearing as though the progress bar is stuck before completing in larger jumps.
+
+## Ordered Results with `imap`
+
+The example uses:
+
+```python
+pool.imap(my_worker, inputs_ls, chunksize=chunksize)
+```
+
+`imap` returns results lazily and preserves the order of the input iterable. This means the returned results appear in the same order as `inputs_ls`.
+
+The first 15 returned results are:
+
+```python
 [{'i': 0, 'j': 0},
  {'i': 0, 'j': 1},
  {'i': 0, 'j': 2},
@@ -66,14 +145,42 @@ In my code, the order of results are guaranteed to be preserved per the order of
  {'i': 1, 'j': 4}]
 ```
 
-Note that a common pitfall is not wrapping the parallel call in a
-```
+If result order is not important, other multiprocessing methods may be more appropriate. For example, `imap_unordered` can return results as soon as they are ready.
+
+## Important Guard for Script Execution
+
+A common multiprocessing pitfall is forgetting to wrap the process-pool code in:
+
+```python
 if __name__ == '__main__':
+    ...
 ```
-block. This structure is required for the proper handling of parallel tasks.
 
-I encourage experimentation with the *chunksize* parameter as it greatly affects visual tqdm update frequency. Using a chunksize of 10 provides very few updates before a sudden completion of all the tasks. Using a chunksize of 2 however provides more steady updates without loss in time.
+This guard is especially important on Windows, where new worker processes import the main module. Without the guard, the script can recursively start new processes or fail unexpectedly.
 
-At the end of the code the total execution time is provided in seconds. Over multiple runs, runtime was fairly consistently around 100 seconds, or 1 minute 40 seconds. 1 minute 40 seconds is significantly better than the approximately 42 minutes sequential execution would take, making multiprocessing certainly worthwhile. However, it is far from the earlier ideaized estimate of 10 seconds. There are many reasons for this and it is to be expected. Some reasons include OS scheduling being inefficient, overhead time of spawning processes takes time, and the time it takes to serialize each object can add up as well (pickle is used under the hood, which can be slow).
+The example script uses this structure so it can be run safely from the command line.
 
-I hope this code helps you save some time in your future workflows. Thank you for reading!
+## Running the Example
+
+From the `Python_Multiprocessing/` folder:
+
+```bash
+python multiprocessing_example.py
+```
+
+The script will:
+
+1. Print the number of logical processors.
+2. Build 500 input tasks.
+3. Run the worker function using a process pool.
+4. Display progress with `tqdm`.
+5. Print the total runtime.
+6. Print the first 15 returned results.
+
+## Notes
+
+Multiprocessing is useful when the work can be split into independent tasks. It is not always faster than sequential execution. Process creation, task scheduling, inter-process communication, and object serialization all add overhead.
+
+Python uses serialization, commonly through `pickle`, to send data between the main process and worker processes. Large inputs or outputs can reduce the benefit of multiprocessing.
+
+For best results, keep worker inputs and outputs reasonably small, avoid shared mutable state, and test different values of `num_processes` and `chunksize` for the specific workload.
