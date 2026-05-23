@@ -1,8 +1,0 @@
-imageio==2.37.0
-matplotlib==3.10.5
-numpy==2.3.2
-pandas==2.3.2
-pandas_ta==0.3.14b0
-scikit_learn==1.7.1
-tqdm==4.67.1
-yfinance==0.2.54

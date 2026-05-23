@@ -1,0 +1,49 @@
+# Python cache / bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local notebook artifacts
+*.nbconvert.ipynb
+
+# Generated DMD outputs
+outputs/
+!outputs/.gitkeep
+
+# Generated frame/video artifacts
+frames/
+foreground_masks/
+bob_masks/
+*.gif
+*.mp4
+*.avi
+*.mov
+*.webm
+
+# Generated data files
+ground_truth.csv
+metadata.json
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# Logs / temporary files
+*.log
+*.tmp
+*.temp
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

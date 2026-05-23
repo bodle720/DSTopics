@@ -1,0 +1,16 @@
+# Core numerical stack
+numpy>=1.26
+pandas>=2.2
+scipy>=1.12
+
+# Plotting and notebook work
+matplotlib>=3.8
+jupyter>=1.0
+ipykernel>=6.29
+
+# Image / frame generation
+Pillow>=10.0
+imageio>=2.34
+
+# Optional utilities for analysis and metrics
+scikit-learn>=1.4
