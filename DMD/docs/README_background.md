@@ -44,8 +44,7 @@ It is defined by the same power series used for the scalar exponential:
 
 $$
 e^{A_c t}
-=
-I
+= I
 +A_c t
 +\frac{(A_c t)^2}{2!}
 +\frac{(A_c t)^3}{3!}
@@ -56,8 +55,7 @@ Equivalently,
 
 $$
 e^{A_c t}
-=
-\sum_{j=0}^{\infty}
+= \sum_{j=0}^{\infty}
 \frac{(A_c t)^j}{j!}.
 $$
 
