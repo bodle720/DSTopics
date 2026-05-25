@@ -6,6 +6,10 @@ This project applies **Dynamic Mode Decomposition (DMD)** to a synthetic pendulu
 
 The synthetic pendulum is a controlled visual dynamical system: each video frame is a high-dimensional pixel observation, but the underlying motion is mostly governed by a low-dimensional periodic swing. This makes it a cleaner and more interpretable DMD example than noisy real-world forecasting tasks.
 
+## Prerequisite Topics
+
+See here: [Modes, Eigenvalues, Matrix Exponentials and DMD](docs/README_background.md)
+
 ## Notebook
 
 [Open the notebook](DMD_pendulum_video.ipynb)

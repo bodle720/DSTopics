@@ -46,14 +46,10 @@ $$
 e^{A_c t}
 =
 I
-+
-A_c t
-+
-\frac{(A_c t)^2}{2!}
-+
-\frac{(A_c t)^3}{3!}
-+
-\cdots.
++A_c t
++\frac{(A_c t)^2}{2!}
++\frac{(A_c t)^3}{3!}
++\cdots
 $$
 
 Equivalently,
@@ -210,12 +206,9 @@ $$
 \vec{x}(0)
 =
 b_1\vec{v}_1
-+
-b_2\vec{v}_2
-+
-\cdots
-+
-b_n\vec{v}_n.
++b_2\vec{v}_2
++\cdots
++b_n\vec{v}_n.
 $$
 
 Each eigenvector component then evolves independently:
@@ -224,12 +217,9 @@ $$
 \vec{x}(t)
 =
 b_1 e^{\omega_1 t}\vec{v}_1
-+
-b_2 e^{\omega_2 t}\vec{v}_2
-+
-\cdots
-+
-b_n e^{\omega_n t}\vec{v}_n.
++b_2 e^{\omega_2 t}\vec{v}_2
++\cdots
++b_n e^{\omega_n t}\vec{v}_n.
 $$
 
 The solution has three ingredients:
@@ -299,12 +289,9 @@ $$
 \vec{x}_k
 =
 b_1\lambda_1^k\vec{v}_1
-+
-b_2\lambda_2^k\vec{v}_2
-+
-\cdots
-+
-b_n\lambda_n^k\vec{v}_n.
++b_2\lambda_2^k\vec{v}_2
++\cdots
++b_n\lambda_n^k\vec{v}_n.
 $$
 
 So in discrete time, the eigenvalues $\lambda_i$ determine how each mode changes from one snapshot to the next.
@@ -371,8 +358,7 @@ $$
 e^{ik\theta_i}
 =
 \cos(k\theta_i)
-+
-i\sin(k\theta_i).
++i\sin(k\theta_i).
 $$
 
 Therefore complex eigenvalues produce oscillatory behavior.
@@ -408,8 +394,7 @@ $$
 e^{i\beta_i t}
 =
 \cos(\beta_i t)
-+
-i\sin(\beta_i t).
++i\sin(\beta_i t).
 $$
 
 So
@@ -420,8 +405,7 @@ e^{\omega_i t}
 e^{\alpha_i t}
 \left(
 \cos(\beta_i t)
-+
-i\sin(\beta_i t)
++i\sin(\beta_i t)
 \right).
 $$
 
@@ -575,14 +559,10 @@ $$
 e^{A_c\Delta t}
 =
 I
-+
-A_c\Delta t
-+
-\frac{(A_c\Delta t)^2}{2!}
-+
-\frac{(A_c\Delta t)^3}{3!}
-+
-\cdots.
++A_c\Delta t
++\frac{(A_c\Delta t)^2}{2!}
++\frac{(A_c\Delta t)^3}{3!}
++\cdots.
 $$
 
 Apply this matrix to $\vec{v}_i$:
@@ -592,14 +572,10 @@ e^{A_c\Delta t}\vec{v}_i
 =
 \left(
 I
-+
-A_c\Delta t
-+
-\frac{A_c^2\Delta t^2}{2!}
-+
-\frac{A_c^3\Delta t^3}{3!}
-+
-\cdots
++A_c\Delta t
++\frac{A_c^2\Delta t^2}{2!}
++\frac{A_c^3\Delta t^3}{3!}
++\cdots
 \right)
 \vec{v}_i.
 $$
@@ -617,14 +593,10 @@ e^{A_c\Delta t}\vec{v}_i
 =
 \left(
 1
-+
-\omega_i\Delta t
-+
-\frac{\omega_i^2\Delta t^2}{2!}
-+
-\frac{\omega_i^3\Delta t^3}{3!}
-+
-\cdots
++\omega_i\Delta t
++\frac{\omega_i^2\Delta t^2}{2!}
++\frac{\omega_i^3\Delta t^3}{3!}
++\cdots
 \right)
 \vec{v}_i.
 $$
@@ -930,10 +902,8 @@ $$
 \text{video}
 \approx
 \text{background mode}
-+
-\text{oscillatory pendulum modes}
-+
-\text{correction modes}.
++\text{oscillatory pendulum modes}
++\text{correction modes}.
 $$
 
 Mathematically,
