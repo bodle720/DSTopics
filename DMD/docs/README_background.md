@@ -79,8 +79,7 @@ is another $2 \times 2$ matrix:
 
 $$
 e^{A_c t}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 m_{11}(t) & m_{12}(t) \\
 m_{21}(t) & m_{22}(t)
 \end{bmatrix}.
@@ -132,16 +131,14 @@ Then
 
 $$
 e^{A_c t}
-=
-V e^{\Omega t} V^{-1}.
+= V e^{\Omega t} V^{-1}.
 $$
 
 Because $\Omega$ is diagonal, its exponential is easy to compute:
 
 $$
 e^{\Omega t}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 e^{\omega_1 t} & 0 & \cdots & 0 \\
 0 & e^{\omega_2 t} & \cdots & 0 \\
 \vdots & \vdots & \ddots & \vdots \\
@@ -202,8 +199,7 @@ Most initial conditions are not exactly one eigenvector. But if the eigenvectors
 
 $$
 \vec{x}(0)
-=
-b_1\vec{v}_1
+= b_1\vec{v}_1
 +b_2\vec{v}_2
 +\cdots
 +b_n\vec{v}_n.
@@ -213,8 +209,7 @@ Each eigenvector component then evolves independently:
 
 $$
 \vec{x}(t)
-=
-b_1 e^{\omega_1 t}\vec{v}_1
+= b_1 e^{\omega_1 t}\vec{v}_1
 +b_2 e^{\omega_2 t}\vec{v}_2
 +\cdots
 +b_n e^{\omega_n t}\vec{v}_n.
@@ -285,8 +280,7 @@ For a general initial condition,
 
 $$
 \vec{x}_k
-=
-b_1\lambda_1^k\vec{v}_1
+= b_1\lambda_1^k\vec{v}_1
 +b_2\lambda_2^k\vec{v}_2
 +\cdots
 +b_n\lambda_n^k\vec{v}_n.
@@ -338,8 +332,7 @@ Then
 
 $$
 \lambda_i^k
-=
-r_i^k e^{ik\theta_i}.
+= r_i^k e^{ik\theta_i}.
 $$
 
 The magnitude $r_i$ controls growth or decay:
@@ -354,8 +347,7 @@ Using Euler's formula,
 
 $$
 e^{ik\theta_i}
-=
-\cos(k\theta_i)
+= \cos(k\theta_i)
 +i\sin(k\theta_i).
 $$
 
@@ -380,18 +372,15 @@ Then the time evolution is
 
 $$
 e^{\omega_i t}
-=
-e^{(\alpha_i+i\beta_i)t}
-=
-e^{\alpha_i t}e^{i\beta_i t}.
+= e^{(\alpha_i+i\beta_i)t}
+= e^{\alpha_i t}e^{i\beta_i t}.
 $$
 
 Using Euler's formula,
 
 $$
 e^{i\beta_i t}
-=
-\cos(\beta_i t)
+= \cos(\beta_i t)
 +i\sin(\beta_i t).
 $$
 
@@ -399,8 +388,7 @@ So
 
 $$
 e^{\omega_i t}
-=
-e^{\alpha_i t}
+= e^{\alpha_i t}
 \left(
 \cos(\beta_i t)
 +i\sin(\beta_i t)
@@ -469,8 +457,7 @@ This can be rewritten as
 
 $$
 \vec{x}_{k+1}
-=
-e^{A_c \Delta t}
+= e^{A_c \Delta t}
 e^{A_c k\Delta t}
 \vec{x}(0).
 $$
@@ -485,8 +472,7 @@ we get
 
 $$
 \vec{x}_{k+1}
-=
-e^{A_c \Delta t}\vec{x}_k.
+= e^{A_c \Delta t}\vec{x}_k.
 $$
 
 This is why the one-step discrete-time map is
@@ -529,14 +515,10 @@ Then applying $A_c$ twice gives
 
 $$
 A_c^2\vec{v}_i
-=
-A_c(A_c\vec{v}_i)
-=
-A_c(\omega_i\vec{v}_i)
-=
-\omega_i A_c\vec{v}_i
-=
-\omega_i^2 \vec{v}_i.
+= A_c(A_c\vec{v}_i)
+= A_c(\omega_i\vec{v}_i)
+= \omega_i A_c\vec{v}_i
+= \omega_i^2 \vec{v}_i.
 $$
 
 Similarly,
@@ -555,8 +537,7 @@ Now use the power series definition of the matrix exponential:
 
 $$
 e^{A_c\Delta t}
-=
-I
+= I
 +A_c\Delta t
 +\frac{(A_c\Delta t)^2}{2!}
 +\frac{(A_c\Delta t)^3}{3!}
@@ -567,8 +548,7 @@ Apply this matrix to $\vec{v}_i$:
 
 $$
 e^{A_c\Delta t}\vec{v}_i
-=
-\left(
+= \left(
 I
 +A_c\Delta t
 +\frac{A_c^2\Delta t^2}{2!}
@@ -588,8 +568,7 @@ we get
 
 $$
 e^{A_c\Delta t}\vec{v}_i
-=
-\left(
+= \left(
 1
 +\omega_i\Delta t
 +\frac{\omega_i^2\Delta t^2}{2!}
@@ -609,8 +588,7 @@ Therefore
 
 $$
 e^{A_c\Delta t}\vec{v}_i
-=
-e^{\omega_i\Delta t}\vec{v}_i.
+= e^{\omega_i\Delta t}\vec{v}_i.
 $$
 
 This shows that if $\omega_i$ is an eigenvalue of the continuous-time generator $A_c$, then
@@ -687,8 +665,7 @@ In DMD, the true $A_d$ is not known.
 Instead, DMD receives snapshot data:
 
 $$
-X =
-[
+X =[
 \vec{x}_1
 \;
 \vec{x}_2
@@ -744,8 +721,7 @@ Then it forms the reduced operator
 
 $$
 \tilde{A}
-=
-U_r^* X' V_r \Sigma_r^{-1}.
+= U_r^* X' V_r \Sigma_r^{-1}.
 $$
 
 This smaller matrix approximates the time-advance dynamics inside the rank-$r$ subspace.
@@ -767,8 +743,7 @@ $$
 The columns of $\Phi$ are the DMD modes:
 
 $$
-\Phi =
-[
+\Phi =[
 \phi_1
 \;
 \phi_2
