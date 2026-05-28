@@ -1483,10 +1483,14 @@ $$
 b=0.
 $$
 
-So the eigenspace is
+The eigenspace is the span of
 
 $$
-\mathrm{span}\left\{\begin{bmatrix}0 \\ 0 \\ 1\end{bmatrix}\right\}
+\begin{bmatrix}
+0 \\
+0 \\
+1
+\end{bmatrix}
 $$
 
 The only true eigenvector direction is the pure $y$ direction.
