@@ -1807,11 +1807,7 @@ $$
 \phi_i \in \mathbb{C}^{h\cdot w}.
 $$
 
-Therefore a DMD mode can be reshaped into an image.
-
-However, a DMD mode is not usually a literal frame from the video.
-
-A frame is the full state at one time:
+Therefore a DMD mode can be reshaped into an image. However, a DMD mode is not usually a literal frame from the video. A frame is the full state at one time:
 
 $$
 \vec{x}_k.
@@ -1822,7 +1818,7 @@ A DMD mode is a reusable spatial pattern that contributes to many frames over ti
 The reconstructed frame is a sum of mode contributions:
 
 $$
-\vec{x}*k \approx \sum*{i=1}^{r} b_i\phi_i\lambda_i^k.
+\vec{x}_k \approx \sum_{i=1}^{r} b_i\phi_i\lambda_i^k.
 $$
 
 Each term contains:
@@ -1905,7 +1901,7 @@ $$
 Mathematically,
 
 $$
-\vec{x}*k \approx \sum*{i=1}^{r} b_i\phi_i\lambda_i^k.
+\vec{x}_k \approx \sum_{i=1}^{r} b_i\phi_i\lambda_i^k.
 $$
 
 This is the bridge between linear algebra and video interpretation:
