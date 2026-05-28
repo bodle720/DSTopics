@@ -63,7 +63,7 @@ So if
 $$
 A_c =
 \begin{bmatrix}
-a & b \
+a & b \\
 c & d
 \end{bmatrix},
 $$
@@ -73,7 +73,7 @@ then $e^{A_c t}$ is another $2 \times 2$ matrix:
 $$
 e^{A_c t} =
 \begin{bmatrix}
-m_{11}(t) & m_{12}(t) \
+m_{11}(t) & m_{12}(t) \\
 m_{21}(t) & m_{22}(t)
 \end{bmatrix}.
 $$
@@ -109,9 +109,9 @@ where
 $$
 D =
 \begin{bmatrix}
-\omega_1 & 0 & \cdots & 0 \
-0 & \omega_2 & \cdots & 0 \
-\vdots & \vdots & \ddots & \vdots \
+\omega_1 & 0 & \cdots & 0 \\
+0 & \omega_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
 0 & 0 & \cdots & \omega_n
 \end{bmatrix}.
 $$
@@ -129,9 +129,9 @@ Because $D$ is diagonal, its exponential is easy to compute:
 $$
 e^{D t} =
 \begin{bmatrix}
-e^{\omega_1 t} & 0 & \cdots & 0 \
-0 & e^{\omega_2 t} & \cdots & 0 \
-\vdots & \vdots & \ddots & \vdots \
+e^{\omega_1 t} & 0 & \cdots & 0 \\
+0 & e^{\omega_2 t} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
 0 & 0 & \cdots & e^{\omega_n t}
 \end{bmatrix}.
 $$
@@ -201,9 +201,11 @@ $$
 
 The solution has three ingredients:
 
-1. The mode $\vec{v}_i$, which gives the spatial direction or pattern.
-2. The eigenvalue $\omega_i$, which gives the time behavior.
-3. The coefficient $b_i$, which says how much of that mode appears in the initial condition.
+1. The mode $\vec{v}_i$, which gives the spatial/eigenvector direction or pattern.
+
+2. The eigenvalue $\omega_i$ of $A_c$, which gives the continuous-time behavior of that mode. The scalar factor $e^{\omega_i t}$ is the time-evolution multiplier for the mode at time $t$, and $e^{\omega_i t}$ is the corresponding eigenvalue of the matrix exponential $e^{A_c t}$.
+
+3. The coefficient $b_i$, which says how much of that mode appears in the initial condition. It is the initial amplitude of that mode.
 
 So a mode is not just “important” because it is large. A mode is important because it is a dynamically meaningful building block of the system.
 
@@ -218,6 +220,151 @@ The eigenvalue says:
 The coefficient says:
 
 > How strongly does that pattern contribute to the initial condition?
+
+The modal-sum solution comes from combining the matrix exponential solution with the eigendecomposition of the system matrix:
+
+Start with the continuous-time linear system
+
+$$
+\frac{d\vec{x}}{dt} = A_c\vec{x}.
+$$
+
+The general solution is
+
+$$
+\vec{x}(t) = e^{A_c t}\vec{x}(0).
+$$
+
+Now assume $A_c$ is diagonalizable. Then
+
+$$
+A_c = VDV^{-1},
+$$
+
+where
+
+$$
+V = [\vec{v}_1 \; \vec{v}_2 \; \cdots \; \vec{v}_n]
+$$
+
+is the matrix whose columns are eigenvectors, and
+
+$$
+D =
+\begin{bmatrix}
+\omega_1 & 0 & \cdots & 0 \\
+0 & \omega_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \omega_n
+\end{bmatrix}
+$$
+
+is the diagonal matrix of continuous-time eigenvalues.
+
+Because $A_c = VDV^{-1}$, the matrix exponential can be written as
+
+$$
+e^{A_c t} = V e^{Dt} V^{-1}.
+$$
+
+This is useful because $D$ is diagonal, so $e^{Dt}$ is easy to compute:
+
+$$
+e^{Dt} =
+\begin{bmatrix}
+e^{\omega_1t} & 0 & \cdots & 0 \\
+0 & e^{\omega_2t} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & e^{\omega_nt}
+\end{bmatrix}.
+$$
+
+Now express the initial condition in the eigenvector basis:
+
+$$
+\vec{x}(0) = V\vec{b},
+$$
+
+where
+
+$$
+\vec{b} =
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_n
+\end{bmatrix}.
+$$
+
+Equivalently,
+
+$$
+\vec{b} = V^{-1}\vec{x}(0).
+$$
+
+The entries $b_i$ tell how much of each eigenvector direction is present in the initial condition.
+
+Substitute this into the solution:
+
+$$
+\vec{x}(t)
+= e^{A_c t}\vec{x}(0)
+= V e^{Dt} V^{-1} V\vec{b}.
+$$
+
+Since $V^{-1}V = I$, this becomes
+
+$$
+\vec{x}(t) = V e^{Dt}\vec{b}.
+$$
+
+Now compute $e^{Dt}\vec{b}$:
+
+$$
+e^{Dt}\vec{b}
+=
+\begin{bmatrix}
+b_1e^{\omega_1t} \\
+b_2e^{\omega_2t} \\
+\vdots \\
+b_ne^{\omega_nt}
+\end{bmatrix}.
+$$
+
+Multiplying by $V$ forms a linear combination of the columns of $V$:
+
+$$
+\vec{x}(t)
+=
+b_1e^{\omega_1t}\vec{v}_1
++b_2e^{\omega_2t}\vec{v}_2
++\cdots
++b_ne^{\omega_nt}\vec{v}_n.
+$$
+
+So the modal-sum formula is
+
+$$
+\vec{x}(t)
+=
+\sum_{i=1}^{n}
+b_i e^{\omega_i t}\vec{v}_i.
+$$
+
+This is the same solution as
+
+$$
+\vec{x}(t) = e^{A_c t}\vec{x}(0),
+$$
+
+but written in a way that separates the dynamics into independent modal pieces.
+
+So the eigenvectors provide the directions or spatial patterns, the eigenvalues provide the time behavior, and the coefficients determine how strongly each mode contributes to the initial condition.
+
+This is the main modal interpretation of a linear dynamical system:
+
+> Decompose the initial state into eigenvector directions, evolve each direction independently according to its eigenvalue, and add the pieces back together.
 
 ---
 
@@ -435,7 +582,7 @@ $$
 The state at sample $k$ is
 
 $$
-\vec{x}_k = \vec{x}(t_k) = \vec{x}(k\Delta t).
+\vec{x}_k = \vec{x}(t=t_k) = \vec{x}(k\Delta t).
 $$
 
 From the initial condition,
@@ -562,6 +709,18 @@ This shows that if $\omega_i$ is an eigenvalue of the continuous-time generator 
 
 $$
 A_d = e^{A_c\Delta t}.
+$$
+
+You can also reason through this by recognizing that since $A_c\vec{v}_i = \omega_i\vec{v}_i$, the eigenvector $\vec{v}_i$ is also an eigenvector of the matrix exponential $e^{A_c t}$, with eigenvalue $e^{\omega_i t}$:
+
+$$
+e^{A_c t}\vec{v}_i = e^{\omega_i t}\vec{v}_i.
+$$
+
+Evaluating this relationship at one sampled time step, $t=\Delta t$, gives
+
+$$
+e^{A_c \Delta t}\vec{v}_i = e^{\omega_i \Delta t}\vec{v}_i.
 $$
 
 So the discrete and continuous eigenvalues satisfy
