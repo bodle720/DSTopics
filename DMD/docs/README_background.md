@@ -1490,14 +1490,13 @@ $$
 So the eigenspace is
 
 $$
-\operatorname{span}
-\left{
+\operatorname{span}\left\{
 \begin{bmatrix}
 0 \\
 0 \\
 1
 \end{bmatrix}
-\right}.
+\right\}
 $$
 
 The only true eigenvector direction is the pure $y$ direction.
@@ -1525,8 +1524,8 @@ However, the actual initial condition for the parabola is
 $$
 \vec{s}(0) =
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}.
 $$
@@ -1556,8 +1555,8 @@ Using
 $$
 \vec{s}(0) =
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix},
 $$
@@ -1567,15 +1566,13 @@ we get
 $$
 B
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-1 \
+=\begin{bmatrix}
+0 \\
+1 \\
 0
 \end{bmatrix},
 $$
@@ -1585,15 +1582,13 @@ and
 $$
 B^2
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-0 \
+=\begin{bmatrix}
+0 \\
+0 \\
 2
 \end{bmatrix}.
 $$
@@ -1602,25 +1597,21 @@ So
 
 $$
 \vec{s}(t)
-==========
-
-\begin{bmatrix}
-1 \
-0 \
+=\begin{bmatrix}
+1 \\
+0 \\
 0
 \end{bmatrix}
-+
-t
++t
 \begin{bmatrix}
-0 \
-1 \
+0 \\
+1 \\
 0
 \end{bmatrix}
-+
-\frac{t^2}{2}
++\frac{t^2}{2}
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 2
 \end{bmatrix}.
 $$
@@ -1630,8 +1621,8 @@ Therefore,
 $$
 \vec{s}(t) =
 \begin{bmatrix}
-1 \
-t \
+1 \\
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -1642,26 +1633,26 @@ This happens because $B$ is not diagonalizable. The motion is governed by a gene
 
 $$
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}
 \mapsto
 \begin{bmatrix}
-0 \
-1 \
+0 \\
+1 \\
 0
 \end{bmatrix}
 \mapsto
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 2
 \end{bmatrix}
 \mapsto
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 0
 \end{bmatrix}.
 $$
@@ -1674,8 +1665,7 @@ $$
 x\text{-direction}
 \rightarrow
 y\text{-direction}
-\rightarrow
-0.
+\rightarrow 0.
 $$
 
 This example teaches a different lesson from the circular-motion example:
@@ -1700,11 +1690,11 @@ X =
 [
 \vec{x}_1
 ;
-\vec{x}*2
+\vec{x}_2
 ;
 \cdots
 ;
-\vec{x}*{m-1}
+\vec{x}_{m-1}
 ]
 $$
 
@@ -1715,11 +1705,11 @@ X' =
 [
 \vec{x}_2
 ;
-\vec{x}*3
+\vec{x}_3
 ;
 \cdots
 ;
-\vec{x}*{m}
+\vec{x}_{m}
 ].
 $$
 
@@ -1755,7 +1745,7 @@ $$
 \tilde{A} = U_r^* X' V_r \Sigma_r^{-1}.
 $$
 
-This smaller matrix approximates the time-advance dynamics inside the rank-$r$ subspace.
+This smaller matrix approximates the time-advance dynamics inside the rank-$r$ subspace: $\tilde{A}$ is the low-dimensional representation of the unknown full time-advance operator $A_d$ after projecting into the rank-$r$ SVD/POD subspace (it describes how the dynamics act inside the low-rank subspace spanned by the columns of $U_r$).
 
 DMD then solves the eigenvalue problem
 
@@ -1788,10 +1778,8 @@ $$
 
 So in practical DMD:
 
-* $\lambda_i$ is an eigenvalue of the reduced learned operator $\tilde{A}$,
-* $\phi_i$ is a DMD mode mapped back into the original state space,
-* $\lambda_i$ approximates a dominant eigenvalue of the unknown one-step dynamics,
-* and $\phi_i$ approximates a dynamically meaningful spatial pattern.
+* $\lambda_i$ is an eigenvalue of the reduced learned operator $\tilde{A}$, and they approximate dominant eigenvalues of the unknown full $A_d$.
+* $\phi_i$ is a DMD mode mapped back into the original state space, and approximates a dynamically meaningful spatial pattern.
 
 DMD usually estimates discrete-time eigenvalues first because the data are snapshots. Continuous-time rates are then inferred using
 
