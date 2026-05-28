@@ -323,8 +323,7 @@ Now compute $e^{Dt}\vec{b}$:
 
 $$
 e^{Dt}\vec{b}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 b_1e^{\omega_1t} \\
 b_2e^{\omega_2t} \\
 \vdots \\
@@ -336,8 +335,7 @@ Multiplying by $V$ forms a linear combination of the columns of $V$:
 
 $$
 \vec{x}(t)
-=
-b_1e^{\omega_1t}\vec{v}_1
+= b_1e^{\omega_1t}\vec{v}_1
 +b_2e^{\omega_2t}\vec{v}_2
 +\cdots
 +b_ne^{\omega_nt}\vec{v}_n.
@@ -347,8 +345,7 @@ So the modal-sum formula is
 
 $$
 \vec{x}(t)
-=
-\sum_{i=1}^{n}
+= \sum_{i=1}^{n}
 b_i e^{\omega_i t}\vec{v}_i.
 $$
 
@@ -1281,8 +1278,7 @@ $$
 x \\
 y
 \end{bmatrix}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 0 & 0 \\
 2 & 0
 \end{bmatrix}
@@ -1490,13 +1486,7 @@ $$
 So the eigenspace is
 
 $$
-\operatorname{span}\left\{
-\begin{bmatrix}
-0 \\
-0 \\
-1
-\end{bmatrix}
-\right\}
+\mathrm{span}\left\{\begin{bmatrix}0 \\ 0 \\ 1\end{bmatrix}\right\}
 $$
 
 The only true eigenvector direction is the pure $y$ direction.
@@ -1745,7 +1735,7 @@ $$
 \tilde{A} = U_r^* X' V_r \Sigma_r^{-1}.
 $$
 
-This smaller matrix approximates the time-advance dynamics inside the rank-$r$ subspace: $\tilde{A}$ is the low-dimensional representation of the unknown full time-advance operator $A_d$ after projecting into the rank-$r$ SVD/POD subspace (it describes how the dynamics act inside the low-rank subspace spanned by the columns of $U_r$).
+This smaller matrix approximates the time-advance dynamics inside the rank-r subspace: $\tilde{A}$ is the low-dimensional representation of the unknown full time-advance operator $A_d$ after projecting into the rank-r SVD/POD subspace (it describes how the dynamics act inside the low-rank subspace spanned by the columns of $U_r$).
 
 DMD then solves the eigenvalue problem
 
