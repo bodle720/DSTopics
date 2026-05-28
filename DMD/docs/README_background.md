@@ -872,14 +872,12 @@ Consider
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix}
-=============
-
-A_c
+= A_c
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix},
 $$
@@ -889,7 +887,7 @@ where
 $$
 A_c =
 \begin{bmatrix}
-0 & -s \
+0 & -s \\
 s & 0
 \end{bmatrix}.
 $$
@@ -933,7 +931,7 @@ If the initial condition is
 $$
 \vec{x}(0) =
 \begin{bmatrix}
-1 \
+1 \\
 0
 \end{bmatrix},
 $$
@@ -943,7 +941,7 @@ then the solution is
 $$
 \vec{x}(t) =
 \begin{bmatrix}
-\cos(st) \
+\cos(st) \\
 \sin(st)
 \end{bmatrix}.
 $$
@@ -955,7 +953,7 @@ The matrix exponential for this system is a rotation matrix:
 $$
 e^{A_c t} =
 \begin{bmatrix}
-\cos(st) & -\sin(st) \
+\cos(st) & -\sin(st) \\
 \sin(st) & \cos(st)
 \end{bmatrix}.
 $$
@@ -1001,7 +999,7 @@ For the circular-motion system,
 $$
 A_d =
 \begin{bmatrix}
-\cos(s\Delta t) & -\sin(s\Delta t) \
+\cos(s\Delta t) & -\sin(s\Delta t) \\
 \sin(s\Delta t) & \cos(s\Delta t)
 \end{bmatrix}.
 $$
@@ -1086,22 +1084,9 @@ $$
 
 So the system completes one full cycle every $60$ frames.
 
-This matches the physical interpretation:
 
 $$
-0.5 \text{ cycles/second} \times 30 \text{ frames/second} = 15 \text{ frames?}
-$$
-
-The expression above has the wrong units if read literally as frames. The correct conversion is:
-
-$$
-\text{cycles/frame} = \frac{0.5 \text{ cycles/second}}{30 \text{ frames/second}} = \frac{1}{60} \text{ cycles/frame}.
-$$
-
-Therefore,
-
-$$
-\text{frames/cycle} = 60.
+\text{frames/cycle} = \frac{30 \text{ frames/second}}{0.5 \text{ cycles/second}} = 60 \text{ frames/cycle}.
 $$
 
 So this system can be interpreted in both units:
@@ -1110,8 +1095,6 @@ So this system can be interpreted in both units:
 * $1/60$ cycles per frame,
 * $2$ seconds per cycle,
 * $60$ frames per cycle.
-
-This is exactly the type of comparison that is useful in the pendulum DMD notebook.
 
 ---
 
@@ -1122,7 +1105,7 @@ The continuous trajectory is
 $$
 \vec{x}(t) =
 \begin{bmatrix}
-\cos(st) \
+\cos(st) \\
 \sin(st)
 \end{bmatrix}.
 $$
@@ -1134,7 +1117,7 @@ The discrete sampled trajectory is
 $$
 \vec{x}_k =
 \begin{bmatrix}
-\cos(sk\Delta t) \
+\cos(sk\Delta t) \\
 \sin(sk\Delta t)
 \end{bmatrix}.
 $$
@@ -1175,13 +1158,11 @@ Then the state is
 $$
 \vec{z}(t) =
 \begin{bmatrix}
-x(t) \
+x(t) \\
 y(t)
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-t \
+= \begin{bmatrix}
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -1191,7 +1172,7 @@ The derivative is
 $$
 \frac{d\vec{z}}{dt} =
 \begin{bmatrix}
-1 \
+1 \\
 2t
 \end{bmatrix}.
 $$
@@ -1201,7 +1182,7 @@ Suppose there were a constant $2 \times 2$ matrix
 $$
 A =
 \begin{bmatrix}
-a & b \
+a & b \\
 c & d
 \end{bmatrix}
 $$
@@ -1216,23 +1197,19 @@ Then we would need
 
 $$
 \begin{bmatrix}
-1 \
+1 \\
 2t
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-a & b \
+= \begin{bmatrix}
+a & b \\
 c & d
 \end{bmatrix}
 \begin{bmatrix}
-t \
+t \\
 t^2
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-at + bt^2 \
+= \begin{bmatrix}
+at + bt^2 \\
 ct + dt^2
 \end{bmatrix}.
 $$
@@ -1250,14 +1227,12 @@ So there is no constant $2 \times 2$ matrix $A$ such that
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-t \
+t \\
 t^2
 \end{bmatrix}
-=============
-
-A
+= A
 \begin{bmatrix}
-t \
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -1303,24 +1278,22 @@ In vector form,
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix}
-=============
-
+=
 \begin{bmatrix}
-0 & 0 \
+0 & 0 \\
 2 & 0
 \end{bmatrix}
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix}
-+
-\begin{bmatrix}
-1 \
++\begin{bmatrix}
+1 \\
 0
-\end{bmatrix}.
+\end{bmatrix}
 $$
 
 This has the form
@@ -1368,8 +1341,8 @@ Define an augmented state
 $$
 \vec{s}(t) =
 \begin{bmatrix}
-1 \
-x(t) \
+1 \\
+x(t) \\
 y(t)
 \end{bmatrix}.
 $$
@@ -1379,15 +1352,13 @@ Then
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-1 \
-x \
+1 \\
+x \\
 y
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-1 \
+=\begin{bmatrix}
+0 \\
+1 \\
 2x
 \end{bmatrix}.
 $$
@@ -1403,8 +1374,8 @@ where
 $$
 B =
 \begin{bmatrix}
-0 & 0 & 0 \
-1 & 0 & 0 \
+0 & 0 & 0 \\
+1 & 0 & 0 \\
 0 & 2 & 0
 \end{bmatrix}.
 $$
@@ -1414,15 +1385,13 @@ Check:
 $$
 B
 \begin{bmatrix}
-1 \
-x \
+1 \\
+x \\
 y
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-1 \
+= \begin{bmatrix}
+0 \\
+1 \\
 2x
 \end{bmatrix}.
 $$
@@ -1434,8 +1403,8 @@ With
 $$
 \vec{s}(0) =
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix},
 $$
@@ -1445,8 +1414,8 @@ the solution is
 $$
 \vec{s}(t) =
 \begin{bmatrix}
-1 \
-t \
+1 \\
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -1464,8 +1433,8 @@ The lifted parabola matrix is
 $$
 B =
 \begin{bmatrix}
-0 & 0 & 0 \
-1 & 0 & 0 \
+0 & 0 & 0 \\
+1 & 0 & 0 \\
 0 & 2 & 0
 \end{bmatrix}.
 $$
@@ -1476,7 +1445,7 @@ $$
 \omega = 0.
 $$
 
-Because this is a continuous-time generator, the eigenvalue is a continuous-time eigenvalue. In the notation of this note, it is an $\omega$, not a $\lambda$.
+Because this is a continuous-time generator, the eigenvalue is a continuous-time eigenvalue.
 
 The eigenvectors satisfy
 
@@ -1489,8 +1458,8 @@ Let
 $$
 \vec{v} =
 \begin{bmatrix}
-a \
-b \
+a \\
+b \\
 c
 \end{bmatrix}.
 $$
@@ -1500,8 +1469,8 @@ Then
 $$
 B\vec{v} =
 \begin{bmatrix}
-0 \
-a \
+0 \\
+a \\
 2b
 \end{bmatrix}.
 $$
@@ -1524,8 +1493,8 @@ $$
 \operatorname{span}
 \left{
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 1
 \end{bmatrix}
 \right}.
@@ -1538,15 +1507,13 @@ Along this true eigenvector, the system is stationary:
 $$
 e^{0t}
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 1
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-0 \
+=\begin{bmatrix}
+0 \\
+0 \\
 1
 \end{bmatrix}.
 $$
