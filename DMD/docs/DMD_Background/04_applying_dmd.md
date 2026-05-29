@@ -674,7 +674,13 @@ $$
 A = X'X^\dagger.
 $$
 
-Mathematically, this $A$ is the matrix that best fits the observed transitions from $\vec{x}_i$ to $\vec{x}_{i+1}$ in a least-squares sense. This formulation is often referred to as **exact DMD**.
+Mathematically, this $A$ is the matrix that best fits the observed transitions from one snapshot to the next in a least-squares sense:
+
+$$
+A\vec{x}_i \approx \vec{x}_{i+1}.
+$$
+
+This formulation is often referred to as **exact DMD**.
 
 The algebraic least-squares equation does not explicitly depend on the physical size of the timestep. However, $\Delta t$ is still important because it determines the physical meaning of one step forward and is needed when interpreting eigenvalues as growth rates, frequencies, and periods.
 
