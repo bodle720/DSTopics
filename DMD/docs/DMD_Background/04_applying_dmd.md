@@ -20,8 +20,6 @@ The notebook is meant to be instructional. The goal is not merely to run DMD as 
 
 A previous version of this notebook applied DMD to financial time-series data. That was useful as an exploratory sequential-modeling exercise, but financial data is noisy, non-stationary, difficult to validate visually, and strongly affected by variables that are not observed. The synthetic pendulum is a better instructional example because the true motion is known, the future frames are known, and the model output can be evaluated both visually and numerically.
 
----
-
 ## Dynamic Mode Decomposition (DMD)
 
 DMD seeks to approximate the dynamics of a system using a linear transformation learned from data. DMD's results can be used for predicting the next step in a dynamic system. In its simplest discrete-time form, DMD tries to learn a linear time-advance model
@@ -50,8 +48,6 @@ A few common applications of DMD include:
 In each case, a system evolves through time and is assumed to contain some underlying structure that influences its progression. For video processing, each frame of a video represents a single sample in time. In this notebook, each video frame will be flattened into a vector, so the pendulum video becomes a sequence of high-dimensional state vectors.
 
 The introduction and overview that follows are based heavily on the standard DMD formulation described in *Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control* by Brunton and Kutz. For a deeper overview, that text is a very useful reference.
-
----
 
 ## Continuous-Time Motivation
 
@@ -123,8 +119,6 @@ Here, $\vec{x}(0)$ is the initial condition, or starting state, at time $t = 0$.
 This equation says that the state at time $t$ can be obtained by applying the matrix exponential $e^{At}$ to the initial state.
 
 The eigenvalue/eigenvector representation below depends on this linear assumption. In the fully nonlinear case, there is generally no single matrix $A$ whose eigenvectors and eigenvalues describe the whole system globally.
-
----
 
 ## Eigenvalues, Eigenvectors, and Modal Solutions
 
@@ -243,8 +237,6 @@ This entire eigenvalue/eigenvector solution depends on the linearity assumption.
 
 In real data-driven problems, $A$ is not handed to us. For a video, we do not begin with a known matrix that advances one frame to the next. For financial data, if such a reliable transition matrix were known, it would likely be exploited quickly and stop being useful. More generally, the true governing process may be nonlinear, noisy, partially observed, or unknown. DMD begins from the linear picture above and then tries to estimate the relevant modal structure from observed data.
 
----
-
 ## From Known Dynamics to Data-Driven Dynamics
 
 The above derivation assumes that $A$ is known.
@@ -282,8 +274,6 @@ $$
 $$
 
 This $\Delta t$ matters when we interpret DMD eigenvalues as physical frequencies and growth rates.
-
----
 
 ## Discrete-Time Snapshot Matrices
 
@@ -385,8 +375,6 @@ A\vec{x}_i \approx \vec{x}_{i+1},
 $$
 
 In this setup, each $\vec{x}_{i+1}$ is $\Delta t$ units of time after $\vec{x}_i$.
-
----
 
 ## What Should $m$ and $\Delta t$ Be?
 
@@ -672,8 +660,6 @@ Most numerical code uses the principal branch of the logarithm, where the angle 
 
 For this synthetic pendulum example, the motion is slow relative to the video frame rate, so the principal-frequency interpretation should be reasonable.
 
----
-
 ## Least-Squares Estimate of the Transition Matrix
 
 The most direct way to estimate $A$ is to solve
@@ -716,8 +702,6 @@ That is far too large to compute and analyze directly in a simple notebook.
 
 This is typical in applications of DMD, especially when the number of features is large relative to the number of snapshots. Therefore, DMD takes a roundabout but powerful approach: it estimates the important dynamics in a reduced low-dimensional subspace.
 
----
-
 ## Practical DMD Procedure
 
 The practical DMD procedure can be summarized as follows:
@@ -728,8 +712,6 @@ The practical DMD procedure can be summarized as follows:
 4. Map those reduced eigenvectors and eigenvalues back to the original state space to obtain DMD modes and the desired modal approximation.
 
 The rest of the derivation expands these steps in more detail.
-
----
 
 ## Low-Rank Structure and the SVD
 
@@ -762,8 +744,6 @@ The choice of $r$ is important and has been the subject of much research. A simp
 A small $r$ may underfit by discarding meaningful dynamics. A large $r$ may retain noise, weak modes, or unstable behavior that hurts forecasting.
 
 In this notebook, the singular values will be plotted before selecting a main rank, and later the effect of rank will be studied directly.
-
----
 
 ## Reduced Linear Operator
 
@@ -803,8 +783,6 @@ $$
 
 This is much smaller than the original $n \times n$ operator and is therefore easy to analyze.
 
----
-
 ## Eigen-Decomposition of the Reduced Operator
 
 ### Step 3: Compute the Eigenvectors and Eigenvalues of $\tilde{A}$
@@ -831,8 +809,6 @@ If $\lambda_i$ is a DMD eigenvalue, then:
 - complex conjugate eigenvalues often correspond to oscillatory behavior.
 
 For a pendulum, oscillatory behavior is exactly what we expect. Therefore, a strong DMD result should reveal eigenvalues associated with the swinging motion.
-
----
 
 ## DMD Modes: Mapping Back to the Original State Space
 
@@ -920,8 +896,6 @@ In the pendulum video, this means:
 - and the corresponding eigenvalues describe how those spatial patterns evolve through time.
 
 For video data, this visual interpretation is one of the most useful parts of DMD. The method is not only producing a reconstruction or forecast; it is also producing spatial modes tied to specific temporal behavior.
-
----
 
 ## Reconstruction and Forecasting from DMD Modes
 
