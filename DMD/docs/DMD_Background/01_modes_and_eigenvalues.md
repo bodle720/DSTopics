@@ -4,6 +4,77 @@ This series of notes gives background for understanding Dynamic Mode Decompositi
 
 See [part 2](02_a_couple_examples.md) after this note.
 
+## 0. Continuous-Time Motivation
+
+Let $\vec{x}$ represent the state of a system. The state vector contains the quantities we wish to measure or model. In these notes, $\vec{x}$ may eventually represent the pixels in a single video frame. More generally, $\vec{x}$ could represent fluid velocities, temperatures, sensor readings, financial features, or any collection of measured quantities.
+
+A general continuous-time dynamical system can be written as
+
+$$
+\frac{d\vec{x}}{dt} = f(\vec{x}, t, \vec{\mu}),
+$$
+
+where:
+
+* $\vec{x}$ is the state vector,
+* $t$ is time,
+* $\vec{\mu}$ represents possible system parameters,
+* and $f$ describes how the state changes.
+
+The left-hand side,
+
+$$
+\frac{d\vec{x}}{dt},
+$$
+
+is the derivative of the state vector. It describes how the state changes at a given time $t$.
+
+In many real systems, the function $f$ may be nonlinear, unknown, difficult to model from first principles, or dependent on unobserved variables. Discovering and studying $f$ is highly context-dependent and can represent an entire field of study.
+
+One crucial simplification behind DMD is that we approximate the observed dynamics with a linear model. Instead of trying to discover the full nonlinear function $f$, DMD asks whether the observed evolution can be approximated by a linear operator.
+
+A simplified continuous-time linear system has the form
+
+$$
+\frac{d\vec{x}}{dt} = A_c\vec{x}.
+$$
+
+Here, $A_c$ is a matrix that describes how the components of the state interact linearly. The subscript $c$ stands for continuous.
+
+If $\vec{x} \in \mathbb{R}^n$, then $A_c$ has shape
+
+$$
+n \times n.
+$$
+
+For image or video data, $n$ can be very large. For example, if a grayscale frame has height $h$ and width $w$, then the flattened frame has dimension
+
+$$
+n = h \cdot w.
+$$
+
+So even a modest image can produce a very large state vector.
+
+This linear model is a major simplification. The original system may be nonlinear, time-dependent, or affected by parameters we do not observe. However, once we assume a linear, time-invariant approximation,
+
+$$
+\frac{d\vec{x}}{dt}=A_c\vec{x},
+$$
+
+we enter the setting of constant-coefficient linear systems of ordinary differential equations.
+
+This is the setting where the matrix-exponential solution is available:
+
+$$
+\vec{x}(t)=e^{A_ct}\vec{x}(0).
+$$
+
+Here, $\vec{x}(0)$ is the initial condition, or starting state, at time $t = 0$.
+
+This equation says that the state at time $t$ can be obtained by applying the matrix exponential $e^{A_ct}$ to the initial state.
+
+The clean eigenvalue/eigenvector representation that follows depends on this linear approximation. In the fully nonlinear case, there is generally no single finite-dimensional matrix $A_c$ whose eigenvectors and eigenvalues describe the whole system globally. DMD begins from this linear picture and then estimates an approximate linear time-advance model directly from data.
+
 
 ## 1. Linear Dynamics in Continuous Time
 
@@ -286,6 +357,7 @@ $$
 \vec{b} = V^{-1}\vec{x}(0).
 $$
 
+This is the same idea that appears in ordinary differential equations: the general solution is a linear combination of independent solutions, and the initial condition determines the coefficients in that linear combination.
 The entries $b_i$ tell how much of each eigenvector direction is present in the initial condition.
 
 Substitute this into the solution:
