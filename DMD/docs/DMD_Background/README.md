@@ -14,7 +14,7 @@ Introduces linear dynamical systems, matrix exponentials, eigenvalues, eigenvect
 
 ### 2. A Couple Examples
 
-[02_a_couple_examlpes.md](02_a_couple_examlpes.md)
+[02_a_couple_examlpes.md](02_a_couple_examples.md)
 
 Works through two small examples: circular motion as a clean oscillatory linear system, and parabolic motion as an example that requires affine dynamics or a lifted state space. These examples help clarify what linear modes can and cannot represent directly.
 
