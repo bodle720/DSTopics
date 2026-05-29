@@ -237,8 +237,6 @@ So this system can be interpreted in both units:
 * $2$ seconds per cycle,
 * $60$ frames per cycle.
 
----
-
 ## 14. Continuous Time Versus Discrete Time in the Circular Example
 
 The continuous trajectory is
@@ -277,8 +275,6 @@ The continuous and discrete systems are not different physical systems here. The
 * discrete time describes sampled instants.
 
 For video data, the pendulum moves continuously, but the camera records frames at discrete times. DMD sees the discrete samples.
-
----
 
 ## 15. Worked Example: A Parabola Is Not a Homogeneous 2D Linear ODE
 
@@ -382,8 +378,6 @@ This is an important lesson:
 
 > Moving along a simple curve does not automatically mean the motion comes from a homogeneous linear ODE in the original variables.
 
----
-
 ## 16. The Parabola as an Affine Linear System
 
 The natural equations for the parabola are
@@ -469,8 +463,6 @@ y(t)=t^2.
 $$
 
 The constant term $\vec{c}$ is what allows $x$ to start moving even when $x=0$ and $y=0$.
-
----
 
 ## 17. Lifting the Parabola to a Homogeneous Linear System
 
@@ -563,8 +555,6 @@ $$
 This is related to a broader idea: nonlinear or affine dynamics in one coordinate system can sometimes become linear after lifting the state into a richer feature space.
 
 This is conceptually related to Koopman-style thinking and to why DMD can sometimes discover useful linear structure in high-dimensional measurements.
-
----
 
 ## 18. The Nilpotent Matrix in the Parabola Example
 
