@@ -83,7 +83,7 @@ $$
 \vec{x}(t) = e^{A_c t}\vec{x}(0).
 $$
 
-So $e^{A_c t}$ is the time-$t$ flow map of the linear system.
+So $e^{A_c t}$ is the time-t flow map of the linear system.
 
 ---
 
