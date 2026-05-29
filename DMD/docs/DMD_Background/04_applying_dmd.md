@@ -343,23 +343,40 @@ $$
 
 This means that one matrix $A$ approximately advances each snapshot column of $X$ to the next snapshot column in $X'$:
 
+The DMD assumption is
+
 $$
-\begin{aligned}
-X'
-&\approx AX \\
+X' \approx AX.
+$$
+
+Expanding the snapshot matrices gives
+
+$$
+X' =
 \begin{bmatrix}
 \vec{x}_2 & \vec{x}_3 & \cdots & \vec{x}_m
 \end{bmatrix}
-&\approx
+$$
+
+and
+
+$$
+AX =
 A
 \begin{bmatrix}
 \vec{x}_1 & \vec{x}_2 & \cdots & \vec{x}_{m-1}
-\end{bmatrix} \\
-&=
+\end{bmatrix}
+=
 \begin{bmatrix}
 A\vec{x}_1 & A\vec{x}_2 & \cdots & A\vec{x}_{m-1}
-\end{bmatrix}
-\end{aligned}
+\end{bmatrix}.
+$$
+
+So column by column,
+
+$$
+A\vec{x}_j \approx \vec{x}_{j+1},
+\qquad j = 1,2,\ldots,m-1.
 $$
 
 So column by column, DMD is trying to make
