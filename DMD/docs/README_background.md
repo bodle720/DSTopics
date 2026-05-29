@@ -1987,7 +1987,325 @@ This makes the connection between physical time and frame-index time explicit.
 
 ---
 
-## 24. Summary
+## 24. Scaling, Rotation, and Frequency Interpretation
+
+DMD eigenvalues are usually complex, and complex eigenvalues are easiest to interpret in polar form.
+
+Suppose a discrete-time DMD eigenvalue is
+
+$$
+\lambda_i = r_i e^{i\theta_i}.
+$$
+
+Using Euler's formula,
+
+$$
+e^{i\theta_i} = \cos(\theta_i) + i\sin(\theta_i).
+$$
+
+So multiplying by $\lambda_i$ has two effects:
+
+1. $r_i$ scales the mode amplitude.
+2. $e^{i\theta_i}$ rotates the mode phase by $\theta_i$ radians.
+
+The complex factor $e^{i\theta_i}$ can also be represented as a real rotation matrix:
+
+$$
+R(\theta_i) =
+\begin{bmatrix}
+\cos(\theta_i) & -\sin(\theta_i) \
+\sin(\theta_i) & \cos(\theta_i)
+\end{bmatrix}.
+$$
+
+So multiplication by
+
+$$
+\lambda_i = r_i e^{i\theta_i}
+$$
+
+corresponds to scaling by $r_i$ and rotating by $\theta_i$.
+
+In matrix form, the corresponding scale-rotation action is
+
+$$
+r_iR(\theta_i)
+==============
+
+r_i
+\begin{bmatrix}
+\cos(\theta_i) & -\sin(\theta_i) \
+\sin(\theta_i) & \cos(\theta_i)
+\end{bmatrix}.
+$$
+
+For a discrete-time eigenpair,
+
+$$
+A_d\vec{v}_i = \lambda_i\vec{v}_i,
+$$
+
+repeated time stepping gives
+
+$$
+A_d^k\vec{v}_i = \lambda_i^k\vec{v}_i.
+$$
+
+Since
+
+$$
+\lambda_i^k = (r_i e^{i\theta_i})^k = r_i^k e^{ik\theta_i},
+$$
+
+the interpretation is:
+
+* $r_i^k$ controls amplitude after $k$ steps,
+* $e^{ik\theta_i}$ controls phase after $k$ steps,
+* $r_i$ is the amplitude multiplier per step,
+* $\theta_i$ is the phase advance per step.
+
+If one DMD step is one video frame, then $\theta_i$ is measured in radians per frame.
+
+The frequency in cycles per frame is
+
+$$
+f_{i,\mathrm{frame}} = \frac{\theta_i}{2\pi}.
+$$
+
+The corresponding period in frames is
+
+$$
+T_{i,\mathrm{frames}} = \frac{1}{|f_{i,\mathrm{frame}}|}.
+$$
+
+For real-valued data, such as grayscale video frames, complex eigenvalues usually appear in conjugate pairs:
+
+$$
+\lambda_i = r_i e^{i\theta_i},
+\qquad
+\overline{\lambda_i} = r_i e^{-i\theta_i}.
+$$
+
+The associated modes also appear as conjugate pairs. A single complex mode is not usually a directly observable real image by itself. Instead, the conjugate pair combines to produce a real oscillatory pattern.
+
+So a complex DMD eigenvalue does not usually mean that the entire image literally rotates. It means that a modal coefficient rotates in phase inside a two-dimensional oscillatory subspace.
+
+For the pendulum video, this kind of mode pair may represent the swinging motion of the arm and bob.
+
+---
+
+### Continuous-Time Interpretation
+
+In continuous time, write a continuous-time eigenvalue as
+
+$$
+\omega_i = \alpha_i + i\beta_i.
+$$
+
+The corresponding modal time factor is
+
+$$
+e^{\omega_i t}.
+$$
+
+Substituting $\omega_i = \alpha_i + i\beta_i$ gives
+
+$$
+e^{\omega_i t}
+= e^{(\alpha_i+i\beta_i)t}
+= e^{\alpha_i t}e^{i\beta_i t}.
+$$
+
+So the continuous-time interpretation parallels the discrete-time interpretation:
+
+* $e^{\alpha_i t}$ controls continuous growth or decay,
+* $e^{i\beta_i t}$ controls continuous oscillation,
+* $\alpha_i$ is the growth or decay rate per unit time,
+* $\beta_i$ is the angular frequency in radians per unit time.
+
+The physical frequency in cycles per unit time is
+
+$$
+f_i = \frac{\beta_i}{2\pi}.
+$$
+
+The corresponding period is
+
+$$
+T_i = \frac{1}{|f_i|}.
+$$
+
+So $\alpha_i$ and $\beta_i$ are continuous-time rate quantities, while $r_i$ and $\theta_i$ are discrete-time per-step quantities.
+
+---
+
+### Connecting the Discrete and Continuous Interpretations
+
+The discrete and continuous eigenvalues are related by
+
+$$
+\lambda_i = e^{\omega_i\Delta t}.
+$$
+
+Now write the continuous eigenvalue as
+
+$$
+\omega_i = \alpha_i + i\beta_i.
+$$
+
+Then
+
+$$
+\lambda_i
+= e^{(\alpha_i+i\beta_i)\Delta t}
+= e^{\alpha_i\Delta t}e^{i\beta_i\Delta t}.
+$$
+
+But the discrete eigenvalue can also be written as
+
+$$
+\lambda_i = r_i e^{i\theta_i}.
+$$
+
+Matching the two forms gives
+
+$$
+r_i = e^{\alpha_i\Delta t}
+$$
+
+and
+
+$$
+\theta_i = \beta_i\Delta t.
+$$
+
+Therefore,
+
+$$
+\alpha_i = \frac{\log(r_i)}{\Delta t}
+$$
+
+and
+
+$$
+\beta_i = \frac{\theta_i}{\Delta t}.
+$$
+
+This explains the real and imaginary parts of
+
+$$
+\omega_i = \frac{\log(\lambda_i)}{\Delta t}.
+$$
+
+The real part is
+
+$$
+\mathrm{Re}(\omega_i) = \alpha_i = \frac{\log(r_i)}{\Delta t}.
+$$
+
+The imaginary part is
+
+$$
+\mathrm{Im}(\omega_i) = \beta_i = \frac{\theta_i}{\Delta t}.
+$$
+
+So:
+
+* $r_i$ is the amplitude multiplier per frame,
+* $\alpha_i$ is the amplitude growth or decay rate per second,
+* $\theta_i$ is the phase advance per frame,
+* $\beta_i$ is the phase advance rate in radians per second.
+
+This is the main unit conversion:
+
+> The discrete eigenvalue says what happens per sample.
+> The continuous eigenvalue says what rate would produce that same effect per unit time.
+
+---
+
+### Example with Pendulum-Style Numbers
+
+Suppose a mode has one full oscillation every $2$ seconds. Then the physical frequency is
+
+$$
+f = \frac{1}{2} = 0.5
+$$
+
+cycles per second.
+
+The angular frequency is
+
+$$
+\beta = 2\pi f = \pi
+$$
+
+radians per second.
+
+If the video is sampled at $30$ frames per second, then
+
+$$
+\Delta t = \frac{1}{30}.
+$$
+
+The phase advance per frame is
+
+$$
+\theta = \beta\Delta t = \pi\frac{1}{30} = \frac{\pi}{30}.
+$$
+
+So the corresponding discrete eigenvalue, assuming no growth or decay, is
+
+$$
+\lambda = e^{i\pi/30}.
+$$
+
+This means the modal phase advances by
+
+$$
+\frac{\pi}{30}
+$$
+
+radians per frame, or $6^\circ$ per frame.
+
+The cycles per frame are
+
+$$
+f_{\mathrm{frame}}
+==================
+
+# \frac{\theta}{2\pi}
+
+# \frac{\pi/30}{2\pi}
+
+\frac{1}{60}.
+$$
+
+So the mode completes one full cycle every $60$ frames.
+
+This agrees with the physical timing:
+
+$$
+30 \text{ frames/second} \times 2 \text{ seconds/cycle} = 60 \text{ frames/cycle}.
+$$
+
+For the synthetic pendulum notebook, this is why it is useful to report both:
+
+* frequency in cycles per second,
+* frequency in cycles per frame,
+* period in seconds,
+* period in frames.
+
+The DMD eigenvalue $\lambda_i$ is learned from frame-to-frame evolution. The continuous-time value $\omega_i$ is inferred from $\lambda_i$ using the known frame spacing $\Delta t = 1/\mathrm{fps}$.
+
+For a strong pendulum DMD result, one of the dominant non-background oscillatory modes should have:
+
+* $|\lambda_i| \approx 1$, meaning persistent oscillation,
+* an angle $\theta_i$ close to the true phase advance per frame,
+* and a continuous-time frequency close to the known pendulum frequency.
+
+---
+
+## 25. Summary
 
 In exact continuous-time theory:
 
