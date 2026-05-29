@@ -29,8 +29,6 @@ $$
 
 The notation $e^{A_c t}$ is called the matrix exponential.
 
----
-
 ## 2. What Does $e^{A_c t}$ Mean?
 
 The expression $e^{A_c t}$ is not an ordinary scalar exponential. It is a matrix.
@@ -85,8 +83,6 @@ $$
 
 So $e^{A_c t}$ is the time-t flow map of the linear system.
 
----
-
 ## 3. Matrix Exponential Through Eigenvalues
 
 If $A_c$ is diagonalizable, then
@@ -131,8 +127,6 @@ So the matrix exponential evolves each eigenvector direction independently.
 
 This is the main reason eigenvalues and eigenvectors are useful for linear dynamical systems. In the eigenvector basis, the system separates into independent modal pieces.
 
----
-
 ## 4. Modes
 
 A mode is a spatial pattern associated with simple time evolution.
@@ -173,8 +167,6 @@ The state stays in the same eigenvector direction. Only its scalar multiplier ch
 This is why eigenvectors are dynamically important: they are directions that do not get mixed with other directions by the linear dynamics.
 
 In applied DMD language, the word mode is often used for the spatial pattern $\phi_i$ that is paired with a specific eigenvalue $\lambda_i$. Strictly speaking, the mode is the spatial vector, while the eigenvalue controls how that vector evolves in time.
-
----
 
 ## 5. General ODE Solution as a Sum of Modes
 
@@ -354,8 +346,6 @@ This is the main modal interpretation of a linear dynamical system:
 
 > Decompose the initial state into eigenvector directions, evolve each direction independently according to its eigenvalue, and add the pieces back together.
 
----
-
 ## 6. Discrete-Time Dynamics
 
 DMD is usually computed from discrete snapshots.
@@ -419,8 +409,6 @@ The most important distinction is:
 
 * $\omega_i$ is a continuous-time eigenvalue, or rate per unit time.
 * $\lambda_i$ is a discrete-time eigenvalue, or multiplier per sample step.
-
----
 
 ## 7. Why Eigenvalues Describe Growth, Decay, and Oscillation
 
@@ -493,8 +481,6 @@ A discrete eigenvalue $\lambda_i = r_i e^{i\theta_i}$ says:
 
 So $\lambda_i$ is a per-step update rule for a mode.
 
----
-
 ## 8. Continuous-Time Complex Eigenvalues
 
 In continuous time, suppose an eigenvalue is complex:
@@ -542,8 +528,6 @@ A continuous eigenvalue $\omega_i = \alpha_i + i\beta_i$ says:
 > The mode grows or decays at rate $\alpha_i$ per unit time and oscillates at angular frequency $\beta_i$ radians per unit time.
 
 So $\omega_i$ is a continuous-time rate, not a per-step multiplier.
-
----
 
 ## 9. Connecting Continuous and Discrete Time
 
@@ -628,8 +612,6 @@ $$
 The first formula is the time-$k$ solution from the initial condition.
 
 The second formula is the one-step transition from sample $k$ to sample $k+1$.
-
----
 
 ## 10. Why $e^{A_c\Delta t}\vec{v}_i = e^{\omega_i\Delta t}\vec{v}_i$
 
@@ -723,8 +705,6 @@ $$
 \omega_i = \frac{\log(\lambda_i)}{\Delta t}.
 $$
 
----
-
 ## 11. Interpreting $\lambda_i$ and $\omega_i$
 
 The discrete-time eigenvalue $\lambda_i$ describes what happens to a mode from one snapshot to the next.
@@ -784,8 +764,6 @@ In that case, frequencies are measured in cycles per frame.
 Both are valid time coordinates, but they answer different questions.
 
 For the synthetic pendulum video, the physical interpretation is usually more useful because the generator defines a period in seconds. It is still useful to also report cycles per frame, because DMD is fit to frame-to-frame data.
-
----
 
 ## 12. The Limit View: How the Exponential Arises
 
