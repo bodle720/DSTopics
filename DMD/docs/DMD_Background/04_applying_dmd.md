@@ -146,8 +146,7 @@ $$
 is the matrix whose columns are eigenvectors of $A$, and
 
 $$
-\Lambda =
-\operatorname{diag}(\lambda_1, \lambda_2, \dots, \lambda_n)
+\Lambda = \mathrm{diag}(\lambda_1, \lambda_2, \dots, \lambda_n)
 $$
 
 is the diagonal matrix of eigenvalues.
@@ -156,16 +155,14 @@ Substituting the eigendecomposition of $A$ into the solution gives
 
 $$
 \vec{x}(t)
-=
-V e^{\Lambda t} V^{-1}\vec{x}(0).
+= V e^{\Lambda t} V^{-1}\vec{x}(0).
 $$
 
 Because $\Lambda$ is diagonal, its matrix exponential is easy to interpret:
 
 $$
 e^{\Lambda t}
-=
-\begin{pmatrix}
+= \begin{pmatrix}
 e^{\lambda_1 t} & 0 & \cdots & 0 \\
 0 & e^{\lambda_2 t} & \cdots & 0 \\
 \vdots & \vdots & \ddots & \vdots \\
@@ -177,10 +174,8 @@ Therefore,
 
 $$
 \vec{x}(t)
-=
-V e^{\Lambda t} V^{-1}\vec{x}(0)
-=
-V
+= V e^{\Lambda t} V^{-1}\vec{x}(0)
+= V
 \begin{pmatrix}
 e^{\lambda_1 t} & 0 & \cdots & 0 \\
 0 & e^{\lambda_2 t} & \cdots & 0 \\
@@ -196,8 +191,7 @@ Equivalently, the solution can be written as
 
 $$
 \vec{x}(t)
-=
-\sum_{i=1}^{n} b_i \vec{v}_i e^{\lambda_i t}.
+= \sum_{i=1}^{n} b_i \vec{v}_i e^{\lambda_i t}.
 $$
 
 This expression is important.
@@ -208,8 +202,7 @@ The vector of coefficients
 
 $$
 \vec{b}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 b_1 \\
 b_2 \\
 \vdots \\
@@ -235,8 +228,7 @@ So the formula
 
 $$
 \vec{x}(t)
-=
-\sum_{i=1}^{n} b_i \vec{v}_i e^{\lambda_i t}
+= \sum_{i=1}^{n} b_i \vec{v}_i e^{\lambda_i t}
 $$
 
 can be read as:
@@ -312,22 +304,19 @@ $$
 DMD forms two snapshot matrices:
 
 $$
-X =
-[\vec{x}_1 \; \vec{x}_2 \; \cdots \; \vec{x}_{m-1}]
+X =[\vec{x}_1 \; \vec{x}_2 \; \cdots \; \vec{x}_{m-1}]
 $$
 
 and
 
 $$
-X' =
-[\vec{x}_2 \; \vec{x}_3 \; \cdots \; \vec{x}_{m}].
+X' =[\vec{x}_2 \; \vec{x}_3 \; \cdots \; \vec{x}_{m}].
 $$
 
 Equivalently, using a more visual column notation,
 
 $$
-X =
-\begin{bmatrix}
+X = \begin{bmatrix}
 | & | &  & | \\
 \vec{x}_1 & \vec{x}_2 & \cdots & \vec{x}_{m-1} \\
 | & | &  & |
@@ -337,8 +326,7 @@ $$
 and
 
 $$
-X' =
-\begin{bmatrix}
+X' = \begin{bmatrix}
 | & | &  & | \\
 \vec{x}_2 & \vec{x}_3 & \cdots & \vec{x}_{m} \\
 | & | &  & |
@@ -367,8 +355,7 @@ A
 \begin{bmatrix}
 \vec{x}_1 & \vec{x}_2 & \cdots & \vec{x}_{m-1}
 \end{bmatrix} \\[4pt]
-&=
-\begin{bmatrix}
+&= \begin{bmatrix}
 A\vec{x}_1 & A\vec{x}_2 & \cdots & A\vec{x}_{m-1}
 \end{bmatrix}.
 \end{aligned}
@@ -378,8 +365,7 @@ So column by column, DMD is trying to make
 
 $$
 A\vec{x}_i \approx \vec{x}_{i+1},
-\qquad
-i = 1,2,\ldots,m-1.
+\qquad i = 1,2,\ldots,m-1.
 $$
 
 In this setup, each $\vec{x}_{i+1}$ is $\Delta t$ units of time after $\vec{x}_i$.
@@ -486,16 +472,14 @@ At those sampled times, the continuous-time mode becomes
 
 $$
 e^{\omega_i t_k}
-=
-e^{\omega_i k\Delta t}.
+= e^{\omega_i k\Delta t}.
 $$
 
 Using exponent rules, this can be rewritten as
 
 $$
 e^{\omega_i k\Delta t}
-=
-\left(e^{\omega_i \Delta t}\right)^k.
+= \left(e^{\omega_i \Delta t}\right)^k.
 $$
 
 But the DMD discrete-time evolution of the same mode has the form
@@ -592,26 +576,22 @@ Then
 
 $$
 \log(\lambda_i)
-=
-\log(r_i) + i\theta_i.
+= \log(r_i) + i\theta_i.
 $$
 
 Therefore
 
 $$
 \omega_i
-=
-\frac{\log(r_i)}{\Delta t}
-+
-i\frac{\theta_i}{\Delta t}.
+= \frac{\log(r_i)}{\Delta t}
++i\frac{\theta_i}{\Delta t}.
 $$
 
 The real part is
 
 $$
-\operatorname{Re}(\omega_i)
-=
-\frac{\log(r_i)}{\Delta t}.
+\mathrm{Re}(\omega_i)
+= \frac{\log(r_i)}{\Delta t}.
 $$
 
 This is the continuous-time growth or decay rate.
@@ -619,9 +599,8 @@ This is the continuous-time growth or decay rate.
 The imaginary part is
 
 $$
-\operatorname{Im}(\omega_i)
-=
-\frac{\theta_i}{\Delta t}.
+\mathrm{Im}(\omega_i)
+= \frac{\theta_i}{\Delta t}.
 $$
 
 This is an angular frequency measured in radians per unit time.
@@ -629,7 +608,7 @@ This is an angular frequency measured in radians per unit time.
 To convert angular frequency to ordinary frequency in cycles per unit time, divide by $2\pi$:
 
 $$
-f_i = \frac{\operatorname{Im}(\omega_i)}{2\pi}.
+f_i = \frac{\mathrm{Im}(\omega_i)}{2\pi}.
 $$
 
 If $f_i \neq 0$, the corresponding period is
@@ -655,8 +634,8 @@ seconds per frame.
 With this choice:
 
 - $\omega_i$ has units of inverse seconds,
-- $\operatorname{Re}(\omega_i)$ is a growth or decay rate per second,
-- $\operatorname{Im}(\omega_i)$ is an angular frequency in radians per second,
+- $\mathrm{Re}(\omega_i)$ is a growth or decay rate per second,
+- $\mathrm{Im}(\omega_i)$ is an angular frequency in radians per second,
 - $f_i$ is a frequency in cycles per second,
 - and $T_i$ is a period in seconds.
 
@@ -669,8 +648,7 @@ There is one subtle numerical issue. The complex logarithm is multi-valued becau
 
 $$
 \log(\lambda_i)
-=
-\log(r_i) + i(\theta_i + 2\pi q),
+= \log(r_i) + i(\theta_i + 2\pi q),
 \qquad q \in \mathbb{Z}.
 $$
 
@@ -743,7 +721,7 @@ The key assumption is that the high-dimensional data has useful low-rank structu
 
 That is, even though each video frame has many pixels, most of the important variation may be described by a much smaller number of dominant spatial-temporal patterns. In other words, we hope that we can reduce the dimension and still capture most of the important variation in the data.
 
-This is closely related to Principal Component Analysis (PCA). PCA uses the singular value decomposition to identify dominant directions of variation in data. DMD also uses the SVD, but then goes further by estimating how the reduced coordinates evolve through time. See my [notebook on PCA](../PCA_linear/pca_linear_oscillation_system.ipynb) for a related discussion of dimensionality reduction and low-rank approximation.
+This is closely related to Principal Component Analysis (PCA). PCA uses the singular value decomposition to identify dominant directions of variation in data. DMD also uses the SVD, but then goes further by estimating how the reduced coordinates evolve through time. See my [notebook on PCA](/PCA_linear/pca_linear_oscillation_system.ipynb) for a related discussion of dimensionality reduction and low-rank approximation.
 
 ### Step 1: Compute the SVD and Choose $r$
 
@@ -798,9 +776,7 @@ $$
 the reduced operator can be computed without explicitly forming $A$:
 
 $$
-\tilde{A}
-=
-U_r^* X' V_r \Sigma_r^{-1}.
+\tilde{A} = U_r^* X' V_r \Sigma_r^{-1}.
 $$
 
 The matrix $\tilde{A}$ has shape
@@ -853,9 +829,7 @@ However, our original data lives in $n$-dimensional space. For video data, $n$ i
 To obtain the DMD modes, we compute
 
 $$
-\Phi
-=
-A U_r W.
+\Phi = A U_r W.
 $$
 
 Here, $U_r W$ maps the reduced eigenvectors back toward the original state space, and the multiplication by $A$ advances those mapped vectors through the learned time dynamics.
@@ -863,9 +837,7 @@ Here, $U_r W$ maps the reduced eigenvectors back toward the original state space
 In practice, we do not explicitly form the full matrix $A$. Instead, we use the data-driven expression
 
 $$
-\Phi
-=
-X' V_r \Sigma_r^{-1} W.
+\Phi = X' V_r \Sigma_r^{-1} W.
 $$
 
 These two expressions are connected through the truncated SVD approximation used in DMD.
@@ -879,17 +851,13 @@ $$
 Using this approximation, the least-squares transition operator can be written approximately as
 
 $$
-A
-\approx
-X' V_r \Sigma_r^{-1} U_r^*.
+A \approx X' V_r \Sigma_r^{-1} U_r^*.
 $$
 
 Therefore,
 
 $$
-A U_r W
-\approx
-X' V_r \Sigma_r^{-1} U_r^* U_r W.
+A U_r W \approx X' V_r \Sigma_r^{-1} U_r^* U_r W.
 $$
 
 Since the columns of $U_r$ are orthonormal,
@@ -901,24 +869,19 @@ $$
 So,
 
 $$
-A U_r W
-\approx
-X' V_r \Sigma_r^{-1} W.
+A U_r W \approx X' V_r \Sigma_r^{-1} W.
 $$
 
 This gives the exact DMD mode formula:
 
 $$
-\Phi
-=
-X' V_r \Sigma_r^{-1} W.
+\Phi = X' V_r \Sigma_r^{-1} W.
 $$
 
 The columns of $\Phi$ are called the **DMD modes**:
 
 $$
-\Phi =
-[\phi_1 \; \phi_2 \; \cdots \; \phi_r].
+\Phi =[\phi_1 \; \phi_2 \; \cdots \; \phi_r].
 $$
 
 Each mode $\phi_i$ is an $n$-dimensional spatial pattern in the original state space. For video data, this means each DMD mode can be reshaped back into the shape of a video frame and viewed as an image.
@@ -957,11 +920,7 @@ $$
 Repeated application of $A$ then gives
 
 $$
-\vec{x}_k
-=
-A\vec{x}_{k-1}
-\approx
-\Phi \Lambda^{k-1} \Phi^{-1}\vec{x}_1.
+\vec{x}_k = A\vec{x}_{k-1} \approx \Phi \Lambda^{k-1} \Phi^{-1}\vec{x}_1.
 $$
 
 This expression says that the state at time step $k$ can be approximated by decomposing the initial state into DMD modes, evolving each mode forward in time using the corresponding eigenvalue, and then mapping the result back into the original state space.
@@ -981,26 +940,20 @@ $$
 Then the DMD reconstruction formula becomes
 
 $$
-\vec{x}_k
-\approx
-\Phi \Lambda^{k-1} \vec{b}.
+\vec{x}_k \approx \Phi \Lambda^{k-1} \vec{b}.
 $$
 
 Equivalently, in modal-sum form,
 
 $$
-\vec{x}_k
-\approx
-\sum_{i=1}^{r}
-\phi_i \lambda_i^{k-1} b_i.
+\vec{x}_k \approx \sum_{i=1}^{r} \phi_i \lambda_i^{k-1} b_i.
 $$
 
 This is the discrete-time analog of the continuous-time modal solution
 
 $$
 \vec{x}(t)
-=
-\sum_{i=1}^{n}
+= \sum_{i=1}^{n}
 b_i \vec{v}_i e^{\lambda_i t}.
 $$
 
@@ -1047,9 +1000,7 @@ $$
 Then an $s$-step forecast from that state is
 
 $$
-\vec{x}_{j+s}
-\approx
-\Phi \Lambda^s \vec{b}_j.
+\vec{x}_{j+s} \approx \Phi \Lambda^s \vec{b}_j.
 $$
 
 Here:
