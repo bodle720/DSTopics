@@ -514,9 +514,7 @@ For example, a background reconstruction can be formed using a subset of modes:
 
 $$
 \hat{\vec{x}}_{k,\mathrm{background}}
-=====================================
-
-\Phi_{\mathrm{background}}
+=\Phi_{\mathrm{background}}
 \Lambda_{\mathrm{background}}^{k-1}
 \vec{b}_{\mathrm{background}}.
 $$
@@ -525,9 +523,7 @@ Then a foreground estimate can be formed from the residual:
 
 $$
 \hat{\vec{x}}_{k,\mathrm{foreground}}
-=====================================
-
-\vec{x}*k - \hat{\vec{x}}*{k,\mathrm{background}}.
+=\vec{x}*k - \hat{\vec{x}}*{k,\mathrm{background}}.
 $$
 
 In practice, the foreground image may use the absolute value of the residual:
