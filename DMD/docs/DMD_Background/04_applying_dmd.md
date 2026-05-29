@@ -346,7 +346,7 @@ This means that one matrix $A$ approximately advances each snapshot column of $X
 $$
 \begin{aligned}
 X'
-&\approx AX \\[4pt]
+&\approx AX \\
 \begin{bmatrix}
 \vec{x}_2 & \vec{x}_3 & \cdots & \vec{x}_m
 \end{bmatrix}
@@ -354,10 +354,11 @@ X'
 A
 \begin{bmatrix}
 \vec{x}_1 & \vec{x}_2 & \cdots & \vec{x}_{m-1}
-\end{bmatrix} \\[4pt]
-&= \begin{bmatrix}
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
 A\vec{x}_1 & A\vec{x}_2 & \cdots & A\vec{x}_{m-1}
-\end{bmatrix}.
+\end{bmatrix}
 \end{aligned}
 $$
 
