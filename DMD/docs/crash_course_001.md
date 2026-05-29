@@ -1327,3 +1327,5 @@ $$
 The constant term $\vec{c}$ is what allows $x$ to start moving even when $x=0$ and $y=0$.
 
 ---
+
+See [part 2 next.](crash_course_002.md)

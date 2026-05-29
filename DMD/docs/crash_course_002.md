@@ -1,3 +1,5 @@
+# Part 2: Prerequisite Topics
+
 ## 17. Lifting the Parabola to a Homogeneous Linear System
 
 The affine system can be converted into a homogeneous linear system by adding a constant feature.
@@ -683,7 +685,7 @@ The complex factor $e^{i\theta_i}$ can also be represented as a real rotation ma
 $$
 R(\theta_i) =
 \begin{bmatrix}
-\cos(\theta_i) & -\sin(\theta_i) \
+\cos(\theta_i) & -\sin(\theta_i) \\
 \sin(\theta_i) & \cos(\theta_i)
 \end{bmatrix}.
 $$
@@ -700,11 +702,9 @@ In matrix form, the corresponding scale-rotation action is
 
 $$
 r_iR(\theta_i)
-==============
-
-r_i
+= r_i
 \begin{bmatrix}
-\cos(\theta_i) & -\sin(\theta_i) \
+\cos(\theta_i) & -\sin(\theta_i) \\
 \sin(\theta_i) & \cos(\theta_i)
 \end{bmatrix}.
 $$
@@ -941,13 +941,9 @@ The cycles per frame are
 
 $$
 f_{\mathrm{frame}}
-==================
-
-# \frac{\theta}{2\pi}
-
-# \frac{\pi/30}{2\pi}
-
-\frac{1}{60}.
+=\frac{\theta}{2\pi}
+=\frac{\pi/30}{2\pi}
+=\frac{1}{60}.
 $$
 
 So the mode completes one full cycle every $60$ frames.
