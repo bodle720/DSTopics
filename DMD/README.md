@@ -40,7 +40,8 @@ DMD/
     └── synthetic_pendulum/
 ```
 
-`outputs/` contains generated frames, masks, metadata, ground-truth coordinates, and preview artifacts. It is treated as generated output rather than source material.
+`outputs/` contains generated frames, masks, metadata, ground-truth coordinates, and preview artifacts. It is treated as generated output rather than source material. It 
+is only created after running _make_synthetic_pendulum.py_
 
 ## Generate the Synthetic Pendulum Data
 
