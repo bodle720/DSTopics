@@ -706,7 +706,7 @@ This is typical in applications of DMD, especially when the number of features i
 
 The practical DMD procedure can be summarized as follows:
 
-1. Approximate the data matrix $X$ using a rank-$r$ truncation from the Singular Value Decomposition.
+1. Approximate the data matrix $X$ using a rank-r truncation from the Singular Value Decomposition.
 2. Use the SVD factors to build an $r \times r$ reduced substitute for the full operator $A$, denoted $\tilde{A}$.
 3. Compute the eigenvectors and eigenvalues of $\tilde{A}$.
 4. Map those reduced eigenvectors and eigenvalues back to the original state space to obtain DMD modes and the desired modal approximation.
@@ -723,7 +723,7 @@ This is closely related to Principal Component Analysis (PCA). PCA uses the sing
 
 ### Step 1: Compute the SVD and Choose $r$
 
-The first step is to compute a rank-$r$ truncated SVD of the snapshot matrix $X$:
+The first step is to compute a rank-r truncated SVD of the snapshot matrix $X$:
 
 $$
 X \approx U_r \Sigma_r V_r^*.
@@ -737,7 +737,7 @@ Here:
 - $V_r^*$ denotes the conjugate transpose of $V_r$,
 - and $r$ is the chosen truncation rank.
 
-The columns of $U_r$ store the $r$ dominant left singular vectors. These vectors define the reduced subspace and act as the key for transforming between the original $n$-dimensional state space and the lower-dimensional rank-$r$ approximation.
+The columns of $U_r$ store the $r$ dominant left singular vectors. These vectors define the reduced subspace and act as the key for transforming between the original $n$-dimensional state space and the lower-dimensional rank-r approximation.
 
 The choice of $r$ is important and has been the subject of much research. A simple first approach is to inspect the singular values, often on a log plot, and choose a cutoff where the values decay sharply or become small. A more careful approach may use energy thresholds, noise-aware rank selection, cross-validation, or application-specific criteria.
 
@@ -755,7 +755,7 @@ $$
 \tilde{A} = U_r^* A U_r.
 $$
 
-This matrix represents the dynamics projected into the rank-$r$ subspace spanned by the columns of $U_r$. It is a similarity-transform-style reduced representation of the full transition dynamics.
+This matrix represents the dynamics projected into the rank-r subspace spanned by the columns of $U_r$. It is a similarity-transform-style reduced representation of the full transition dynamics.
 
 Using
 
