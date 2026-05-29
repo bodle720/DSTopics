@@ -1,10 +1,9 @@
-# Modes, Eigenvalues, Matrix Exponentials, and DMD
+# Part 1: Modes, Eigenvalues, Matrix Exponentials, and DMD
 
 This series of notes gives background for understanding Dynamic Mode Decomposition (DMD), especially the relationship between continuous-time dynamics, discrete-time dynamics, eigenvalues, modes, matrix exponentials, and video data.
 
 See [part 2](02_a_couple_examples.md) after this note.
 
----
 
 ## 1. Linear Dynamics in Continuous Time
 

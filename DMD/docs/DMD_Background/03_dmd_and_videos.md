@@ -2,8 +2,6 @@
 
 This is a continuation of [part 1](01_modes_and_eigenvalues.md) and [part 2](02_a_couple_examples.md).
 
----
-
 DMD is easiest to understand as a data-driven method for discovering approximate linear dynamical structure from a sequence of snapshots.
 
 For a video, each snapshot is a frame. After flattening each frame into a vector, DMD tries to represent the video as a sum of spatial patterns that each evolve in time according to a simple exponential rule.

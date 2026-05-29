@@ -2,8 +2,6 @@
 
 This is a continuation of [part 1](01_modes_and_eigenvalues.md). This note goes over a couple easy to visualize examples.
 
----
-
 ## 13. Worked Example: Circular Motion
 
 A clean example for understanding modes, eigenvalues, oscillation, and the continuous/discrete relationship is circular motion.
