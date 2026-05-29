@@ -1,0 +1,820 @@
+# Part 2: A Couple Worked Examples.
+
+This is a continuation of [part 1](01_modes_and_eigenvalues.md). This note goes over a couple easy to visualize examples.
+
+---
+
+## 13. Worked Example: Circular Motion
+
+A clean example for understanding modes, eigenvalues, oscillation, and the continuous/discrete relationship is circular motion.
+
+Let $s$ be a physical angular speed in radians per second. Use $s$ instead of $\omega$ here to avoid confusing the angular speed parameter with the continuous-time eigenvalues $\omega_i$.
+
+Consider
+
+$$
+\frac{d}{dt}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
+= A_c
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix},
+$$
+
+where
+
+$$
+A_c =
+\begin{bmatrix}
+0 & -s \\
+s & 0
+\end{bmatrix}.
+$$
+
+This means
+
+$$
+\frac{dx}{dt} = -sy,
+$$
+
+and
+
+$$
+\frac{dy}{dt} = sx.
+$$
+
+This system rotates points around the origin.
+
+To see this, compute the derivative of the squared radius:
+
+$$
+\frac{d}{dt}(x^2+y^2) = 2x\frac{dx}{dt} + 2y\frac{dy}{dt}.
+$$
+
+Substitute the ODE:
+
+$$
+\frac{d}{dt}(x^2+y^2) = 2x(-sy) + 2y(sx).
+$$
+
+Therefore,
+
+$$
+\frac{d}{dt}(x^2+y^2) = -2sxy + 2sxy = 0.
+$$
+
+So $x^2+y^2$ is constant. The trajectory stays on a circle centered at the origin.
+
+If the initial condition is
+
+$$
+\vec{x}(0) =
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix},
+$$
+
+then the solution is
+
+$$
+\vec{x}(t) =
+\begin{bmatrix}
+\cos(st) \\
+\sin(st)
+\end{bmatrix}.
+$$
+
+So the continuous trajectory is a smooth circle.
+
+The matrix exponential for this system is a rotation matrix:
+
+$$
+e^{A_c t} =
+\begin{bmatrix}
+\cos(st) & -\sin(st) \\
+\sin(st) & \cos(st)
+\end{bmatrix}.
+$$
+
+Thus
+
+$$
+\vec{x}(t) = e^{A_c t}\vec{x}(0)
+$$
+
+means:
+
+> Rotate the initial state by angle $st$ radians.
+
+The continuous-time eigenvalues of $A_c$ are
+
+$$
+\omega_1 = is,
+$$
+
+and
+
+$$
+\omega_2 = -is.
+$$
+
+These have zero real part and nonzero imaginary part, so they produce oscillation without growth or decay.
+
+Now suppose the system is sampled every $\Delta t$ seconds. The sampled states are
+
+$$
+\vec{x}_k = \vec{x}(k\Delta t).
+$$
+
+The one-step discrete map is
+
+$$
+A_d = e^{A_c\Delta t}.
+$$
+
+For the circular-motion system,
+
+$$
+A_d =
+\begin{bmatrix}
+\cos(s\Delta t) & -\sin(s\Delta t) \\
+\sin(s\Delta t) & \cos(s\Delta t)
+\end{bmatrix}.
+$$
+
+So the discrete system is
+
+$$
+\vec{x}_{k+1} = A_d\vec{x}_k.
+$$
+
+This means:
+
+> Each discrete step rotates the point by $s\Delta t$ radians.
+
+The discrete-time eigenvalues are
+
+$$
+\lambda_1 = e^{is\Delta t},
+$$
+
+and
+
+$$
+\lambda_2 = e^{-is\Delta t}.
+$$
+
+These lie on the unit circle because their magnitudes are $1$.
+
+So the continuous-time and discrete-time eigenvalues are connected by
+
+$$
+\lambda_i = e^{\omega_i\Delta t}.
+$$
+
+For example, from $\omega_1 = is$,
+
+$$
+\lambda_1 = e^{is\Delta t}.
+$$
+
+The continuous eigenvalue $\omega_1=is$ says:
+
+> The mode oscillates at angular frequency $s$ radians per second.
+
+The discrete eigenvalue $\lambda_1=e^{is\Delta t}$ says:
+
+> The mode advances its phase by $s\Delta t$ radians per sampled step.
+
+If $s=\pi$ radians per second, then the physical frequency is
+
+$$
+f = \frac{s}{2\pi} = \frac{1}{2}.
+$$
+
+So the system completes $0.5$ cycles per second, or one full cycle every $2$ seconds.
+
+If the system is sampled at $30$ frames per second, then
+
+$$
+\Delta t = \frac{1}{30}.
+$$
+
+The discrete eigenvalue is
+
+$$
+\lambda = e^{i\pi/30}.
+$$
+
+That means each frame advances the phase by
+
+$$
+\frac{\pi}{30}
+$$
+
+radians, or $6^\circ$ per frame.
+
+After $60$ frames,
+
+$$
+\lambda^{60} = \left(e^{i\pi/30}\right)^{60} = e^{i2\pi} = 1.
+$$
+
+So the system completes one full cycle every $60$ frames.
+
+
+$$
+\text{frames/cycle} = \frac{30 \text{ frames/second}}{0.5 \text{ cycles/second}} = 60 \text{ frames/cycle}.
+$$
+
+So this system can be interpreted in both units:
+
+* $0.5$ cycles per second,
+* $1/60$ cycles per frame,
+* $2$ seconds per cycle,
+* $60$ frames per cycle.
+
+---
+
+## 14. Continuous Time Versus Discrete Time in the Circular Example
+
+The continuous trajectory is
+
+$$
+\vec{x}(t) =
+\begin{bmatrix}
+\cos(st) \\
+\sin(st)
+\end{bmatrix}.
+$$
+
+This gives the state at every possible time $t$.
+
+The discrete sampled trajectory is
+
+$$
+\vec{x}_k =
+\begin{bmatrix}
+\cos(sk\Delta t) \\
+\sin(sk\Delta t)
+\end{bmatrix}.
+$$
+
+This gives the state only at sampled times.
+
+So the continuous system moves smoothly around the circle, while the discrete system jumps from one sampled point to the next.
+
+If $\Delta t$ is small, the sampled points are close together and look like a smooth circle.
+
+If $\Delta t$ is large, the sampled points are spread farther apart.
+
+The continuous and discrete systems are not different physical systems here. They are two descriptions of the same motion:
+
+* continuous time describes every instant,
+* discrete time describes sampled instants.
+
+For video data, the pendulum moves continuously, but the camera records frames at discrete times. DMD sees the discrete samples.
+
+---
+
+## 15. Worked Example: A Parabola Is Not a Homogeneous 2D Linear ODE
+
+Consider the curve
+
+$$
+x(t)=t,
+$$
+
+and
+
+$$
+y(t)=t^2.
+$$
+
+Then the state is
+
+$$
+\vec{z}(t) =
+\begin{bmatrix}
+x(t) \\
+y(t)
+\end{bmatrix}
+= \begin{bmatrix}
+t \\
+t^2
+\end{bmatrix}.
+$$
+
+The derivative is
+
+$$
+\frac{d\vec{z}}{dt} =
+\begin{bmatrix}
+1 \\
+2t
+\end{bmatrix}.
+$$
+
+Suppose there were a constant $2 \times 2$ matrix
+
+$$
+A =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+such that
+
+$$
+\frac{d\vec{z}}{dt} = A\vec{z}.
+$$
+
+Then we would need
+
+$$
+\begin{bmatrix}
+1 \\
+2t
+\end{bmatrix}
+= \begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\begin{bmatrix}
+t \\
+t^2
+\end{bmatrix}
+= \begin{bmatrix}
+at + bt^2 \\
+ct + dt^2
+\end{bmatrix}.
+$$
+
+The first component would require
+
+$$
+1 = at + bt^2
+$$
+
+for all $t$. This is impossible, because the right side has no constant term. At $t=0$, it gives $1=0$.
+
+So there is no constant $2 \times 2$ matrix $A$ such that
+
+$$
+\frac{d}{dt}
+\begin{bmatrix}
+t \\
+t^2
+\end{bmatrix}
+= A
+\begin{bmatrix}
+t \\
+t^2
+\end{bmatrix}.
+$$
+
+This is an important lesson:
+
+> Moving along a simple curve does not automatically mean the motion comes from a homogeneous linear ODE in the original variables.
+
+---
+
+## 16. The Parabola as an Affine Linear System
+
+The natural equations for the parabola are
+
+$$
+\frac{dx}{dt}=1,
+$$
+
+and
+
+$$
+\frac{dy}{dt}=2t.
+$$
+
+Since $x(t)=t$, the second equation can be written as
+
+$$
+\frac{dy}{dt}=2x.
+$$
+
+So the system is
+
+$$
+\frac{dx}{dt}=1,
+$$
+
+$$
+\frac{dy}{dt}=2x.
+$$
+
+In vector form,
+
+$$
+\frac{d}{dt}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
+= \begin{bmatrix}
+0 & 0 \\
+2 & 0
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
++\begin{bmatrix}
+1 \\
+0
+\end{bmatrix}
+$$
+
+This has the form
+
+$$
+\vec{z}' = A\vec{z} + \vec{c}.
+$$
+
+So the parabola is an affine linear system, not a homogeneous linear system.
+
+With initial condition
+
+$$
+x(0)=0,
+$$
+
+and
+
+$$
+y(0)=0,
+$$
+
+the solution is
+
+$$
+x(t)=t,
+$$
+
+and
+
+$$
+y(t)=t^2.
+$$
+
+The constant term $\vec{c}$ is what allows $x$ to start moving even when $x=0$ and $y=0$.
+
+---
+
+## 17. Lifting the Parabola to a Homogeneous Linear System
+
+The affine system can be converted into a homogeneous linear system by adding a constant feature.
+
+Define an augmented state
+
+$$
+\vec{s}(t) =
+\begin{bmatrix}
+1 \\
+x(t) \\
+y(t)
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+\frac{d}{dt}
+\begin{bmatrix}
+1 \\
+x \\
+y
+\end{bmatrix}
+=\begin{bmatrix}
+0 \\
+1 \\
+2x
+\end{bmatrix}.
+$$
+
+This can be written as
+
+$$
+\frac{d\vec{s}}{dt} = B\vec{s},
+$$
+
+where
+
+$$
+B =
+\begin{bmatrix}
+0 & 0 & 0 \\
+1 & 0 & 0 \\
+0 & 2 & 0
+\end{bmatrix}.
+$$
+
+Check:
+
+$$
+B
+\begin{bmatrix}
+1 \\
+x \\
+y
+\end{bmatrix}
+= \begin{bmatrix}
+0 \\
+1 \\
+2x
+\end{bmatrix}.
+$$
+
+So the parabola becomes a homogeneous linear ODE in the augmented state space.
+
+With
+
+$$
+\vec{s}(0) =
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix},
+$$
+
+the solution is
+
+$$
+\vec{s}(t) =
+\begin{bmatrix}
+1 \\
+t \\
+t^2
+\end{bmatrix}.
+$$
+
+This is related to a broader idea: nonlinear or affine dynamics in one coordinate system can sometimes become linear after lifting the state into a richer feature space.
+
+This is conceptually related to Koopman-style thinking and to why DMD can sometimes discover useful linear structure in high-dimensional measurements.
+
+---
+
+## 18. The Nilpotent Matrix in the Parabola Example
+
+The lifted parabola matrix is
+
+$$
+B =
+\begin{bmatrix}
+0 & 0 & 0 \\
+1 & 0 & 0 \\
+0 & 2 & 0
+\end{bmatrix}.
+$$
+
+This matrix has only one eigenvalue:
+
+$$
+\omega = 0.
+$$
+
+Because this is a continuous-time generator, the eigenvalue is a continuous-time eigenvalue.
+
+The eigenvectors satisfy
+
+$$
+B\vec{v}=0.
+$$
+
+Let
+
+$$
+\vec{v} =
+\begin{bmatrix}
+a \\
+b \\
+c
+\end{bmatrix}.
+$$
+
+Then
+
+$$
+B\vec{v} =
+\begin{bmatrix}
+0 \\
+a \\
+2b
+\end{bmatrix}.
+$$
+
+For this to equal zero, we need
+
+$$
+a=0,
+$$
+
+and
+
+$$
+b=0.
+$$
+
+The eigenspace is the span of
+
+$$
+\begin{bmatrix}
+0 \\
+0 \\
+1
+\end{bmatrix}
+$$
+
+The only true eigenvector direction is the pure $y$ direction.
+
+Along this true eigenvector, the system is stationary:
+
+$$
+e^{0t}
+\begin{bmatrix}
+0 \\
+0 \\
+1
+\end{bmatrix}
+=\begin{bmatrix}
+0 \\
+0 \\
+1
+\end{bmatrix}.
+$$
+
+So the true eigenvector mode does not grow, decay, or oscillate.
+
+However, the actual initial condition for the parabola is
+
+$$
+\vec{s}(0) =
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}.
+$$
+
+That vector is not an eigenvector.
+
+The matrix $B$ is nilpotent:
+
+$$
+B^3 = 0.
+$$
+
+Therefore the matrix exponential terminates after finitely many terms:
+
+$$
+e^{Bt} = I + Bt + \frac{B^2t^2}{2}.
+$$
+
+Now apply this to the initial condition:
+
+$$
+\vec{s}(t) = e^{Bt}\vec{s}(0).
+$$
+
+Using
+
+$$
+\vec{s}(0) =
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix},
+$$
+
+we get
+
+$$
+B
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}
+=\begin{bmatrix}
+0 \\
+1 \\
+0
+\end{bmatrix},
+$$
+
+and
+
+$$
+B^2
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}
+=\begin{bmatrix}
+0 \\
+0 \\
+2
+\end{bmatrix}.
+$$
+
+So
+
+$$
+\vec{s}(t)
+=\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}
++t
+\begin{bmatrix}
+0 \\
+1 \\
+0
+\end{bmatrix}
++\frac{t^2}{2}
+\begin{bmatrix}
+0 \\
+0 \\
+2
+\end{bmatrix}.
+$$
+
+Therefore,
+
+$$
+\vec{s}(t) =
+\begin{bmatrix}
+1 \\
+t \\
+t^2
+\end{bmatrix}.
+$$
+
+The parabola comes from polynomial terms in the matrix exponential, not from separate oscillatory eigenmodes.
+
+This happens because $B$ is not diagonalizable. The motion is governed by a generalized eigenvector chain:
+
+$$
+\begin{bmatrix}
+1 \\
+0 \\
+0
+\end{bmatrix}
+\mapsto
+\begin{bmatrix}
+0 \\
+1 \\
+0
+\end{bmatrix}
+\mapsto
+\begin{bmatrix}
+0 \\
+0 \\
+2
+\end{bmatrix}
+\mapsto
+\begin{bmatrix}
+0 \\
+0 \\
+0
+\end{bmatrix}.
+$$
+
+Ignoring the factor of $2$, the chain is:
+
+$$
+\text{constant feature}
+\rightarrow
+x\text{-direction}
+\rightarrow
+y\text{-direction}
+\rightarrow 0.
+$$
+
+This example teaches a different lesson from the circular-motion example:
+
+* the circular-motion example shows ordinary oscillatory eigenmodes,
+* the parabola example shows affine lifting, nilpotent matrices, generalized eigenvectors, and polynomial dynamics.
+
+Both are useful, but the circular-motion example is closer to the pendulum/DMD frequency story.
+
+---
+
+See part 3, [DMD and Videos](03_dmd_and_videos.md) next.
