@@ -63,9 +63,9 @@ This generates:
 
 DMD is designed to approximate the time evolution of a system from sequential observations. In this project, each image frame is flattened into a state vector, and DMD learns an approximate linear time-advance model:
 
-```text
-x_{k+1} ≈ A x_k
-```
+
+$$x_{k+1} ≈ A x_k$$
+
 
 For the pendulum sequence, the learned DMD modes capture interpretable structure:
 
