@@ -609,7 +609,7 @@ $$
 \vec{x}_{k+1} = e^{A_c \Delta t}\vec{x}_k.
 $$
 
-The first formula is the time-$k$ solution from the initial condition.
+The first formula is the time-k solution from the initial condition.
 
 The second formula is the one-step transition from sample $k$ to sample $k+1$.
 
