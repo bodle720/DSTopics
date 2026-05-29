@@ -361,13 +361,11 @@ $$
 and
 
 $$
-AX =
-A
+AX = A
 \begin{bmatrix}
 \vec{x}_1 & \vec{x}_2 & \cdots & \vec{x}_{m-1}
 \end{bmatrix}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 A\vec{x}_1 & A\vec{x}_2 & \cdots & A\vec{x}_{m-1}
 \end{bmatrix}.
 $$
