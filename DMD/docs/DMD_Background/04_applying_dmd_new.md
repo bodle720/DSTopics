@@ -227,7 +227,7 @@ That is far too large to compute and analyze directly in a simple notebook. Inst
 
 The key practical assumption is that the high-dimensional video has useful low-rank structure.
 
-Even though each frame contains many pixels, most of the important variation may be described by a smaller number of dominant spatiotemporal patterns. For the pendulum video, this is plausible because the background is mostly static and the moving pendulum follows a coherent periodic path.
+Even though each frame contains many pixels, most of the important variation may be described by a smaller number of dominant spatiotemporal patterns. In other words, we hope that the data can be compressed into a lower-dimensional subspace while still preserving the main structure needed for reconstruction, forecasting, and interpretation. For the pendulum video, this is plausible because the background is mostly static and the moving pendulum follows a coherent periodic path.
 
 DMD uses the Singular Value Decomposition (SVD) to identify a low-dimensional subspace for the data. This is closely related to Principal Component Analysis (PCA). PCA uses the SVD to identify dominant directions of variation in data. DMD also uses the SVD, but then goes further by estimating how the reduced coordinates evolve through time. See my [notebook on PCA](/PCA_linear/pca_linear_oscillation_system.ipynb) for a related discussion of dimensionality reduction and low-rank approximation.
 
@@ -262,7 +262,7 @@ $$
 X \approx U_r \Sigma_r V_r^*.
 $$
 
-3. Build the reduced operator:
+3. Build the reduced operator, denoted $\tilde{A}$, by using the SVD factors to build an $r \times r$ reduced substitute for the full operator $A$.:
 
 $$
 \tilde{A} = U_r^* X' V_r \Sigma_r^{-1}.
