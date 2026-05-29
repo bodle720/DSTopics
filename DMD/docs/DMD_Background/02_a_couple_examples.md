@@ -1,4 +1,4 @@
-# Part 2: A Couple Worked Examples.
+# Part 2: A Couple Worked Examples
 
 This is a continuation of [part 1](01_modes_and_eigenvalues.md). This note goes over a couple easy to visualize examples.
 
