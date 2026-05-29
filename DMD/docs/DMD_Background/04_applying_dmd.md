@@ -1,7 +1,7 @@
 # Part 4: Applying DMD: Dynamic Mode Decomposition for Pendulum Video Motion
 
 This note discusses the application of **Dynamic Mode Decomposition (DMD)** to a synthetic pendulum video sequence.
-See the [notebook](../DMD/DMD_pendulum_video.ipynb) for the code implementation.
+See the [notebook](/DMD/DMD_pendulum_video.ipynb) for the code implementation.
 
 The central idea is that a video is high-dimensional when represented as raw pixels, but the motion generating the video may be much lower-dimensional. A pendulum is a useful example because its motion is smooth, coherent, and periodic. Each frame contains many pixel values, but the true underlying motion is mostly governed by a small number of physical quantities: angle, angular velocity, bob position, and time.
 
