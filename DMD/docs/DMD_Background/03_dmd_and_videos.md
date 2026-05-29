@@ -12,8 +12,6 @@ The central idea is:
 
 For video DMD, each mode can often be reshaped into an image-like object. The mode says what spatial pattern is changing, and the eigenvalue says whether that pattern persists, grows, decays, or oscillates.
 
----
-
 ## 19. DMD as a Data-Driven Approximation
 
 In theory, if the true system matrix $A_d$ were known, its eigenvectors and eigenvalues could be computed directly.
@@ -128,8 +126,6 @@ This asks:
 
 > What continuous-time exponential rate would produce the observed per-snapshot multiplier?
 
----
-
 ## 20. Modes in a Pendulum Video
 
 For the pendulum video, each grayscale frame is flattened into a vector:
@@ -165,8 +161,6 @@ Each term contains:
 * $b_i$: the amplitude determined by the initial condition.
 
 So a DMD mode is best interpreted as an image-like building block paired with a specific temporal behavior.
-
----
 
 ## 21. What DMD Modes May Represent in the Pendulum Example
 
@@ -211,8 +205,6 @@ Mode visualizations can include:
 
 For a pendulum, oscillatory modes may highlight the arm, bob, and swept path of the motion. A background mode may highlight the static image structure.
 
----
-
 ## 22. Why DMD Is Useful for Video
 
 A video frame is high-dimensional. A $256 \times 256$ grayscale frame is a point in
@@ -254,8 +246,6 @@ For the pendulum video, the most important modal interpretation is:
 * oscillatory modes may correspond to the swinging arm and bob,
 * the angle of the eigenvalues may reveal the swing frequency,
 * and the learned frequency can be compared to the known synthetic ground-truth period.
-
----
 
 ## 23. Reporting Frequencies: Seconds and Frames
 
@@ -327,8 +317,6 @@ For the synthetic pendulum notebook, it is useful to report both:
 * period in frames.
 
 This makes the connection between physical time and frame-index time explicit.
-
----
 
 ## 24. Scaling, Rotation, and Frequency Interpretation
 
@@ -433,8 +421,6 @@ So a complex DMD eigenvalue does not usually mean that the entire image literall
 
 For the pendulum video, this kind of mode pair may represent the swinging motion of the arm and bob.
 
----
-
 ### Continuous-Time Interpretation
 
 In continuous time, write a continuous-time eigenvalue as
@@ -477,8 +463,6 @@ T_i = \frac{1}{|f_i|}.
 $$
 
 So $\alpha_i$ and $\beta_i$ are continuous-time rate quantities, while $r_i$ and $\theta_i$ are discrete-time per-step quantities.
-
----
 
 ### Connecting the Discrete and Continuous Interpretations
 
@@ -562,8 +546,6 @@ This is the main unit conversion:
 > The discrete eigenvalue says what happens per sample.
 > The continuous eigenvalue says what rate would produce that same effect per unit time.
 
----
-
 ### Example with Pendulum-Style Numbers
 
 Suppose a mode has one full oscillation every $2$ seconds. Then the physical frequency is
@@ -639,8 +621,6 @@ For a strong pendulum DMD result, one of the dominant non-background oscillatory
 * $|\lambda_i| \approx 1$, meaning persistent oscillation,
 * an angle $\theta_i$ close to the true phase advance per frame,
 * and a continuous-time frequency close to the known pendulum frequency.
-
----
 
 ## 25. Note Summary
 
