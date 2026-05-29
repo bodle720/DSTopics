@@ -8,7 +8,7 @@ The synthetic pendulum is a controlled visual dynamical system: each video frame
 
 ## Prerequisite Topics
 
-See here: [Modes, Eigenvalues, Matrix Exponentials and DMD](docs/README_background.md)
+See here for a crash course on Modes, Eigenvalues, Matrix Exponentials and DMD: [Background Part 1](docs/crash_course_001.md) and [Background Part 2](docs/crash_course_002.md)
 
 ## Notebook
 
