@@ -83,15 +83,13 @@ $$
 DMD forms two snapshot matrices:
 
 $$
-X =
-[\vec{x}_1 ; \vec{x}_2 ; \cdots ; \vec{x}_{m-1}]
+X =[\vec{x}_1 ; \vec{x}_2 ; \cdots ; \vec{x}_{m-1}]
 $$
 
 and
 
 $$
-X' =
-[\vec{x}_2 ; \vec{x}_3 ; \cdots ; \vec{x}_m].
+X' =[\vec{x}_2 ; \vec{x}_3 ; \cdots ; \vec{x}_m].
 $$
 
 Equivalently, using a more visual column notation,
@@ -249,6 +247,8 @@ The columns of $U_r$ define the reduced subspace. Instead of trying to learn dyn
 
 The choice of $r$ is important. A small value of $r$ may underfit by discarding meaningful dynamics. A large value of $r$ may retain noise, weak modes, or unstable behavior that hurts forecasting.
 
+A simple first approach is to inspect the singular values, often on a log plot, and choose a cutoff where the values decay sharply or become small. More careful approaches may use cumulative-energy thresholds, noise-aware rank selection, cross-validation, or application-specific criteria.
+
 In the notebook, the singular values will be plotted before selecting a main rank. Later, the effect of rank selection will be studied directly.
 
 ## Practical DMD Algorithm
@@ -288,15 +288,49 @@ After these steps, the main DMD ingredients are:
 
 ## Reduced Linear Operator
 
-The reduced operator is
+Conceptually, the reduced operator represents the full transition matrix projected into the rank $r$ subspace:
+
+$$
+\tilde{A} \approx U_r^* A U_r.
+$$
+
+Here, $U_r$ maps reduced coordinates back toward the original state space, and $U_r^*$ projects original state-space vectors down into the reduced coordinates.
+
+The direct least-squares estimate of the full transition matrix is
+
+$$
+A = X'X^\dagger.
+$$
+
+This full matrix $A$ represents the best-fit one-step transition operator for the observed snapshot pairs. In practical DMD, however, we do not know the true continuous-time generator $A_c$ or the true full discrete-time operator $A_d$. We only have data snapshots, and forming the full least-squares matrix $A$ is usually too expensive for high-dimensional data such as images.
+
+Using the truncated SVD approximation
+
+$$
+X \approx U_r\Sigma_rV_r^*,
+$$
+
+DMD computes the reduced operator directly from the snapshot matrices:
 
 $$
 \tilde{A} = U_r^* X' V_r \Sigma_r^{-1}.
 $$
 
-In practical DMD, we do not know the true continuous-time generator $A_c$ or the full discrete-time operator $A_d$. We only have data snapshots. The reduced operator $\tilde{A}$ is the object we actually compute and analyze.
+This $\tilde{A}$ is the matrix actually computed and analyzed in practical DMD.
 
-This matrix has shape
+When the data approximately follow a one-step linear model,
+
+$$
+X' \approx AX,
+$$
+
+the computed reduced operator approximates the projection of the full transition matrix into the rank $r$ subspace:
+
+$$
+\tilde{A} \approx U_r^* A U_r.
+$$
+
+The matrix $\tilde{A}$ has shape
 
 $$
 r \times r.
@@ -306,7 +340,8 @@ It represents the approximate frame-to-frame dynamics inside the subspace spanne
 
 This is the key computational shortcut. Instead of forming the huge matrix $A$ in the original pixel space, DMD forms a much smaller matrix $\tilde{A}$ in the reduced SVD coordinate system.
 
-The eigenvalues of $\tilde{A}$ are the DMD eigenvalues. They approximate the dominant eigenvalues of the unknown full time-advance operator.
+The eigenvalues of $\tilde{A}$ are the DMD eigenvalues. They approximate the dominant eigenvalues of the unknown full time-advance operator, and they describe the learned frame-to-frame behavior of the DMD modes.
+
 
 ## Eigenvalues of the Reduced Operator
 
@@ -333,12 +368,62 @@ For the pendulum video, the most important non-background behavior should be osc
 
 ## DMD Modes in the Original Pixel Space
 
-The eigenvectors in $W$ live in the reduced rank $r$ coordinate system. To interpret them as image-like spatial patterns, they must be mapped back to the original pixel space.
+The eigenvectors in $W$ are eigenvectors of the reduced operator $\tilde{A}$. They live in the reduced rank $r$ coordinate system, not in the original $n$-dimensional state space.
 
-The DMD mode formula is
+For video data, the original state space is the flattened pixel space. If each frame has height $h$ and width $w$, then each state vector has dimension
 
 $$
-\Phi = X' V_r \Sigma_r^{-1} W.
+n = h \cdot w.
+$$
+
+Therefore, to interpret the reduced eigenvectors as image-like spatial patterns, we need to map them back to the original pixel space.
+
+Conceptually, the DMD modes can be written as
+
+$$
+\Phi = AU_rW.
+$$
+
+Here, $U_rW$ maps the reduced eigenvectors back toward the original state space, and multiplication by $A$ advances those mapped vectors through the learned time dynamics.
+
+In practice, we do not explicitly form the full matrix $A$. Instead, DMD uses a data-driven expression. Recall that
+
+$$
+X \approx U_r\Sigma_rV_r^*.
+$$
+
+Using this truncated SVD approximation, the least-squares transition operator can be written approximately as
+
+$$
+A \approx X'V_r\Sigma_r^{-1}U_r^*.
+$$
+
+Therefore,
+
+$$
+AU_rW
+\approx
+X'V_r\Sigma_r^{-1}U_r^*U_rW.
+$$
+
+Since the columns of $U_r$ are orthonormal,
+
+$$
+U_r^*U_r = I.
+$$
+
+So,
+
+$$
+AU_rW
+\approx
+X'V_r\Sigma_r^{-1}W.
+$$
+
+This gives the exact DMD mode formula used in practice:
+
+$$
+\Phi = X'V_r\Sigma_r^{-1}W.
 $$
 
 The columns of $\Phi$ are the DMD modes:
@@ -470,15 +555,57 @@ For this synthetic pendulum example, the motion is slow relative to the video fr
 
 ## Reconstruction from DMD Modes
 
-Once the DMD modes and eigenvalues are known, the video can be approximated as a sum of modal contributions.
+Once the DMD modes $\Phi$ and eigenvalues $\Lambda$ are known, the video can be approximated as a sum of modal contributions. The key idea is that repeated applications of the learned time-advance dynamics can be represented through the DMD modes and eigenvalues.
 
-First compute the modal amplitude vector from a starting frame, usually the first frame in the fitting window:
+Conceptually, if the full transition operator were diagonalizable in terms of the DMD modes, we would write
+
+$$
+A \approx \Phi \Lambda \Phi^{-1}.
+$$
+
+Repeated application of $A$ means applying the one-step rule
+
+$$
+\vec{x}_k = A\vec{x}_{k-1}
+$$
+
+again and again. Starting from $\vec{x}_1$, this gives
+
+$$
+\vec{x}_k
+= A^{k-1}\vec{x}_1.
+$$
+
+If the learned transition operator is approximately diagonalized by the DMD modes,
+
+$$
+A \approx \Phi\Lambda\Phi^{-1},
+$$
+
+then
+
+$$
+\vec{x}_k
+= A^{k-1}\vec{x}_1
+\approx
+\Phi \Lambda^{k-1}\Phi^{-1}\vec{x}_1.
+$$
+
+This expression says that the state at time step $k$ can be approximated by decomposing the initial state into DMD modes, evolving each mode forward in time using the corresponding eigenvalue, and then mapping the result back into the original state space.
+
+If $\Phi$ were square and invertible, the modal amplitude vector would be
+
+$$
+\vec{b} = \Phi^{-1}\vec{x}_1.
+$$
+
+In practice, $\Phi$ is usually not square, so we compute this using the Moore-Penrose pseudoinverse:
 
 $$
 \vec{b} = \Phi^\dagger \vec{x}_1.
 $$
 
-Here, $\Phi^\dagger$ is the Moore-Penrose pseudoinverse of $\Phi$.
+Here, $\Phi^\dagger$ is the Moore-Penrose pseudoinverse of $\Phi$. The vector $\vec{b}$ contains the modal amplitudes for the chosen starting frame, usually the first frame in the fitting window.
 
 Then the DMD reconstruction formula is
 
@@ -489,16 +616,24 @@ $$
 Equivalently, in modal-sum form,
 
 $$
-\hat{\vec{x}}*k
+\hat{\vec{x}}_k
 \approx
-\sum*{i=1}^{r}
+\sum_{i=1}^{r}
 b_i \phi_i \lambda_i^{k-1}.
 $$
 
-This formula says:
+This is the discrete-time analog of the continuous-time modal solution
+
+$$
+\vec{x}(t)
+=\sum_{i=1}^{n}
+b_i \vec{v}_i e^{\omega_i t}.
+$$
+
+The interpretation is parallel:
 
 * $\phi_i$ is a DMD mode, or spatial pattern,
-* $\lambda_i^{k-1}$ evolves that mode forward by $k-1$ steps,
+* $\lambda_i^{k-1}$ evolves that mode forward by $k-1$ discrete time steps,
 * and $b_i$ determines how strongly the mode contributes to the starting frame.
 
 Reconstruction asks:
@@ -545,6 +680,14 @@ Here:
 * $\Lambda$ contains the DMD eigenvalues,
 * and $\vec{b}_j$ contains the modal amplitudes for the chosen starting state.
 
+The choice of starting state matters for forecasting. There are several related ways to use the learned DMD model:
+
+1. Fix the first snapshot as the initial condition and evaluate the model at later values of $k$.
+2. Recompute the modal amplitudes from a more recent observed state and forecast forward from there.
+3. Predict one step ahead, treat that prediction as the new starting point, and repeat the process iteratively.
+
+The iterative approach is conceptually close to repeatedly applying the learned time-advance dynamics, but it can also accumulate error because each predicted frame becomes the input for the next prediction.
+
 In the notebook, forecasting means using the learned DMD model to extrapolate beyond the fitting window and compare against held-out future frames.
 
 Forecast quality can be evaluated visually and numerically. Useful checks include:
@@ -580,13 +723,13 @@ Then a foreground estimate can be formed from the residual:
 
 $$
 \hat{\vec{x}}_{k,\mathrm{foreground}}
-=\vec{x}*k - \hat{\vec{x}}*{k,\mathrm{background}}.
+=\vec{x}_k - \hat{\vec{x}}_{k,\mathrm{background}}.
 $$
 
 In practice, the foreground image may use the absolute value of the residual:
 
 $$
-|\vec{x}*k - \hat{\vec{x}}*{k,\mathrm{background}}|.
+|\vec{x}_k - \hat{\vec{x}}_{k,\mathrm{background}}|.
 $$
 
 This is not a perfect segmentation method. DMD is not being trained with foreground labels. The goal is to show how modal decomposition can separate slowly changing structure from coherent moving structure.
