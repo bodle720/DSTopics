@@ -134,10 +134,10 @@ $$
 f = \frac{\mathrm{Im}(\omega)}{2\pi}.
 $$
 
-This is why the code uses
+This is why the code computes `frequency_hz` as
 
 $$
-\text{frequency_hz} = \frac{\mathrm{Im}(\omega)}{2\pi}.
+f_{\mathrm{Hz}} = \frac{\mathrm{Im}(\omega)}{2\pi}.
 $$
 
 This conversion takes the rotation rate of a DMD mode in the complex plane and expresses it as a frequency in ordinary physical units: cycles per second.
