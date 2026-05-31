@@ -213,6 +213,8 @@ $$
 
 The positive and negative signs usually appear as a complex-conjugate pair. Together, that pair represents an oscillation.
 
+In other words, $\pi/30$ is what we would expect for $\theta$ in the discrete eigenvalue $\lambda = \rho e^{i\theta}$; the corresponding conjugate pair should have angles near $+\pi/30$ and $-\pi/30$, giving frequencies near $+0.5$ Hz and $-0.5$ Hz.
+
 ## 7. What the Nyquist Frequency Means
 
 The video is sampled at a fixed frame rate. A 30 fps video gives 30 samples per second.
