@@ -266,7 +266,7 @@ $$
 So a 15 Hz sampled oscillation alternates every frame:
 
 $$
-+,; -,; +,; -,; \ldots
++, -, +, -, \ldots
 $$
 
 ## 8. Why a Negative Real Eigenvalue Gives a Nyquist Frequency
