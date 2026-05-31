@@ -290,7 +290,7 @@ $$
 So the time pattern is
 
 $$
-+,; -,; +,; -,; \ldots
++, -, +, -, \ldots
 $$
 
 This has a 2-frame period. At 30 fps, a 2-frame period corresponds to 15 Hz.
