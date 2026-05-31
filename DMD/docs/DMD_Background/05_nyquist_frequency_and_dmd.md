@@ -102,8 +102,8 @@ $$
 
 Here:
 
-* $\alpha = \operatorname{Re}(\omega)$ is the growth or decay rate per second,
-* $\beta = \operatorname{Im}(\omega)$ is the angular frequency in radians per second.
+* $\alpha = \mathrm{Re}(\omega)$ is the growth or decay rate per second,
+* $\beta = \mathrm{Im}(\omega)$ is the angular frequency in radians per second.
 
 This is an important separation:
 
@@ -129,13 +129,13 @@ $$
 So to convert radians per second into cycles per second, divide by $2\pi$:
 
 $$
-f = \frac{\operatorname{Im}(\omega)}{2\pi}.
+f = \frac{\mathrm{Im}(\omega)}{2\pi}.
 $$
 
 This is why the code uses
 
 $$
-\text{frequency_hz} = \frac{\operatorname{Im}(\omega)}{2\pi}.
+\text{frequency_hz} = \frac{\mathrm{Im}(\omega)}{2\pi}.
 $$
 
 This conversion takes the rotation rate of a DMD mode in the complex plane and expresses it as a frequency in ordinary physical units: cycles per second.
@@ -383,7 +383,7 @@ The imaginary part of $\omega$ is an angular frequency in radians per second.
 Dividing by $2\pi$ converts radians per second into cycles per second:
 
 $$
-f = \frac{\operatorname{Im}(\omega)}{2\pi}.
+f = \frac{\mathrm{Im}(\omega)}{2\pi}.
 $$
 
 So the image dynamics are mapped into a complex-plane representation where one full $2\pi$ rotation is one cycle.
@@ -434,7 +434,7 @@ In this pendulum DMD project:
 * $\arg(\lambda)$ controls phase rotation per frame.
 * $\omega$ is the continuous-time eigenvalue.
 * $\omega = \log(\lambda) / \Delta t$ converts frame-step dynamics into physical-time dynamics.
-* $\operatorname{Im}(\omega)$ is angular frequency in radians per second.
+* $\mathrm{Im}(\omega)$ is angular frequency in radians per second.
 * Dividing by $2\pi$ converts radians per second to Hz.
 * The pendulum’s true visible frequency is 0.5 Hz because the generated motion repeats every 2 seconds.
 * The Nyquist frequency is half the frame rate.
