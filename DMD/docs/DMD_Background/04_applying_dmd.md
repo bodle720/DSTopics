@@ -1,7 +1,7 @@
 # Part 4: Applying DMD: Dynamic Mode Decomposition for Pendulum Video Motion
 
 This note discusses the application of **Dynamic Mode Decomposition (DMD)** to a synthetic pendulum video sequence.
-See the [notebook](/DMD/DMD_pendulum_video.ipynb) for the code implementation.
+See [part 5](05_nyquist_frequency_and_dmd.md) next. After that, see the [notebook](/DMD/DMD_pendulum_video.ipynb) for the code implementation.
 
 The background notes before this one introduced the main mathematical ideas: modes, eigenvalues, matrix exponentials, continuous-time and discrete-time dynamics, frequency interpretation, and the relationship between DMD and video data. This note is more practical. It focuses on how those ideas are used in the pendulum video notebook.
 

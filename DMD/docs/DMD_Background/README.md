@@ -30,6 +30,12 @@ Connects the theory to Dynamic Mode Decomposition. This note explains snapshot m
 
 Bridges the background theory into the actual pendulum experiment. This note explains the DMD workflow used in the notebook, including snapshot construction, low-rank approximation, mode reconstruction, forecasting, and frequency interpretation.
 
+### 5. Nyquist Frequency and DMD Frequency Interpretation
+
+[05_nyquist_frequency_and_dmd.md](05_nyquist_frequency_and_dmd.md)
+
+Explains how to interpret DMD frequencies in the pendulum video, including the difference between discrete eigenvalues $\lambda_i$ and continuous-time eigenvalues $\omega_i$, why frequencies are computed from $\mathrm{Im}(\omega_i)/(2\pi)$, what the Nyquist frequency means for a sampled video, why a 30 fps video has a Nyquist frequency of 15 Hz, and why high-rank DMD models can produce sign-flipping Nyquist-like artifacts instead of physically meaningful pendulum motion.
+
 ## Notebook
 
 After reading the four background notes, continue with the executable notebook:
