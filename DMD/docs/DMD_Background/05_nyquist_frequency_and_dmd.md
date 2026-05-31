@@ -21,6 +21,8 @@ $$
 
 This does not mean that DMD knows anything about pendulums as physical objects. DMD only sees snapshot data. In this project, the snapshots are grayscale video frames.
 
+DMD can learn dynamics from an ordered sequence of snapshots, but the snapshots do not have physical time units by themselves. The frame rate provides the missing time scale. Once we know $\Delta t = 1/\mathrm{fps}$, DMD eigenvalues can be interpreted as continuous-time growth rates and frequencies rather than only per-frame changes.
+
 So when DMD identifies a frequency near $0.5$ Hz, the correct interpretation is:
 
 > DMD has found a video pattern whose time evolution repeats about once every 2 seconds.
