@@ -364,6 +364,36 @@ def _format_mode_title(mode_number, diagnostics_df=None):
 
     return "\n".join(title_parts)
 
+def _format_mode_label(mode_number, diagnostics_df=None):
+    label_parts = [f"Mode {mode_number}"]
+
+    if diagnostics_df is None or "mode" not in diagnostics_df.columns:
+        return "\n".join(label_parts)
+
+    row = diagnostics_df.loc[diagnostics_df["mode"] == mode_number]
+
+    if row.empty:
+        return "\n".join(label_parts)
+
+    row = row.iloc[0]
+
+    if "frequency_hz" in row:
+        label_parts.append(f"f = {row['frequency_hz']:+.4f} Hz")
+
+    if "period_seconds" in row and np.isfinite(row["period_seconds"]):
+        label_parts.append(f"T = {row['period_seconds']:.3f} s")
+
+    if "lambda_abs" in row:
+        label_parts.append(f"|λ| = {row['lambda_abs']:.3f}")
+
+    if "omega_real" in row:
+        label_parts.append(f"Re(ω) = {row['omega_real']:.3f}")
+
+    if "amplitude_abs" in row:
+        label_parts.append(f"|b| = {row['amplitude_abs']:.3g}")
+
+    return "\n".join(label_parts)
+
 def plot_dmd_mode_images(
     Phi,
     mode_numbers,
@@ -371,8 +401,8 @@ def plot_dmd_mode_images(
     diagnostics_df=None,
     save_path=None,
     percentile=99.0,
-    figure_width=12,
-    row_height=3.2,
+    figure_width=13.5,
+    row_height=3.0,
     title="Selected DMD Mode Images",
     show=True,
 ):
@@ -400,10 +430,18 @@ def plot_dmd_mode_images(
 
     fig, axes = plt.subplots(
         n_modes,
-        3,
+        4,
         figsize=(figure_width, row_height * n_modes),
+        gridspec_kw={"width_ratios": [1.25, 1.0, 1.0, 1.0]},
         squeeze=False,
+        constrained_layout=True,
     )
+
+    column_titles = ["", "Real part", "Imaginary part", "Magnitude"]
+
+    for col_index, column_title in enumerate(column_titles):
+        if column_title:
+            axes[0, col_index].set_title(column_title, fontsize=12)
 
     for row_index, mode_number in enumerate(mode_numbers):
         mode_index = mode_number - 1
@@ -413,48 +451,63 @@ def plot_dmd_mode_images(
         imaginary_image = np.imag(mode_image)
         magnitude_image = np.abs(mode_image)
 
-        real_vlim = _get_symmetric_vlim(real_image, percentile=percentile)
-        imaginary_vlim = _get_symmetric_vlim(imaginary_image, percentile=percentile)
-        magnitude_vmax = _get_positive_vmax(magnitude_image, percentile=percentile)
+        signed_values = np.concatenate(
+            [
+                real_image.ravel(),
+                imaginary_image.ravel(),
+            ]
+        )
 
-        axes[row_index, 0].imshow(
+        signed_vlim = _get_symmetric_vlim(
+            signed_values,
+            percentile=percentile,
+        )
+        magnitude_vmax = _get_positive_vmax(
+            magnitude_image,
+            percentile=percentile,
+        )
+
+        label_ax = axes[row_index, 0]
+        label_ax.axis("off")
+        label_ax.text(
+            0.0,
+            0.5,
+            _format_mode_label(
+                mode_number=mode_number,
+                diagnostics_df=diagnostics_df,
+            ),
+            ha="left",
+            va="center",
+            fontsize=10,
+            linespacing=1.35,
+            transform=label_ax.transAxes,
+        )
+
+        real_ax = axes[row_index, 1]
+        real_ax.imshow(
             real_image,
-            vmin=-real_vlim,
-            vmax=real_vlim,
+            vmin=-signed_vlim,
+            vmax=signed_vlim,
         )
-        axes[row_index, 0].set_title("Real part")
-        axes[row_index, 0].axis("off")
+        real_ax.axis("off")
 
-        axes[row_index, 1].imshow(
+        imaginary_ax = axes[row_index, 2]
+        imaginary_ax.imshow(
             imaginary_image,
-            vmin=-imaginary_vlim,
-            vmax=imaginary_vlim,
+            vmin=-signed_vlim,
+            vmax=signed_vlim,
         )
-        axes[row_index, 1].set_title("Imaginary part")
-        axes[row_index, 1].axis("off")
+        imaginary_ax.axis("off")
 
-        axes[row_index, 2].imshow(
+        magnitude_ax = axes[row_index, 3]
+        magnitude_ax.imshow(
             magnitude_image,
             vmin=0,
             vmax=magnitude_vmax,
         )
-        axes[row_index, 2].set_title("Magnitude")
-        axes[row_index, 2].axis("off")
-
-        row_title = _format_mode_title(
-            mode_number=mode_number,
-            diagnostics_df=diagnostics_df,
-        )
-
-        axes[row_index, 0].set_ylabel(
-            row_title,
-            rotation=0,
-            labelpad=72,
-            va="center",
-        )
+        magnitude_ax.axis("off")
 
     fig.suptitle(title, fontsize=16)
-    fig.tight_layout(rect=(0.0, 0.0, 1.0, 0.97))
 
     save_path = ensure_parent_dir(save_path)
     if save_path is not None:
