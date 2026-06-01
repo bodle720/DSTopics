@@ -2,7 +2,7 @@
 
 This note explains how to interpret DMD frequencies in the synthetic pendulum video project, especially the difference between the physically meaningful pendulum frequency and high-frequency artifacts near the Nyquist frequency.
 
-After this, see the [notebook](/DMD/DMD_pendulum_video.ipynb) for the code implementation.
+After this, see [part 6](06_complex_dmd_modes_and_conjugate_pairs.md) for additional prerequisite information or the [notebook](/DMD/DMD_pendulum_video.ipynb) for the code implementation.
 
 The goal is to connect four ideas:
 
