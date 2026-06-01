@@ -355,7 +355,142 @@ For the pendulum notebook, the most important interpretation is not simply which
 
 This is why the notebook examines both eigenvalue diagnostics and mode images.
 
-## 11. Summary
+## 11. How Complex Mode Parts Combine Into Real Pixel Values
+
+A complex DMD mode should be thought of as an oscillating image pattern, not as one literal image.
+
+For one DMD mode, the time evolution has the form
+
+$$
+\hat{\vec{y}}_k = \phi_i b_i \lambda_i^k.
+$$
+
+Here, $\phi_i$ is the spatial mode, $b_i$ is the modal amplitude, $\lambda_i^k$ evolves the mode through time, and $\hat{\vec{y}}_k$ is still in mean-centered image space.
+
+If $\phi_i$, $b_i$, and $\lambda_i$ are complex, this single term is generally complex-valued by itself. A physical video frame cannot have complex pixel intensities. The real-valued pixel interpretation comes from combining complex-conjugate pairs.
+
+For a conjugate pair,
+
+$$
+\lambda_2 = \bar{\lambda}_1,
+\qquad
+\phi_2 = \bar{\phi}_1,
+\qquad
+b_2 = \bar{b}_1.
+$$
+
+The combined contribution is
+
+$$
+\phi b \lambda^k + \bar{\phi}\bar{b}\bar{\lambda}^k
+=2\mathrm{Re}\left(\phi b \lambda^k\right).
+$$
+
+This final expression is real-valued. That is what gives the conjugate-pair contribution real pixel meaning.
+
+Suppose one complex mode is written as
+
+$$
+\phi = a + ic,
+$$
+
+where
+
+$$
+a = \mathrm{Re}(\phi),
+\qquad
+c = \mathrm{Im}(\phi).
+$$
+
+After reshaping the mode into image form, $a$ is the real-part image and $c$ is the imaginary-part image. These are not two separate physical frames. They are two phase components of one oscillatory spatial pattern.
+
+For an oscillatory eigenvalue written as
+
+$$
+\lambda = \rho e^{i\theta},
+$$
+
+a simplified real-valued contribution from the conjugate pair has the form
+
+$$
+\vec{y}_k
+\approx
+\rho^k
+\left[
+a \cos(k\theta)
+c \sin(k\theta)
+\right],
+$$
+
+up to scaling and phase from the modal amplitude $b$.
+
+This equation is the key interpretation. The reconstructed centered frame does not use only the real-part image or only the imaginary-part image. Instead, it blends the two with changing cosine and sine weights as time advances. At one phase of the oscillation, the real-part image may dominate. A quarter-cycle later, the imaginary-part image may dominate. Between those phases, the contribution is a mixture of both.
+
+This means the real part is not automatically "the physical image" while the imaginary part is "nonphysical." Both are real-valued images after extracting their components, but both are phase-dependent pieces of a complex oscillatory mode. The most directly physical object is the combined time-dependent contribution of the conjugate pair:
+
+$$
+2\mathrm{Re}\left(\phi b \lambda^k\right).
+$$
+
+That gives a real-valued centered-frame contribution at a specific time step $k$. To return to ordinary grayscale image space, the mean frame is added back:
+
+$$
+\hat{\vec{x}}_k
+=\bar{\vec{x}} + \hat{\vec{y}}_k.
+$$
+
+There is also an important phase-convention issue. A complex mode can be multiplied by a complex phase factor,
+
+$$
+\phi \rightarrow e^{i\alpha}\phi,
+$$
+
+as long as the modal amplitude is adjusted consistently:
+
+$$
+b \rightarrow e^{-i\alpha}b.
+$$
+
+The reconstruction stays the same, but the plotted real and imaginary parts change. Therefore, the individual real-part and imaginary-part images are useful diagnostics, but they should not be overinterpreted as uniquely defined physical frames.
+
+A practical hierarchy is:
+
+```text
+Most directly physical:
+conjugate-pair contribution at a specific time
+
+Useful but phase-dependent:
+real part and imaginary part of one complex mode
+
+Useful for spatial support:
+mode magnitude image
+```
+
+The magnitude image
+
+$$
+|\phi[j]|
+=\sqrt{
+\mathrm{Re}(\phi[j])^2
++\mathrm{Im}(\phi[j])^2
+}
+$$
+
+removes the phase information and answers:
+
+> Where is this mode active in the image?
+
+For the pendulum notebook, this is often the easiest mode image to interpret visually. If the mode pair is related to the pendulum-frequency motion, its magnitude image should show activity near the arm, bob, moving edges, or swing path. However, magnitude alone does not show whether the mode is positive or negative at a particular time, and it does not show the phase of the oscillation.
+
+For modes 7 and 8 in the notebook, the expected interpretation is:
+
+* the two modes form a conjugate pair,
+* their real parts should be similar,
+* their imaginary parts should be sign-flipped or phase-flipped,
+* their magnitude images should be nearly identical,
+* and the pair together represents the near-pendulum-frequency centered image pattern.
+
+## 12. Summary
 
 For real-valued DMD problems:
 
