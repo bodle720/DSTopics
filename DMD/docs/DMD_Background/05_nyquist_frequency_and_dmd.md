@@ -1,4 +1,4 @@
-# Nyquist Frequency, DMD Eigenvalues, and Pendulum Video Interpretation
+# Part 5: Nyquist Frequency, DMD Eigenvalues, and Pendulum Video Interpretation
 
 This note explains how to interpret DMD frequencies in the synthetic pendulum video project, especially the difference between the physically meaningful pendulum frequency and high-frequency artifacts near the Nyquist frequency.
 

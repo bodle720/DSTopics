@@ -1,4 +1,4 @@
-# Complex DMD Modes, Conjugate Pairs, and Visual Interpretation
+# Part 6: Complex DMD Modes, Conjugate Pairs, and Visual Interpretation
 
 This note explains how to interpret complex eigenvalues and complex DMD modes, especially for real-valued video data.
 
