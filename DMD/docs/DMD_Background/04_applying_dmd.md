@@ -722,3 +722,5 @@ Seventh, it compares coordinate-DMD reconstruction and forecasting across ranks.
 The overall goal is to connect DMD theory to a visual, interpretable experiment:
 
 > Learn spatial modes from video, use eigenvalues to describe their time behavior, diagnose where pixel-space DMD succeeds and fails, and show how a better state representation can recover the underlying pendulum motion.
+
+See part 5 next, [Nyquist Frequency and DMD](05_nyquist_frequency_and_dmd.md).

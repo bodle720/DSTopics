@@ -606,4 +606,4 @@ The pendulum example is useful because the video frames are high-dimensional, bu
 
 ---
 
-For the specifics of the pendulum DMD implementation, see [Applying DMD](04_applying_dmd.md) next.
+For the specifics of the pendulum DMD implementation, see part 4 [Applying DMD](04_applying_dmd.md) next.

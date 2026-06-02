@@ -377,3 +377,5 @@ In this pendulum DMD project:
 * A good DMD rank balances image reconstruction, frequency interpretation, and dynamical behavior, including forecast behavior when forecasting is being evaluated.
 
 The central idea is that DMD translates repeated visual patterns into eigenvalue rotations. The timestep connects those rotations to physical time. That is why a mode near 0.5 Hz can correspond to the pendulum swing, while a mode near 15 Hz reflects the sampling limit of a 30 fps video.
+
+See part 6 next, [Complex Modes](06_complex_dmd_modes_and_conjugate_pairs.md).
