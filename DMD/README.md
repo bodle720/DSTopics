@@ -1,6 +1,6 @@
 # DMD Pendulum Dynamics
 
-![Synthetic pendulum motion](docs/images/synthetic_pendulum_preview.gif)
+![Synthetic pendulum motion prediction](docs/images/dmd_pendulum_coordinate_rank_comparison_forecast_overlay.gif)
 
 This project applies **Dynamic Mode Decomposition (DMD)** to a synthetic pendulum video sequence. The goal is to show how DMD can learn low-rank temporal structure from high-dimensional image data and use that structure for mode analysis, reconstruction, forecasting, and background/foreground separation.
 
