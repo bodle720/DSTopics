@@ -17,7 +17,7 @@ In exact discrete-time theory, if the true one-step system matrix $A_d$ were kno
 In DMD, the true $A_d$ is not known. Instead, DMD receives snapshot data:
 
 $$
-X = [\vec{x}_1 \quad \vec{x}*2 \quad \cdots \quad \vec{x}*{m-1}]
+X = [\vec{x}_1 \quad \vec{x}*2 \quad \cdots \quad \vec{x}_{m-1}]
 $$
 
 and
@@ -56,7 +56,7 @@ $$
 \tilde{A} = U_r^\ast X'V_r\Sigma_r^{-1}.
 $$
 
-This smaller matrix approximates the time-advance dynamics inside the rank-$r$ subspace spanned by the columns of $U_r$. In other words, $\tilde{A}$ is a low-dimensional representation of the unknown full operator $A_d$ after projecting the dynamics into the SVD/POD subspace.
+This smaller matrix approximates the time-advance dynamics inside the rank $r$ subspace spanned by the columns of $U_r$. In other words, $\tilde{A}$ is a low-dimensional representation of the unknown full operator $A_d$ after projecting the dynamics into the SVD/POD subspace.
 
 DMD then solves the reduced eigenvalue problem:
 
@@ -118,7 +118,7 @@ A DMD mode is a reusable spatial pattern that contributes to many frames over ti
 A reconstructed frame is a sum of mode contributions:
 
 $$
-\vec{x}*k \approx \sum*{i=1}^{r} b_i\phi_i\lambda_i^k.
+\vec{x}_k \approx \sum_{i=1}^{r} b_i\phi_i\lambda_i^k.
 $$
 
 Each term contains:
@@ -193,7 +193,7 @@ Conceptually, the video is approximated by a combination of background-like mode
 Mathematically,
 
 $$
-\vec{x}*k \approx \sum*{i=1}^{r} b_i\phi_i\lambda_i^k.
+\vec{x}_k \approx \sum_{i=1}^{r} b_i\phi_i\lambda_i^k.
 $$
 
 This is the bridge between linear algebra and video interpretation:
@@ -307,7 +307,7 @@ The complex factor $e^{i\theta_i}$ can also be represented as a real rotation ma
 $$
 R(\theta_i) =
 \begin{bmatrix}
-\cos(\theta_i) & -\sin(\theta_i) \
+\cos(\theta_i) & -\sin(\theta_i) \\
 \sin(\theta_i) & \cos(\theta_i)
 \end{bmatrix}.
 $$
@@ -326,7 +326,7 @@ $$
 r_iR(\theta_i) =
 r_i
 \begin{bmatrix}
-\cos(\theta_i) & -\sin(\theta_i) \
+\cos(\theta_i) & -\sin(\theta_i) \\
 \sin(\theta_i) & \cos(\theta_i)
 \end{bmatrix}.
 $$

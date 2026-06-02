@@ -18,14 +18,12 @@ Consider
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix}
-=============
-
-A_c
+=A_c
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix},
 $$
@@ -35,7 +33,7 @@ where
 $$
 A_c =
 \begin{bmatrix}
-0 & -s \
+0 & -s \\
 s & 0
 \end{bmatrix}.
 $$
@@ -71,7 +69,7 @@ If the initial condition is
 $$
 \vec{x}(0) =
 \begin{bmatrix}
-1 \
+1 \\
 0
 \end{bmatrix},
 $$
@@ -81,7 +79,7 @@ then the solution is
 $$
 \vec{x}(t) =
 \begin{bmatrix}
-\cos(st) \
+\cos(st) \\
 \sin(st)
 \end{bmatrix}.
 $$
@@ -91,7 +89,7 @@ The matrix exponential for this system is a rotation matrix:
 $$
 e^{A_ct} =
 \begin{bmatrix}
-\cos(st) & -\sin(st) \
+\cos(st) & -\sin(st) \\
 \sin(st) & \cos(st)
 \end{bmatrix}.
 $$
@@ -131,7 +129,7 @@ For the circular-motion system,
 $$
 A_d =
 \begin{bmatrix}
-\cos(s\Delta t) & -\sin(s\Delta t) \
+\cos(s\Delta t) & -\sin(s\Delta t) \\
 \sin(s\Delta t) & \cos(s\Delta t)
 \end{bmatrix}.
 $$
@@ -224,7 +222,7 @@ The continuous trajectory is
 $$
 \vec{x}(t) =
 \begin{bmatrix}
-\cos(st) \
+\cos(st) \\
 \sin(st)
 \end{bmatrix}.
 $$
@@ -236,7 +234,7 @@ The discrete sampled trajectory is
 $$
 \vec{x}_k =
 \begin{bmatrix}
-\cos(sk\Delta t) \
+\cos(sk\Delta t) \\
 \sin(sk\Delta t)
 \end{bmatrix}.
 $$
@@ -265,13 +263,11 @@ The state is
 $$
 \vec{z}(t) =
 \begin{bmatrix}
-x(t) \
+x(t) \\
 y(t)
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-t \
+=\begin{bmatrix}
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -281,7 +277,7 @@ The derivative is
 $$
 \frac{d\vec{z}}{dt} =
 \begin{bmatrix}
-1 \
+1 \\
 2t
 \end{bmatrix}.
 $$
@@ -291,7 +287,7 @@ Suppose there were a constant $2 \times 2$ matrix
 $$
 A =
 \begin{bmatrix}
-a & b \
+a & b \\
 c & d
 \end{bmatrix}
 $$
@@ -306,23 +302,19 @@ Then we would need
 
 $$
 \begin{bmatrix}
-1 \
+1 \\
 2t
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-a & b \
+=\begin{bmatrix}
+a & b \\
 c & d
 \end{bmatrix}
 \begin{bmatrix}
-t \
+t \\
 t^2
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-at + bt^2 \
+=\begin{bmatrix}
+at + bt^2 \\
 ct + dt^2
 \end{bmatrix}.
 $$
@@ -340,14 +332,12 @@ So there is no constant $2 \times 2$ matrix $A$ such that
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-t \
+t \\
 t^2
 \end{bmatrix}
-=============
-
-A
+=A
 \begin{bmatrix}
-t \
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -387,22 +377,19 @@ In vector form,
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 & 0 \
+=\begin{bmatrix}
+0 & 0 \\
 2 & 0
 \end{bmatrix}
 \begin{bmatrix}
-x \
+x \\
 y
 \end{bmatrix}
-+
-\begin{bmatrix}
-1 \
++\begin{bmatrix}
+1 \\
 0
 \end{bmatrix}.
 $$
@@ -438,8 +425,8 @@ Define an augmented state
 $$
 \vec{s}(t) =
 \begin{bmatrix}
-1 \
-x(t) \
+1 \\
+x(t) \\
 y(t)
 \end{bmatrix}.
 $$
@@ -449,15 +436,13 @@ Then
 $$
 \frac{d}{dt}
 \begin{bmatrix}
-1 \
-x \
+1 \\
+x \\
 y
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-1 \
+=\begin{bmatrix}
+0 \\
+1 \\
 2x
 \end{bmatrix}.
 $$
@@ -473,8 +458,8 @@ where
 $$
 B =
 \begin{bmatrix}
-0 & 0 & 0 \
-1 & 0 & 0 \
+0 & 0 & 0 \\
+1 & 0 & 0 \\
 0 & 2 & 0
 \end{bmatrix}.
 $$
@@ -484,15 +469,13 @@ Check:
 $$
 B
 \begin{bmatrix}
-1 \
-x \
+1 \\
+x \\
 y
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-1 \
+=\begin{bmatrix}
+0 \\
+1 \\
 2x
 \end{bmatrix}.
 $$
@@ -504,8 +487,8 @@ With
 $$
 \vec{s}(0) =
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix},
 $$
@@ -515,8 +498,8 @@ the solution is
 $$
 \vec{s}(t) =
 \begin{bmatrix}
-1 \
-t \
+1 \\
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -532,8 +515,8 @@ The lifted parabola matrix is
 $$
 B =
 \begin{bmatrix}
-0 & 0 & 0 \
-1 & 0 & 0 \
+0 & 0 & 0 \\
+1 & 0 & 0 \\
 0 & 2 & 0
 \end{bmatrix}.
 $$
@@ -557,8 +540,8 @@ Let
 $$
 \vec{v} =
 \begin{bmatrix}
-a \
-b \
+a \\
+b \\
 c
 \end{bmatrix}.
 $$
@@ -568,8 +551,8 @@ Then
 $$
 B\vec{v} =
 \begin{bmatrix}
-0 \
-a \
+0 \\
+a \\
 2b
 \end{bmatrix}.
 $$
@@ -584,8 +567,8 @@ The eigenspace is the span of
 
 $$
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 1
 \end{bmatrix}.
 $$
@@ -595,15 +578,13 @@ The only true eigenvector direction is the pure $y$ direction. Along this eigenv
 $$
 e^{0t}
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 1
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-0 \
+=\begin{bmatrix}
+0 \\
+0 \\
 1
 \end{bmatrix}.
 $$
@@ -615,8 +596,8 @@ However, the actual initial condition for the parabola is
 $$
 \vec{s}(0) =
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}.
 $$
@@ -646,8 +627,8 @@ Using
 $$
 \vec{s}(0) =
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix},
 $$
@@ -657,15 +638,13 @@ we get
 $$
 B
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-1 \
+=\begin{bmatrix}
+0 \\
+1 \\
 0
 \end{bmatrix}
 $$
@@ -675,15 +654,13 @@ and
 $$
 B^2
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}
-=============
-
-\begin{bmatrix}
-0 \
-0 \
+=\begin{bmatrix}
+0 \\
+0 \\
 2
 \end{bmatrix}.
 $$
@@ -692,25 +669,21 @@ So
 
 $$
 \vec{s}(t)
-==========
-
-\begin{bmatrix}
-1 \
-0 \
+=\begin{bmatrix}
+1 \\
+0 \\
 0
 \end{bmatrix}
-+
-t
++t
 \begin{bmatrix}
-0 \
-1 \
+0 \\
+1 \\
 0
 \end{bmatrix}
-+
-\frac{t^2}{2}
++\frac{t^2}{2}
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 2
 \end{bmatrix}.
 $$
@@ -720,8 +693,8 @@ Therefore,
 $$
 \vec{s}(t) =
 \begin{bmatrix}
-1 \
-t \
+1 \\
+t \\
 t^2
 \end{bmatrix}.
 $$
@@ -732,26 +705,26 @@ This happens because $B$ is not diagonalizable. The motion is governed by a gene
 
 $$
 \begin{bmatrix}
-1 \
-0 \
+1 \\
+0 \\
 0
 \end{bmatrix}
 \rightarrow
 \begin{bmatrix}
-0 \
-1 \
+0 \\
+1 \\
 0
 \end{bmatrix}
 \rightarrow
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 2
 \end{bmatrix}
 \rightarrow
 \begin{bmatrix}
-0 \
-0 \
+0 \\
+0 \\
 0
 \end{bmatrix}.
 $$

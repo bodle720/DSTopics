@@ -44,7 +44,7 @@ $$
 The paired DMD snapshot matrices are
 
 $$
-Y = [\vec{y}_1 \quad \vec{y}*2 \quad \cdots \quad \vec{y}*{m-1}]
+Y = [\vec{y}_1 \quad \vec{y}_2 \quad \cdots \quad \vec{y}_{m-1}]
 $$
 
 and

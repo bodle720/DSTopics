@@ -90,7 +90,7 @@ $$
 DMD forms two snapshot matrices:
 
 $$
-X = [\vec{x}_1 \quad \vec{x}*2 \quad \cdots \quad \vec{x}*{m-1}]
+X = [\vec{x}_1 \quad \vec{x}_2 \quad \cdots \quad \vec{x}_{m-1}]
 $$
 
 and
@@ -110,19 +110,19 @@ $$
 Equivalently,
 
 $$
-A[\vec{x}_1 \quad \vec{x}*2 \quad \cdots \quad \vec{x}*{m-1}] = [A\vec{x}_1 \quad A\vec{x}*2 \quad \cdots \quad A\vec{x}*{m-1}].
+A[\vec{x}_1 \quad \vec{x}_2 \quad \cdots \quad \vec{x}_{m-1}] = [A\vec{x}_1 \quad A\vec{x}_2 \quad \cdots \quad A\vec{x}_{m-1}].
 $$
 
 So DMD is trying to find one linear operator such that
 
 $$
-A\vec{x}*j \approx \vec{x}*{j+1}, \qquad j = 1, 2, \ldots, m-1.
+A\vec{x}_j \approx \vec{x}_{j+1}, \qquad j = 1, 2, \ldots, m-1.
 $$
 
 In the mean-centered full-frame setup, the same construction is applied to centered snapshots:
 
 $$
-Y = [\vec{y}_1 \quad \vec{y}*2 \quad \cdots \quad \vec{y}*{m-1}]
+Y = [\vec{y}_1 \quad \vec{y}*2 \quad \cdots \quad \vec{y}_{m-1}]
 $$
 
 and
@@ -191,7 +191,7 @@ $$
 This $A$ is the matrix that best fits the observed transitions from one snapshot to the next in a least-squares sense:
 
 $$
-A\vec{x}*j \approx \vec{x}*{j+1}.
+A\vec{x}_j \approx \vec{x}_{j+1}.
 $$
 
 This formulation is often referred to as **exact DMD**.
@@ -550,7 +550,7 @@ $$
 Equivalently, in modal-sum form,
 
 $$
-\hat{\vec{x}}*k \approx \sum*{i=1}^{r} b_i\phi_i\lambda_i^{k-1}.
+\hat{\vec{x}}_k \approx \sum_{i=1}^{r} b_i\phi_i\lambda_i^{k-1}.
 $$
 
 This is the discrete-time analog of the continuous-time modal solution
@@ -640,19 +640,19 @@ $$
 For example, a background reconstruction can be formed using a subset of modes:
 
 $$
-\hat{\vec{x}}*{k,\mathrm{background}} = \Phi*{\mathrm{background}}\Lambda_{\mathrm{background}}^{k-1}\vec{b}_{\mathrm{background}}.
+\hat{\vec{x}}_{k,\mathrm{background}} = \Phi_{\mathrm{background}}\Lambda_{\mathrm{background}}^{k-1}\vec{b}_{\mathrm{background}}.
 $$
 
 Then a foreground estimate can be formed from the residual:
 
 $$
-\hat{\vec{x}}_{k,\mathrm{foreground}} = \vec{x}*k - \hat{\vec{x}}*{k,\mathrm{background}}.
+\hat{\vec{x}}_{k,\mathrm{foreground}} = \vec{x}_k - \hat{\vec{x}}_{k,\mathrm{background}}.
 $$
 
 In practice, the foreground image may use the absolute value of the residual:
 
 $$
-|\vec{x}*k - \hat{\vec{x}}*{k,\mathrm{background}}|.
+|\vec{x}_k - \hat{\vec{x}}_{k,\mathrm{background}}|.
 $$
 
 This is not a perfect segmentation method. DMD is not trained with foreground labels. The idea is only to show how modal decomposition can separate slowly changing structure from coherent moving structure.

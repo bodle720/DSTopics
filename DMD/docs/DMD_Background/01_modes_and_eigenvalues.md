@@ -116,7 +116,7 @@ So if
 $$
 A_c =
 \begin{bmatrix}
-a & b \
+a & b \\
 c & d
 \end{bmatrix},
 $$
@@ -126,7 +126,7 @@ then $e^{A_ct}$ is another $2 \times 2$ matrix:
 $$
 e^{A_ct} =
 \begin{bmatrix}
-m_{11}(t) & m_{12}(t) \
+m_{11}(t) & m_{12}(t) \\
 m_{21}(t) & m_{22}(t)
 \end{bmatrix}.
 $$
@@ -139,7 +139,7 @@ $$
 \vec{x}(t) = e^{A_ct}\vec{x}(0).
 $$
 
-So $e^{A_ct}$ is the time-$t$ flow map of the linear system.
+So $e^{A_ct}$ is the time $t$ flow map of the linear system.
 
 ## 3. Matrix Exponential Through Eigenvalues
 
@@ -160,9 +160,9 @@ and
 $$
 D =
 \begin{bmatrix}
-\omega_1 & 0 & \cdots & 0 \
-0 & \omega_2 & \cdots & 0 \
-\vdots & \vdots & \ddots & \vdots \
+\omega_1 & 0 & \cdots & 0 \\
+0 & \omega_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
 0 & 0 & \cdots & \omega_n
 \end{bmatrix}.
 $$
@@ -180,9 +180,9 @@ Because $D$ is diagonal, its exponential is easy to compute:
 $$
 e^{Dt} =
 \begin{bmatrix}
-e^{\omega_1t} & 0 & \cdots & 0 \
-0 & e^{\omega_2t} & \cdots & 0 \
-\vdots & \vdots & \ddots & \vdots \
+e^{\omega_1t} & 0 & \cdots & 0 \\
+0 & e^{\omega_2t} & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
 0 & 0 & \cdots & e^{\omega_nt}
 \end{bmatrix}.
 $$
@@ -307,9 +307,9 @@ Because
 $$
 e^{Dt}\vec{b} =
 \begin{bmatrix}
-b_1e^{\omega_1t} \
-b_2e^{\omega_2t} \
-\vdots \
+b_1e^{\omega_1t} \\
+b_2e^{\omega_2t} \\
+\vdots \\
 b_ne^{\omega_nt}
 \end{bmatrix},
 $$
@@ -541,7 +541,7 @@ $$
 \vec{x}_{k+1} = e^{A_c\Delta t}\vec{x}_k.
 $$
 
-The first formula is the time-$k$ solution from the initial condition. The second formula is the one-step transition from sample $k$ to sample $k+1$.
+The first formula is the time $k$ solution from the initial condition. The second formula is the one-step transition from sample $k$ to sample $k+1$.
 
 ## 10. Why $e^{A_c\Delta t}\vec{v}_i = e^{\omega_i\Delta t}\vec{v}_i$
 

@@ -1,6 +1,6 @@
 # DMD Pendulum Dynamics
 
-![Synthetic pendulum coordinate forecast](docs/images/dmd_pendulum_coordinate_rank_comparison_forecast_overlay.gif)
+![Synthetic pendulum coordinate forecast](docs/images/synthetic_pendulum_preview.gif)
 
 This project applies **Dynamic Mode Decomposition (DMD)** to a synthetic pendulum video sequence. The goal is to show how DMD connects high-dimensional video data with low-rank temporal structure, eigenvalues, spatial modes, reconstruction behavior, and forecasting.
 
