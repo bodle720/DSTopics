@@ -406,4 +406,4 @@ For real-valued DMD problems:
 
 In video DMD, complex modes should be interpreted as oscillatory image patterns. The real and imaginary parts describe phase-shifted spatial components, the magnitude image shows spatial activity, and the conjugate pair together explains a real-valued oscillation in the reconstructed video.
 
-See the main DMD code and walkthrough notebook [here](/../DMD/DMD_pendulum_video.ipynb).
+See the main DMD code and walkthrough notebook [here](../../DMD_pendulum_video.ipynb).
