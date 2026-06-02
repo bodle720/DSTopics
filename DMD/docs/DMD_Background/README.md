@@ -2,7 +2,7 @@
 
 These notes provide the mathematical background for the DMD pendulum video notebook.
 
-They are meant to be read as a short sequence before opening the notebook. The notes cover the core ideas behind modes, eigenvalues, matrix exponentials, continuous versus discrete time, and how DMD applies those ideas to video data.
+They are meant to be read as a short sequence before opening the notebook. The notes cover the core ideas behind modes, eigenvalues, matrix exponentials, continuous versus discrete time, DMD frequency interpretation, and how DMD applies those ideas to video data.
 
 ## Contents
 
@@ -14,7 +14,7 @@ Introduces linear dynamical systems, matrix exponentials, eigenvalues, eigenvect
 
 ### 2. A Couple Examples
 
-[02_a_couple_examlpes.md](02_a_couple_examples.md)
+[02_a_couple_examples.md](02_a_couple_examples.md)
 
 Works through two small examples: circular motion as a clean oscillatory linear system, and parabolic motion as an example that requires affine dynamics or a lifted state space. These examples help clarify what linear modes can and cannot represent directly.
 
@@ -28,7 +28,7 @@ Connects the theory to Dynamic Mode Decomposition. This note explains snapshot m
 
 [04_applying_dmd.md](04_applying_dmd.md)
 
-Bridges the background theory into the actual pendulum experiment. This note explains the DMD workflow used in the notebook, including snapshot construction, low-rank approximation, mode reconstruction, forecasting, and frequency interpretation.
+Bridges the background theory into the pendulum experiment. This note explains the DMD workflow used in the notebook, including snapshot construction, low-rank approximation, full-frame mode interpretation, reconstruction diagnostics, frequency interpretation, and the coordinate-DMD forecasting pivot.
 
 ### 5. Nyquist Frequency and DMD Frequency Interpretation
 
@@ -44,8 +44,8 @@ Explains how to interpret complex DMD modes in real-valued video data, including
 
 ## Notebook
 
-After reading the four background notes, continue with the executable notebook:
+After reading the six background notes, continue with the executable notebook:
 
 [DMD_pendulum_video.ipynb](../../DMD_pendulum_video.ipynb)
 
-The notebook applies DMD to synthetic pendulum video data for reconstruction, forecasting, frequency analysis, mode visualization, and foreground/background separation.
+The notebook applies DMD to synthetic pendulum video data for full-frame mode analysis, eigenvalue and frequency interpretation, reconstruction diagnostics, and delay-coordinate bob-trajectory forecasting.
