@@ -711,6 +711,20 @@ The basic idea is:
 
 A common practical approach is to identify modes with very low frequency or eigenvalues close to $1$. These modes change slowly from frame to frame and are candidates for background structure.
 
+A simple DMD-based decomposition is:
+
+$$
+\text{background} \approx \text{low-frequency DMD reconstruction}
+$$
+
+and
+
+$$
+\text{foreground} \approx \text{original frame} - \text{background reconstruction}.
+$$
+
+For the synthetic pendulum, the stationary background should be captured by persistent modes, while the arm and bob should appear in the foreground residual.
+
 For example, a background reconstruction can be formed using a subset of modes:
 
 $$
