@@ -224,7 +224,7 @@ $$
 \vec{x}(t) = e^{\omega_i t}\vec{v}_i.
 $$
 
-The state stays in the same eigenvector direction. Only its scalar multiplier changes.
+The state remains in the one-dimensional eigenspace associated with that eigenvector. If $\omega_i$ is complex, this should be understood as a complex-line statement: the eigenvector direction is fixed in the complex eigenspace, while the scalar multiplier changes through growth, decay, and oscillation.
 
 This is why eigenvectors are dynamically important: they are directions that do not get mixed with other directions by the linear dynamics.
 
