@@ -122,7 +122,7 @@ $$
 In the mean-centered full-frame setup, the same construction is applied to centered snapshots:
 
 $$
-Y = [\vec{y}_1 \quad \vec{y}*2 \quad \cdots \quad \vec{y}_{m-1}]
+Y = [\vec{y}_1 \quad \vec{y}_2 \quad \cdots \quad \vec{y}_{m-1}]
 $$
 
 and

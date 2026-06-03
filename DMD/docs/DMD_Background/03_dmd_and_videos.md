@@ -17,7 +17,7 @@ In exact discrete-time theory, if the true one-step system matrix $A_d$ were kno
 In DMD, the true $A_d$ is not known. Instead, DMD receives snapshot data:
 
 $$
-X = [\vec{x}_1 \quad \vec{x}*2 \quad \cdots \quad \vec{x}_{m-1}]
+X = [\vec{x}_1 \quad \vec{x}_2 \quad \cdots \quad \vec{x}_{m-1}]
 $$
 
 and
