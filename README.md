@@ -65,3 +65,6 @@ They are included because practical data work often requires more than modeling:
 Some notebooks intentionally take the “long route” instead of only calling a high-level library function. This is deliberate. The goal is to make the underlying method easier to inspect, explain, and reason about.
 
 Not every folder is meant to be a polished application. This repository is a collection of focused explorations that demonstrate mathematical understanding, practical implementation, and curiosity across data science and Python programming topics.
+
+Social Preview photo by <a href="https://unsplash.com/@steve_j?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Steve A Johnson</a> on <a href="https://unsplash.com/photos/a-group-of-white-boxes-with-numbers-on-them-QaM0dr1xN4M?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
