@@ -1,0 +1,135 @@
+
+# ============================================================
+# QGIS Refresher Project - .gitignore
+# Python 3.11 | PyCharm | QGIS | GeoPandas | Rasterio
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. Python Virtual Environments
+# ------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.env/
+
+
+# ------------------------------------------------------------
+# 2. Environment Variables and Secrets
+# ------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.template
+*.key
+*.pem
+secrets.json
+
+
+# ------------------------------------------------------------
+# 3. PyCharm / IntelliJ IDEA
+# ------------------------------------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+
+
+# ------------------------------------------------------------
+# 4. Python Cache and Compiled Files
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+
+# ------------------------------------------------------------
+# 5. Python Packaging and Build Artifacts
+# ------------------------------------------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+
+# ------------------------------------------------------------
+# 6. Testing, Coverage, and Linting Caches
+# ------------------------------------------------------------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+
+# ------------------------------------------------------------
+# 7. Jupyter Notebook Checkpoints
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+
+
+# ------------------------------------------------------------
+# 8. QGIS Temporary and Backup Files
+# ------------------------------------------------------------
+*.qgz~
+*.qgs~
+*.qgd
+*.qgs.bak
+*.qgz.bak
+*.qgs.autosave
+*.qgz.autosave
+
+
+# ------------------------------------------------------------
+# 9. Large Geospatial Source Datasets
+# ------------------------------------------------------------
+# Original QGIS sample dataset
+data/qgis_sample_data/
+
+# Downloaded Sentinel-2 satellite imagery
+data/sentinel2/
+
+# Derived rasters, clipped images, and analysis outputs
+data/processed/
+
+
+# ------------------------------------------------------------
+# 10. Temporary Files and Logs
+# ------------------------------------------------------------
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+
+
+# ------------------------------------------------------------
+# 11. Operating System Files
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Public repository safety exclusions
+/data/
+/portfolio/
+/alaska_refresher.qgz
+
+# Additional sensitive configuration
+.aws/
+.env.*
+*.p12
+*.pfx
+credentials.json
+credentials.txt

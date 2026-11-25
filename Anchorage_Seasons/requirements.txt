@@ -1,0 +1,25 @@
+
+# Anchorage Through the Seasons
+# Python 3.11
+
+# Array and tabular data
+numpy>=1.26,<3
+pandas>=2.2,<3
+
+# Vector geospatial processing
+geopandas>=1.0,<2
+shapely>=2.0,<3
+pyproj>=3.6,<4
+
+# Raster and satellite imagery processing
+rasterio>=1.4,<2
+
+# Plotting and visualization
+matplotlib>=3.8,<4
+
+pystac-client
+boto3
+
+# Direct dependencies for raster transforms and animation assembly
+affine>=2.4,<3
+Pillow>=10

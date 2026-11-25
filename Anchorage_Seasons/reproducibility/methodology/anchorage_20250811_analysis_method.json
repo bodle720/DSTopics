@@ -1,0 +1,171 @@
+{
+  "date": "20250811",
+  "inputs": [
+    "anchorage_20250811_spectral_10m.tif",
+    "anchorage_20250811_quality_10m.tif",
+    "anchorage_20250811_sources.json",
+    "anchorage_land_study_regions.geojson"
+  ],
+  "crs": "EPSG:3338",
+  "pixel_spacing_m": 10,
+  "pixel_area_km2": 0.0001,
+  "region_rasterization": "pixel center; fixed mapped-water-excluded polygons; any boundary ties assigned to last region in fixed order",
+  "geometry_audit": {
+    "regions": [
+      {
+        "region": "Anchorage Bowl",
+        "source_valid": true,
+        "projected_valid": true,
+        "projected_validity_reason": "Valid Geometry",
+        "repaired_in_memory": false,
+        "area_before_m2": 288427967.7271843,
+        "area_after_m2": 288427967.7271843,
+        "absolute_area_change_m2": 0.0,
+        "area_tolerance_m2": 100.0
+      },
+      {
+        "region": "Chugiak - Eagle River",
+        "source_valid": true,
+        "projected_valid": true,
+        "projected_validity_reason": "Valid Geometry",
+        "repaired_in_memory": false,
+        "area_before_m2": 77175038.17664182,
+        "area_after_m2": 77175038.17664182,
+        "absolute_area_change_m2": 0.0,
+        "area_tolerance_m2": 100.0
+      },
+      {
+        "region": "Girdwood - Alyeska",
+        "source_valid": true,
+        "projected_valid": true,
+        "projected_validity_reason": "Valid Geometry",
+        "repaired_in_memory": false,
+        "area_before_m2": 4607976.950123606,
+        "area_after_m2": 4607976.950123606,
+        "absolute_area_change_m2": 0.0,
+        "area_tolerance_m2": 100.0
+      },
+      {
+        "region": "Remaining Municipal Land",
+        "source_valid": false,
+        "projected_valid": false,
+        "projected_validity_reason": "Too few points in geometry component[216249.852845315 1244344.72128016]",
+        "repaired_in_memory": true,
+        "area_before_m2": 3989213769.0775313,
+        "area_after_m2": 3989213769.0775476,
+        "absolute_area_change_m2": 1.621246337890625e-05,
+        "area_tolerance_m2": 398.92137690775314
+      }
+    ],
+    "pairwise_overlaps": [
+      {
+        "regions": [
+          "Chugiak - Eagle River",
+          "Anchorage Bowl"
+        ],
+        "overlap_m2": 0.0
+      },
+      {
+        "regions": [
+          "Girdwood - Alyeska",
+          "Anchorage Bowl"
+        ],
+        "overlap_m2": 0.0
+      },
+      {
+        "regions": [
+          "Girdwood - Alyeska",
+          "Chugiak - Eagle River"
+        ],
+        "overlap_m2": 0.0
+      },
+      {
+        "regions": [
+          "Remaining Municipal Land",
+          "Anchorage Bowl"
+        ],
+        "overlap_m2": 0.0
+      },
+      {
+        "regions": [
+          "Remaining Municipal Land",
+          "Chugiak - Eagle River"
+        ],
+        "overlap_m2": 0.0
+      },
+      {
+        "regions": [
+          "Remaining Municipal Land",
+          "Girdwood - Alyeska"
+        ],
+        "overlap_m2": 0.0
+      }
+    ],
+    "pairwise_overlap_limit_m2": 100.0,
+    "original_geojson_modified": false,
+    "union_mask_mismatch_pixels": 0
+  },
+  "spectral_encoding": {
+    "scale": [
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001,
+      0.0001
+    ],
+    "offset": [
+      -0.1,
+      -0.1,
+      -0.1,
+      -0.1,
+      -0.1
+    ],
+    "nodata_dn": 0
+  },
+  "quality_eligible": "all five DNs nonzero, source ID positive, SCL 4/5/11",
+  "invalid_index": "negative reflectance or denominator <= 0.0001 excluded; not zero-filled",
+  "snow_proxy": {
+    "rule": "NDSI >= 0.40 and green reflectance >= 0.10",
+    "ndsi_threshold": 0.4,
+    "green_min": 0.1,
+    "denominator": "NDSI-valid quality-eligible land",
+    "locally_validated": false
+  },
+  "vegetation_proxy": {
+    "rule": "NDVI >= 0.30 on valid conservative snow-free land",
+    "ndvi_threshold": 0.3,
+    "snow_free": "NDSI-valid, not NDSI snow proxy, SCL != 11",
+    "locally_validated": false
+  },
+  "area": "observed classified area only; no extrapolation to unobserved land",
+  "median": "approximate histogram-based median, 0.002 bin width",
+  "snow_classes": {
+    "0": "outside_study_land",
+    "1": "unusable_or_missing",
+    "2": "not_detected_as_snow_ice",
+    "3": "ndsi_snow_ice_proxy"
+  },
+  "scl_classes": {
+    "0": "nodata",
+    "1": "defective",
+    "2": "terrain_shadow",
+    "3": "cloud_shadow",
+    "4": "vegetation",
+    "5": "nonvegetated",
+    "6": "water",
+    "7": "unclassified",
+    "8": "cloud_medium",
+    "9": "cloud_high",
+    "10": "cirrus",
+    "11": "snow_ice"
+  },
+  "limitations": [
+    "SWIR and SCL native 20 m, resampled to 10 m; not independent 10 m snow measurements",
+    "Snow and glacial ice are not separable by this rule",
+    "Thresholds exploratory; SCL comparison not independent ground truth",
+    "NDVI threshold is a greenness proxy, not fractional vegetation cover",
+    "Usable land may vary by acquisition; coverage must accompany comparisons",
+    "Source mosaic prioritized scene-level cloud metadata, not per-pixel quality"
+  ],
+  "threshold_background": "https://modis-snow-ice.gsfc.nasa.gov/?c=atbd"
+}
