@@ -108,6 +108,3 @@ These thresholds are exploratory, and SCL comparison is not independent ground t
 - Municipality boundary and derived mapped-water and land geometries: U.S. Census Bureau [TIGERweb](https://tigerweb.geo.census.gov/); area-water geometry: [2025 TIGER/Line shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.2025.html). The derived study-region products are independently prepared, not official Census Bureau products; original TIGER/Line data are available free of charge from the Census Bureau.
 - Earlier vector exercises and the separate animation locator context: [QGIS Alaska sample dataset](https://github.com/qgis/QGIS-Sample-Data). The upstream project identifies the Alaska political boundary as adapted VMAP0 data and notes multiple licenses across the sample collection. The raw sample dataset and separate animation files are not redistributed in this package. Consult upstream terms before any additional redistribution.
 
-## Development approach
-
-I directed the project, selected and reviewed the scientific methodology, executed the workflows, inspected outputs and investigated observation-quality issues. AI-assisted code generation was used extensively. The source scripts are included for transparency and technical review; this project is not a claim of independently hand-writing every line.
