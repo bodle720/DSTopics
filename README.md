@@ -8,7 +8,9 @@ This repository is less deployment-focused than my main machine learning portfol
 
 ## Geospatial Analysis
 
-### Anchorage Through the Seasons
+### An Exploration of Anchorage, Alaska Through the Seasons
+
+![Anchorage Elevation](Anchorage_Seasons/results/anchorage_hillside.png)
 
 A cloud-native geospatial case study exploring seasonal vegetation greenness and snow and ice across approximately 4,359 km² of mapped municipal land in Anchorage, Alaska. Eight selected Sentinel-2 acquisitions from 2025 are analyzed across four fixed geographic study regions.
 
