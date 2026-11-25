@@ -16,7 +16,7 @@ A cloud-native geospatial case study exploring seasonal vegetation greenness and
 
 The project combines QGIS, GeoPandas, Shapely, Rasterio, STAC imagery discovery, Cloud Optimized GeoTIFFs (COGs), and an AWS S3 remote raster access demonstration. It uses NDVI and NDSI spectral indices, scene classification masks, and explicit observation-coverage statistics to interpret seasonal patterns and their limitations.
 
-The notebook includes maps, statistical charts, mathematical explanations, and executable examples using the published regional statistics. The repository also includes the processing scripts, geographic inputs, acquisition records, and scientific methodology manifests. Large satellite imagery and intermediate raster products are intentionally excluded. AI assisted extensively with code development; I directed the analysis, executed the workflow, reviewed the results, and made the scientific and presentation decisions.
+The notebook includes maps, statistical charts, mathematical explanations, and executable examples using the published regional statistics. The repository also includes the processing scripts, geographic inputs, acquisition records, and scientific methodology manifests. Large satellite imagery and intermediate raster products are intentionally excluded.
 
 Start here:
 
